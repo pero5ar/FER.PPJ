@@ -1,8 +1,6 @@
 package lab1.storage;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RegexStorage  {
 	private HashMap<String, String> storage;
@@ -12,18 +10,55 @@ public class RegexStorage  {
 	}
 
 	public void addDefinition(String name, String definition){
-		storage.put(name, definition);
+		storage.put(name, replaceByRef(definition));
 	}
 
-	@Deprecated
-	private Set<String> parseDefinition(String definition){
-		String[] parts = definition.split("\\|");
+	private String replaceByRef(String definition){
+		char[] chars = definition.toCharArray();
 
-		Set<String> set = new HashSet<>();
-		for(String elem : parts){
-			set.add(elem);
+		String finalDef = "";
+		boolean escaping = false;
+		int byRef = -1;
+
+		for(int i = 0; i < chars.length; i++){
+			char c = chars[i];
+
+			//escape
+			if (c == '\\'){
+				escaping = true;
+				finalDef += c;
+				continue;
+			}
+
+			//close byRef sequence
+			if (byRef > -1 && c == '}'){
+				String target = definition.substring(byRef+1, i);
+				String replacement = storage.get(target);
+
+				finalDef += '(' + replacement + ')';
+
+				byRef = -1;
+				continue;
+			}
+
+			//during byRef; don't save character
+			if (byRef > -1){
+				continue;
+			}
+
+			//open byRef
+			if (!escaping && c == '{'){
+				byRef = i;
+				continue;
+			}
+
+			//reset escape character
+			escaping = false;
+
+			finalDef += c;
 		}
 
-		return set;
+		System.out.println(finalDef);
+		return finalDef;
 	}
 }
