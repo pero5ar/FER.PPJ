@@ -1,9 +1,6 @@
 package lab1.input;
 
-import lab1.regex.RegexStorage;
-import lab1.storage.InlineStorage;
-import lab1.storage.StateStorage;
-import lab1.storage.TokenStorage;
+import lab1.storage.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,8 +12,8 @@ import java.util.Collection;
  */
 public class LangRuleReader {
 
-    private final String STATE_LINE_START = "%X";
-    private final String TOKEN_LINE_START = "%L";
+    private static final String STATE_LINE_START = "%X";
+    private static final String TOKEN_LINE_START = "%L";
 
     /**
      *
@@ -25,11 +22,12 @@ public class LangRuleReader {
      * @param stateStorage
      * @param tokenStorage
      */
-    public LangRuleReader(RegexStorage regexStorage, StateStorage stateStorage, TokenStorage tokenStorage)  {
+    public static void read(RegexStorage regexStorage, StateStorage stateStorage, TokenStorage tokenStorage, RulesStorage rulesStorage)  {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String stateLine = readRegexRules(reader, regexStorage);
             readLineElements(stateLine, stateStorage, STATE_LINE_START);
             readLineElements(reader.readLine(), tokenStorage, TOKEN_LINE_START);
+            rulesStorage.readRules(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +41,7 @@ public class LangRuleReader {
      * @return              last line read, contains states
      * @throws IOException  if reader breaks
      */
-    private String readRegexRules(BufferedReader reader, RegexStorage regexStorage) throws IOException {
+    private static String readRegexRules(BufferedReader reader, RegexStorage regexStorage) throws IOException {
         String line;
         while (!(line = reader.readLine()).startsWith(STATE_LINE_START)) {
             String name = line.substring(1,line.indexOf('}'));
@@ -60,7 +58,7 @@ public class LangRuleReader {
      * @param storage
      * @param toRemove  element to remove from line
      */
-    private void readLineElements(String line, InlineStorage storage, String toRemove) {
+    private static void readLineElements(String line, InlineStorage storage, String toRemove) {
         String[] elementsArray = line.split(" ");
         Collection<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
         elements.remove(toRemove);

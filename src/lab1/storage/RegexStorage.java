@@ -1,20 +1,21 @@
-package lab1.regex;
+package lab1.storage;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class RegexStorage  {
-	private HashMap<String, Set<String>> storage;
+	private HashMap<String, String> storage;
 
 	public RegexStorage(){
 		this.storage = new HashMap<>();
 	}
 
 	public void addDefinition(String name, String definition){
-		storage.put(name, parseDefinition(definition));
+		storage.put(name, definition);
 	}
 
+	@Deprecated
 	private Set<String> parseDefinition(String definition){
 		String[] parts = definition.split("\\|");
 
@@ -24,12 +25,5 @@ public class RegexStorage  {
 		}
 
 		return set;
-	}
-
-	public static void main(String[] args){
-		String test = "{oktalnaZnamenka}|8|9";
-
-		RegexStorage rs = new RegexStorage();
-		rs.addDefinition("oktalnaZnamenka", test);
 	}
 }
