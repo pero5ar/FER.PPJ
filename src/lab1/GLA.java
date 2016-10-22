@@ -1,3 +1,4 @@
+package lab1;
 
 public class GLA {
 
@@ -5,7 +6,7 @@ public class GLA {
 	 * Program main entry point.
 	 * @param args Command line arguments
 	 */
-	public void main(String args[]){
+	public static void main(String args[]){
 
 	}
 
