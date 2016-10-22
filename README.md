@@ -17,3 +17,6 @@
 - pita ženska ko je to iz Rijeke, svi prsti na JJ-a, ona "a joj"
 - JJ i Pero jedini kodiraju, Ivan i Nicky filozofiraju o zadatku i piju
 - ženske pričaju kako su programiranje hijeroglifi, nastala diskusija o PHPu
+- Nicky non stop igra Heartstone
+- nakon 5 sati napokon uspješno čitamo fajl... ne, JJu neš ne radi, Nicky je zaboravio napomenut grupiranje sa zagradama
+- pričamo o tehnologijama, ženske nas gledaju ka da smo teški prosječni ferovci
