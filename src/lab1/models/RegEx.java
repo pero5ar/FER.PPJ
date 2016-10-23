@@ -9,7 +9,6 @@ import java.io.Serializable;
 /**
  * Created by pero5ar on 23.10.2016..
  */
-
 public class RegEx implements Serializable {
     private final char EPSILON = '$';
     private final char KLEEN ='*';
