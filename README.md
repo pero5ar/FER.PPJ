@@ -28,7 +28,7 @@
 - Nicky je krepan, šaljemo ga u krevet
 - sitni sati, ne ide...
 - ženske se vratile, poslale Nickyja da spava na kauč
-- JJ odlazi na tramvaj, negdi između 4-5
+- JJ odlazi na tramvaj (5 sati je)
 - Ivan se vratio
 - Nicky i Ivan spavaju na kauču, Pero pokušava neš debugirat (ne ide)
 - Pero odusta od onog što je radio, ide doma, zora je (skoro 7)
