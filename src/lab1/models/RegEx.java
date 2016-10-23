@@ -1,13 +1,14 @@
 package lab1.models;
 
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.io.Serializable;
 
 /**
  * Created by pero5ar on 23.10.2016..
+ *
+ * TODO: NAPIŠI PONOVNO PO ALGORITMU U ZADATKU LABOSA
  */
 public class RegEx implements Serializable {
     private final char EPSILON = '$';
@@ -18,11 +19,14 @@ public class RegEx implements Serializable {
 
 	public RegEx(String definition) {
 		this.definition = definition;
+        options = generateOptions(definition);
 	}
 
     /**
      * Generates possible options from regex expression.
      * ESCAPE CHARACTER, EPSILON CLOSURE AND KLEEN STAR STILL UNRESOLVED.
+     *
+     * TODO: logika ne radi za duple zagrade
      *
      * @param expression    regex expression
      * @return
@@ -32,31 +36,34 @@ public class RegEx implements Serializable {
         Set<String> localOptions = new LinkedHashSet<>();
 
         int optionIndex = 0;
-
-        String subExpression = "";
         int subExpressionIndex = -1;
 
         boolean escape = false;
+        int bracketCounter = 0;
 
-        Set<String> activeOptions;
+        Set<String> activeOptions = new LinkedHashSet<>();
+        fillIfEmpty(activeOptions);
 
         for (int i = 0; i < expressionAsArray.length; i++) {
             char currentChar = expressionAsArray[i];
-
-            if (i == 0) {
-                activeOptions = new LinkedHashSet<>();
-                activeOptions.add("");
-            }
 
             if (!escape && (currentChar == '\\')) {
                 escape = true;
                 continue;
             }
 
+            /**
+             * resolve bracket counters
+             */
+            if (!escape) {
+                if (currentChar == '(') bracketCounter++;
+                if (currentChar == ')') bracketCounter--;
+            }
+
             /*
              * close bracket
              */
-            if ((subExpressionIndex > -1) && (currentChar == ')')) {
+            if ((subExpressionIndex > -1) && (currentChar == ')') && (bracketCounter == 0)) {
                 Set<String> activeOptionsCopy = new LinkedHashSet<>(activeOptions);
                 activeOptions.clear();
                 for (String option : activeOptionsCopy) {
@@ -64,6 +71,7 @@ public class RegEx implements Serializable {
                         activeOptions.add(option + subOption);
                     }
                 }
+                fillIfEmpty(activeOptions);
                 subExpressionIndex = -1;
                 optionIndex = i+1;
                 continue;
@@ -79,6 +87,7 @@ public class RegEx implements Serializable {
                 for (String option : activeOptionsCopy) {
                     activeOptions.add(option + expression.substring(optionIndex,i));
                 }
+                fillIfEmpty(activeOptions);
                 optionIndex = i+1;
                 continue;
             }
@@ -86,7 +95,7 @@ public class RegEx implements Serializable {
             /*
              * delimiter
              */
-            if (!escape && (subExpressionIndex > -1) && (currentChar == '|')) {
+            if (!escape && !(subExpressionIndex > -1) && (currentChar == '|') && (bracketCounter == 0)) {
                 Set<String> activeOptionsCopy = new LinkedHashSet<>(activeOptions);
                 activeOptions.clear();
                 for (String option : activeOptionsCopy) {
@@ -94,17 +103,36 @@ public class RegEx implements Serializable {
                 }
                 optionIndex = i+1;
                 localOptions.addAll(activeOptions);
+                activeOptions = new LinkedHashSet<>();
+                fillIfEmpty(activeOptions);
                 continue;
             }
 
             escape = false;
         }
 
+        /*
+         * end of expression option
+         */
+        for (String option : activeOptions) {
+            localOptions.add(option + expression.substring(optionIndex,expressionAsArray.length));
+        }
+        localOptions.remove("");
+
         return localOptions;
     }
 
+    private void fillIfEmpty(Set<String> set) {
+        if (set.isEmpty()) {
+            set.add("");
+        }
+    }
 
     public boolean startsWith(String str) {
         return false;
+    }
+
+    public Set<String> getOptions() {
+        return options;
     }
 }
