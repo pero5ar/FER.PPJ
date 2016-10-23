@@ -29,3 +29,4 @@
 - JJ odlazi na tramvaj, negdi između 4-5
 - Ivan se vratio
 - Nicky i Ivan spavaju na kauču, Pero pokušava neš debugirat (ne ide)
+- Pero odusta od onog što je radio, ide doma, zora je (skoro 7)
