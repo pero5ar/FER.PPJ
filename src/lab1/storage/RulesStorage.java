@@ -1,18 +1,21 @@
 package lab1.storage;
 
+import lab1.models.Action;
+import lab1.models.RegEx;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class RulesStorage {
 
 	/**
+	 * Maps state to map (regex -> list of actions)
 	 * Order is important! (says Nicky)
 	 */
-	private LinkedHashMap<String, HashMap<String, List<String>>> storage;
+	private LinkedHashMap<String, LinkedHashMap<RegEx, List<Action>>> storage;
 
 	public RulesStorage(){
 		this.storage = new LinkedHashMap<>();
@@ -31,32 +34,37 @@ public class RulesStorage {
 			 * ...
 			 * zadnja linija: }
 			 */
-			String imeStanja;
-			String regularniIzraz;
-			List<String> argumenti = new ArrayList<>();
+			String stateName;
+			RegEx regex;
+			List<Action> actions = new ArrayList<>();
 
 			//ajmo parsirati liniju
 			//sigh
 			//ne da mi se ovo
 			//a ovo je tek parsiranje :(
 			int iOfGthan = line.indexOf('>');
-			imeStanja = line.substring(1, iOfGthan);
-			regularniIzraz = line.substring(iOfGthan+1);
+			stateName = line.substring(1, iOfGthan);
+			regex = new RegEx(line.substring(iOfGthan+1));
 
 			reader.readLine();
 			while(!(line = reader.readLine()).equals("}")){
-				argumenti.add(line);
+				Action action = new Action(line);
+				actions.add(action);
 			}
-			put(imeStanja, regularniIzraz, argumenti);
+			put(stateName, regex, actions);
 		}
 	}
 
-	private void put(String imeStanja, String regularniIzraz, List<String> argumenti){
-		HashMap<String, List<String>> map = storage.get(imeStanja);
+	private void put(String stateName, RegEx regex, List<Action> arguments){
+		LinkedHashMap<RegEx, List<Action>> map = storage.get(stateName);
 		if (map == null){
-			map = new HashMap<>();
-			storage.put(imeStanja, map);
+			map = new LinkedHashMap<>();
+			storage.put(stateName, map);
 		}
-		map.put(regularniIzraz, argumenti);
+		map.put(regex, arguments);
+	}
+
+	public LinkedHashMap<RegEx, List<Action>> getRulesForState(String state){
+		return storage.get(state);
 	}
 }

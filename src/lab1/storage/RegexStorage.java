@@ -13,7 +13,12 @@ public class RegexStorage  {
 		storage.put(name, replaceByRef(definition));
 	}
 
-	private String replaceByRef(String definition){
+	/**
+	 * Obavlja zamjene referenci na regularne izraze. Npr. mijenja {znamenka} s (0|1|2|3|4|5|6|7|8|9).
+	 * @param definition String
+	 * @return String
+	 */
+	public String replaceByRef(String definition){
 		char[] chars = definition.toCharArray();
 
 		String finalDef = "";
@@ -24,7 +29,7 @@ public class RegexStorage  {
 			char c = chars[i];
 
 			//escape
-			if (c == '\\'){
+			if (!escaping && c == '\\'){
 				escaping = true;
 				finalDef += c;
 				continue;
@@ -58,7 +63,6 @@ public class RegexStorage  {
 			finalDef += c;
 		}
 
-		System.out.println(finalDef);
 		return finalDef;
 	}
 }

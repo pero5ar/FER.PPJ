@@ -20,8 +20,6 @@ public class GLA {
 
 		LangRuleReader.read(regexStorage, stateStorage, tokenStorage, rulesStorage);
 
-		System.out.println("gotov");
-		System.out.println("gotov");
 
 	}
 

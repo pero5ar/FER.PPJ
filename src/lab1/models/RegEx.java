@@ -1,4 +1,4 @@
-package lab1.regex;
+package lab1.models;
 
 
 /**
