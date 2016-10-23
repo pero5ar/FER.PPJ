@@ -1,11 +1,11 @@
 package lab1.exceptions;
 
 public class NoSuchRuleException extends LexerException {
-	public NoSuchRuleException(){
+	public NoSuchRuleException() {
 		super();
 	}
 
-	public NoSuchRuleException(String message){
+	public NoSuchRuleException(String message) {
 		super(message);
 	}
 }

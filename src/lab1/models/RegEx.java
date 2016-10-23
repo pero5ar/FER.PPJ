@@ -4,20 +4,22 @@ package lab1.models;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.io.Serializable;
 
 /**
  * Created by pero5ar on 23.10.2016..
  */
-public class RegEx {
+
+public class RegEx implements Serializable {
     private final char EPSILON = '$';
     private final char KLEEN ='*';
 
     private String definition;
     private Set<String> options;
 
-    public RegEx(String definition) {
-        this.definition = definition;
-    }
+	public RegEx(String definition) {
+		this.definition = definition;
+	}
 
     /**
      * Generates possible options from regex expression.

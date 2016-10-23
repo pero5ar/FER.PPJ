@@ -3,8 +3,10 @@ package lab1;
 import lab1.exceptions.NoSuchRuleException;
 import lab1.models.Action;
 import lab1.models.RegEx;
+import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
+import lab1.storage.TokenStorage;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class Lexer {
 	private StateStorage states;
 	private RulesStorage rules;
+	private TokenStorage tokens;
+	private RegexStorage regexes;
 	private String sourceCode;
 
 	private String state;
@@ -39,10 +43,13 @@ public class Lexer {
 
 	private StringBuilder currentWord;
 
-	private Lexer(StateStorage states, RulesStorage rules, String sourceCode){
+	public Lexer(StateStorage states, RulesStorage rules, TokenStorage tokens, RegexStorage regexes, String sourceCode) {
 		this.states = states;
 		this.rules = rules;
+		this.tokens = tokens;
+		this.regexes = regexes;
 		this.sourceCode = sourceCode;
+
 		this.uniformChars = new ArrayList<>();
 		this.sourceText = new ArrayList<>();
 	}
@@ -50,6 +57,7 @@ public class Lexer {
 	/**
 	 * Method that lexes the given source code.
 	 * Lexing is done character-by-character.
+	 *
 	 * @throws NoSuchRuleException
 	 */
 	private void lex() throws NoSuchRuleException {
@@ -59,22 +67,22 @@ public class Lexer {
 		String state = states.getStorage().get(0);
 
 		outerloop:
-		for(char c : charArr){
+		for (char c : charArr) {
 			currentWord.append(c);
 
 			List<Action> possibleRule = null;
 			LinkedHashMap<RegEx, List<Action>> stateRules = rules.getRulesForState(state);
 
-			for(Map.Entry<RegEx, List<Action>> rule : stateRules.entrySet()){
-				if (rule.getKey().startsWith(currentWord.toString())){
-					if (possibleRule != null){
+			for (Map.Entry<RegEx, List<Action>> rule : stateRules.entrySet()) {
+				if (rule.getKey().startsWith(currentWord.toString())) {
+					if (possibleRule != null) {
 						continue outerloop;
 					}
 					possibleRule = rule.getValue();
 				}
 			}
 
-			if (possibleRule == null){
+			if (possibleRule == null) {
 				throw new NoSuchRuleException();
 			}
 
@@ -102,11 +110,11 @@ public class Lexer {
 		//TODO
 	}
 
-	public void printOutput(){
+	public void printOutput() {
 		//TODO how should output be printed? which format?
 
 		int size = uniformChars.size();
-		for(int i = 0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			System.out.print(uniformChars.get(i));
 			System.out.print(" ");
 			System.out.print(sourceText.get(i));
