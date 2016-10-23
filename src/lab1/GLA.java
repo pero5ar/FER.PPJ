@@ -10,9 +10,10 @@ public class GLA {
 
 	/**
 	 * Program main entry point.
+	 *
 	 * @param args Command line arguments
 	 */
-	public static void main(String args[]){
+	public static void main(String args[]) {
 		RegexStorage regexStorage = new RegexStorage();
 		StateStorage stateStorage = new StateStorage();
 		TokenStorage tokenStorage = new TokenStorage();

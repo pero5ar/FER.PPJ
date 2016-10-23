@@ -5,7 +5,7 @@ package lab1.storage;
  */
 public class StateStorage extends InlineStorage {
 
-    public StateStorage() {
-        super();
-    }
+	public StateStorage() {
+		super();
+	}
 }

@@ -1,36 +1,35 @@
 package lab1.models;
 
-import lab1.LA;
 import lab1.Lexer;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public enum ActionSpecialArgument {
-	MINUS("-", (l,a) -> {
+	MINUS("-", (l, a) -> {
 		//TODO ignore
 	}),
-	NOVI_REDAK("NOVI_REDAK", (l,a) -> l.increaseLineNumber()),
+	NOVI_REDAK("NOVI_REDAK", (l, a) -> l.increaseLineNumber()),
 	UDJI_U_STANJE("UDJI_U_STANJE", Lexer::setState),
 	VRATI_SE("VRATI_SE", Lexer::vratiSe);
 
 	private String identifier;
 	private BiConsumer<Lexer, String> action;
-	ActionSpecialArgument(String identifier, BiConsumer<Lexer, String> action){
+
+	ActionSpecialArgument(String identifier, BiConsumer<Lexer, String> action) {
 		this.identifier = identifier;
 		this.action = action;
 	}
 
-	public static ActionSpecialArgument getByIdentifier(String identifier){
-		for(ActionSpecialArgument arg : ActionSpecialArgument.values()){
-			if (arg.identifier.equals(identifier)){
+	public static ActionSpecialArgument getByIdentifier(String identifier) {
+		for (ActionSpecialArgument arg : ActionSpecialArgument.values()) {
+			if (arg.identifier.equals(identifier)) {
 				return arg;
 			}
 		}
 		return null;
 	}
 
-	public void doAction(Lexer lexer, String argument){
+	public void doAction(Lexer lexer, String argument) {
 		action.accept(lexer, argument);
 	}
 }

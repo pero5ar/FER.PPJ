@@ -39,7 +39,7 @@ public class Lexer {
 
 	private StringBuilder currentWord;
 
-	private Lexer(StateStorage states, RulesStorage rules, String sourceCode){
+	private Lexer(StateStorage states, RulesStorage rules, String sourceCode) {
 		this.states = states;
 		this.rules = rules;
 		this.sourceCode = sourceCode;
@@ -50,6 +50,7 @@ public class Lexer {
 	/**
 	 * Method that lexes the given source code.
 	 * Lexing is done character-by-character.
+	 *
 	 * @throws NoSuchRuleException
 	 */
 	private void lex() throws NoSuchRuleException {
@@ -59,22 +60,22 @@ public class Lexer {
 		String state = states.getStorage().get(0);
 
 		outerloop:
-		for(char c : charArr){
+		for (char c : charArr) {
 			currentWord.append(c);
 
 			List<Action> possibleRule = null;
 			LinkedHashMap<RegEx, List<Action>> stateRules = rules.getRulesForState(state);
 
-			for(Map.Entry<RegEx, List<Action>> rule : stateRules.entrySet()){
-				if (rule.getKey().startsWith(currentWord.toString())){
-					if (possibleRule != null){
+			for (Map.Entry<RegEx, List<Action>> rule : stateRules.entrySet()) {
+				if (rule.getKey().startsWith(currentWord.toString())) {
+					if (possibleRule != null) {
 						continue outerloop;
 					}
 					possibleRule = rule.getValue();
 				}
 			}
 
-			if (possibleRule == null){
+			if (possibleRule == null) {
 				throw new NoSuchRuleException();
 			}
 
@@ -102,11 +103,11 @@ public class Lexer {
 		//TODO
 	}
 
-	public void printOutput(){
+	public void printOutput() {
 		//TODO how should output be printed? which format?
 
 		int size = uniformChars.size();
-		for(int i = 0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			System.out.print(uniformChars.get(i));
 			System.out.print(" ");
 			System.out.print(sourceText.get(i));

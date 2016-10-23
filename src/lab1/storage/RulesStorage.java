@@ -17,7 +17,7 @@ public class RulesStorage {
 	 */
 	private LinkedHashMap<String, LinkedHashMap<RegEx, List<Action>>> storage;
 
-	public RulesStorage(){
+	public RulesStorage() {
 		this.storage = new LinkedHashMap<>();
 	}
 
@@ -25,7 +25,7 @@ public class RulesStorage {
 		//line by line reader
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (line.isEmpty()){
+			if (line.isEmpty()) {
 				break;
 			}
 			/*
@@ -44,10 +44,10 @@ public class RulesStorage {
 			//a ovo je tek parsiranje :(
 			int iOfGthan = line.indexOf('>');
 			stateName = line.substring(1, iOfGthan);
-			regex = new RegEx(line.substring(iOfGthan+1));
+			regex = new RegEx(line.substring(iOfGthan + 1));
 
 			reader.readLine();
-			while(!(line = reader.readLine()).equals("}")){
+			while (!(line = reader.readLine()).equals("}")) {
 				Action action = Action.forLine(line);
 				actions.add(action);
 			}
@@ -55,16 +55,16 @@ public class RulesStorage {
 		}
 	}
 
-	private void put(String stateName, RegEx regex, List<Action> arguments){
+	private void put(String stateName, RegEx regex, List<Action> arguments) {
 		LinkedHashMap<RegEx, List<Action>> map = storage.get(stateName);
-		if (map == null){
+		if (map == null) {
 			map = new LinkedHashMap<>();
 			storage.put(stateName, map);
 		}
 		map.put(regex, arguments);
 	}
 
-	public LinkedHashMap<RegEx, List<Action>> getRulesForState(String state){
+	public LinkedHashMap<RegEx, List<Action>> getRulesForState(String state) {
 		return storage.get(state);
 	}
 }

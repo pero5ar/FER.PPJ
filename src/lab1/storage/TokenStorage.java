@@ -5,7 +5,7 @@ package lab1.storage;
  */
 public class TokenStorage extends InlineStorage {
 
-    public TokenStorage() {
-        super();
-    }
+	public TokenStorage() {
+		super();
+	}
 }
