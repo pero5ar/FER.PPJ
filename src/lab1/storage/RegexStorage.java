@@ -1,8 +1,9 @@
 package lab1.storage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class RegexStorage {
+public class RegexStorage implements Serializable {
 	private HashMap<String, String> storage;
 
 	public RegexStorage() {

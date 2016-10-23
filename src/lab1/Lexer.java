@@ -3,8 +3,10 @@ package lab1;
 import lab1.exceptions.NoSuchRuleException;
 import lab1.models.Action;
 import lab1.models.RegEx;
+import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
+import lab1.storage.TokenStorage;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class Lexer {
 	private StateStorage states;
 	private RulesStorage rules;
+	private TokenStorage tokens;
+	private RegexStorage regexes;
 	private String sourceCode;
 
 	private String state;
@@ -39,10 +43,13 @@ public class Lexer {
 
 	private StringBuilder currentWord;
 
-	private Lexer(StateStorage states, RulesStorage rules, String sourceCode) {
+	public Lexer(StateStorage states, RulesStorage rules, TokenStorage tokens, RegexStorage regexes, String sourceCode) {
 		this.states = states;
 		this.rules = rules;
+		this.tokens = tokens;
+		this.regexes = regexes;
 		this.sourceCode = sourceCode;
+
 		this.uniformChars = new ArrayList<>();
 		this.sourceText = new ArrayList<>();
 	}

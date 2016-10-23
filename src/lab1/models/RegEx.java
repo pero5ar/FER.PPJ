@@ -1,10 +1,12 @@
 package lab1.models;
 
 
+import java.io.Serializable;
+
 /**
  * Created by pero5ar on 23.10.2016..
  */
-public class RegEx {
+public class RegEx implements Serializable {
 	private String definition;
 
 	public RegEx(String definition) {

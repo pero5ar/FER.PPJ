@@ -5,11 +5,12 @@ import lab1.models.RegEx;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class RulesStorage {
+public class RulesStorage implements Serializable {
 
 	/**
 	 * Maps state to map (regex -> list of actions)

@@ -2,7 +2,9 @@ package lab1.models;
 
 import lab1.Lexer;
 
-public class Action {
+import java.io.Serializable;
+
+public class Action implements Serializable {
 	private ActionSpecialArgument specialArgument = null;
 	private String line;
 
