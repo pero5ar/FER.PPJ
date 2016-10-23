@@ -1,6 +1,8 @@
 # FER.PPJ
 
 # Log
+
+##LAB1
 - Nicky je kupio decaf kavu
 - JJ: "KAKO MOŽE REĆ MAIN... aha, static..."
 - JJ: "napisa je hello"
