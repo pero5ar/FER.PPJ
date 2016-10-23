@@ -20,3 +20,12 @@
 - Nicky non stop igra Heartstone
 - nakon 5 sati napokon uspješno čitamo fajl... ne, JJu neš ne radi, Nicky je zaboravio napomenut grupiranje sa zagradama
 - pričamo o tehnologijama, ženske nas gledaju ka da smo teški prosječni ferovci
+- ženske otišle van
+- Ivan zagovara IE i na kraju kaže da se zajebaje i samo ode partijat
+- razbijamo glavu kako ostvarit ovo čudo
+- Nicky je krepan, šaljemo ga u krevet
+- sitni sati, ne ide...
+- ženske se vratile, poslale Nickyja da spava na kauč
+- JJ odlazi na tramvaj, negdi između 4-5
+- Ivan se vratio
+- Nicky i Ivan spavaju na kauču, Pero pokušava neš debugirat (ne ide)

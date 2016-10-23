@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * Created by pero5ar on 23.10.2016..
  *
- * TODO: NAPIŠI PONOVNO PO ALGORITMU U ZADATKU LABOSA
  */
 public class RegEx implements Serializable {
     private final char EPSILON = '$';
@@ -26,7 +25,11 @@ public class RegEx implements Serializable {
      * Generates possible options from regex expression.
      * ESCAPE CHARACTER, EPSILON CLOSURE AND KLEEN STAR STILL UNRESOLVED.
      *
-     * TODO: logika ne radi za duple zagrade
+     * TODO: logika ne radi za duple zagrade... i pitaj boga za šta još
+     *
+     *
+     * TODO: NAPIŠI PONOVNO PO ALGORITMU U ZADATKU LABOSA
+     *
      *
      * @param expression    regex expression
      * @return
@@ -122,16 +125,31 @@ public class RegEx implements Serializable {
         return localOptions;
     }
 
+    /**
+     * Fill empty set with a single "" string
+     *
+     * @param set
+     */
     private void fillIfEmpty(Set<String> set) {
         if (set.isEmpty()) {
             set.add("");
         }
     }
 
+    /**
+     * Checks if the input string is defined by this RegEx.
+     *
+     * @param str
+     * @return
+     */
     public boolean startsWith(String str) {
         return false;
     }
 
+    /**
+     * returns result after initialization - for testing purposes only
+     * @return
+     */
     public Set<String> getOptions() {
         return options;
     }

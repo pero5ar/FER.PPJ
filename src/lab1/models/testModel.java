@@ -4,6 +4,9 @@ import java.util.Set;
 
 /**
  * Created by pero5ar on 23.10.2016..
+ *
+ * Test method
+ * TODO: delete when finished
  */
 public class testModel {
 
