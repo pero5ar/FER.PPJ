@@ -48,7 +48,7 @@ public class RulesStorage {
 
 			reader.readLine();
 			while(!(line = reader.readLine()).equals("}")){
-				Action action = new Action(line);
+				Action action = Action.forLine(line);
 				actions.add(action);
 			}
 			put(stateName, regex, actions);
