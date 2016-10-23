@@ -1,16 +1,18 @@
 package lab1.storage;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by pero5ar on 22.10.2016..
  */
 public abstract class InlineStorage {
-    private Collection<String> storage;
+    private List<String> storage;
 
     public InlineStorage() {
-        storage = new HashSet<String>();
+        storage = new ArrayList<String>();
     }
 
     public void add(String element) {
@@ -21,7 +23,7 @@ public abstract class InlineStorage {
         storage.addAll(newElements);
     }
 
-    public Collection<String> getStorage() {
+    public List<String> getStorage() {
         return storage;
     }
 }

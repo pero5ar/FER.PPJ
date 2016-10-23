@@ -4,6 +4,7 @@ import lab1.exceptions.NoSuchRuleException;
 import lab1.models.Action;
 import lab1.models.RegEx;
 import lab1.storage.RulesStorage;
+import lab1.storage.StateStorage;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Created by juraj on 23.10.2016..
  */
 public class Lexer {
+	private StateStorage states;
 	private RulesStorage rules;
 	private String sourceCode;
 
@@ -37,7 +39,8 @@ public class Lexer {
 
 	private StringBuilder currentWord;
 
-	private Lexer(RulesStorage rules, String sourceCode){
+	private Lexer(StateStorage states, RulesStorage rules, String sourceCode){
+		this.states = states;
 		this.rules = rules;
 		this.sourceCode = sourceCode;
 		this.uniformChars = new ArrayList<>();
@@ -53,7 +56,7 @@ public class Lexer {
 		char[] charArr = sourceCode.toCharArray();
 
 		currentWord = new StringBuilder();
-		String state = "S_pocetno";
+		String state = states.getStorage().get(0);
 
 		outerloop:
 		for(char c : charArr){
@@ -97,5 +100,19 @@ public class Lexer {
 
 	public void vratiSe(String a) {
 		//TODO
+	}
+
+	public void printOutput(){
+		//TODO how should output be printed? which format?
+
+		int size = uniformChars.size();
+		for(int i = 0; i < size; i++){
+			System.out.print(uniformChars.get(i));
+			System.out.print(" ");
+			System.out.print(sourceText.get(i));
+			System.out.print(" ");
+			System.out.println(lineNumbers.get(i));
+			// ... you get the idea
+		}
 	}
 }
