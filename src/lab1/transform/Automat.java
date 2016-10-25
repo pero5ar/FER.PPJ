@@ -14,14 +14,20 @@ public class Automat {
     public int brStanja;
 
 
-    public Automat() {
-
+    public Automat(String rule) {
+        Pretvorba.Pretvori(rule.toCharArray(), this);
     }
 
     public void DodajPrijelaz(Prijelaz prijelaz, int zavrsnoStanje){
         mapaPrijelaza.put(prijelaz, zavrsnoStanje);
     }
 
+    /**
+     * TODO
+     *
+     * @param input
+     * @return
+     */
     public boolean Execute(char[] input){
         return true;
     }

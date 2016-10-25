@@ -7,15 +7,13 @@ import java.util.List;
  */
 public class Pretvorba {
 
-    Automat automat = new Automat();
 
-
-    public int NovoStanje(Automat automat) {
+    private static int NovoStanje(Automat automat) {
         automat.brStanja = automat.brStanja + 1;
         return automat.brStanja - 1;
     }
 
-    public boolean JeOperator(char[] izraz, int i) {
+    private static boolean JeOperator(char[] izraz, int i) {
         int br = 0;
         while (i - 1 >= 0 && izraz[i - 1] == '\\') { // ovo je jedan \, kao u Cu
             br = br + 1;
@@ -24,7 +22,7 @@ public class Pretvorba {
         return br % 2 == 0;
     }
 
-    public List<Integer> Pretvori(char[] izraz, Automat automat) {
+    public static List<Integer> Pretvori(char[] izraz, Automat automat) {
         List<String> izbori = new ArrayList<String>();
         int brZagrada = 0;
         String spoji = "";
@@ -149,12 +147,12 @@ public class Pretvorba {
         return parStanja;
     }
 
-    public void DodajEpsilonPrijelaz(Automat automat, int a, int b) {
+    private static void DodajEpsilonPrijelaz(Automat automat, int a, int b) {
         Prijelaz prijelaz = new Prijelaz(a,'$');
         automat.DodajPrijelaz(prijelaz, b);
     }
 
-    public void DodajPrijelaz(Automat automat, int a, int b, Character izraz) {
+    private static void DodajPrijelaz(Automat automat, int a, int b, Character izraz) {
         Prijelaz prijelaz = new Prijelaz(a,izraz);
         automat.DodajPrijelaz(prijelaz, b);
     }

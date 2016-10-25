@@ -2,6 +2,7 @@ package lab1.storage;
 
 import lab1.models.Action;
 import lab1.models.RegEx;
+import lab1.transform.Automat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class RulesStorage implements Serializable {
 	 * Maps state to map (regex -> list of actions)
 	 * Order is important! (says Nicky)
 	 */
-	private LinkedHashMap<String, LinkedHashMap<RegEx, List<Action>>> storage;
+	private LinkedHashMap<String, LinkedHashMap<Automat, List<Action>>> storage;
 
 	public RulesStorage() {
 		this.storage = new LinkedHashMap<>();
@@ -36,7 +37,7 @@ public class RulesStorage implements Serializable {
 			 * zadnja linija: }
 			 */
 			String stateName;
-			RegEx regex;
+			Automat automat;
 			List<Action> actions = new ArrayList<>();
 
 			//ajmo parsirati liniju
@@ -45,27 +46,27 @@ public class RulesStorage implements Serializable {
 			//a ovo je tek parsiranje :(
 			int iOfGthan = line.indexOf('>');
 			stateName = line.substring(1, iOfGthan);
-			regex = new RegEx(line.substring(iOfGthan + 1));
+			automat = new Automat(line.substring(iOfGthan + 1));
 
 			reader.readLine();
 			while (!(line = reader.readLine()).equals("}")) {
 				Action action = Action.forLine(line);
 				actions.add(action);
 			}
-			put(stateName, regex, actions);
+			put(stateName, automat, actions);
 		}
 	}
 
-	private void put(String stateName, RegEx regex, List<Action> arguments) {
-		LinkedHashMap<RegEx, List<Action>> map = storage.get(stateName);
+	private void put(String stateName, Automat automat, List<Action> arguments) {
+		LinkedHashMap<Automat, List<Action>> map = storage.get(stateName);
 		if (map == null) {
 			map = new LinkedHashMap<>();
 			storage.put(stateName, map);
 		}
-		map.put(regex, arguments);
+		map.put(automat, arguments);
 	}
 
-	public LinkedHashMap<RegEx, List<Action>> getRulesForState(String state) {
+	public LinkedHashMap<Automat, List<Action>> getRulesForState(String state) {
 		return storage.get(state);
 	}
 }

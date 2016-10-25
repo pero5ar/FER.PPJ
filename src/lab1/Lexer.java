@@ -7,6 +7,7 @@ import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
+import lab1.transform.Automat;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -91,7 +92,7 @@ public class Lexer {
 		}*/
         LinkedHashMap<Automat, List<Action>> stateRules = rules.getRulesForState(state);
         LinkedHashMap<Automat, List<Action>> tempStateRules = new LinkedHashMap<>();
-        Automat prviAutomat = new Automat();
+        Automat prviAutomat;
         boolean prvi =true;
         boolean jesiDosaDoKraja = false;
         int i = 0;
@@ -101,7 +102,7 @@ public class Lexer {
         while (!jesiDosaDoKraja) {
             prvi=true;
             for (Automat automat : stateRules.keySet()) {
-                if (automat.Execute(currentWord)) {
+                if (automat.Execute(currentWord.toString().toCharArray())) {
                     tempStateRules.put(automat, stateRules.get(automat));
                     if(prvi){
                         prviAutomat = automat;
