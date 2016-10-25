@@ -1,12 +1,13 @@
 package lab1.transform;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 /**
  * Created by CHOPPER on 10/25/2016.
  */
-public class Automat {
+public class Automat implements Serializable {
 
     public int pocetnoStanje;
     public int prihvatljivoStanje;
