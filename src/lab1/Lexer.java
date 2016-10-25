@@ -2,7 +2,6 @@ package lab1;
 
 import lab1.exceptions.NoSuchRuleException;
 import lab1.models.Action;
-import lab1.models.RegEx;
 import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
