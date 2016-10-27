@@ -7,6 +7,7 @@ import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
 import lab1.transform.Automat;
+import lab1.transform.Prijelaz;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -76,14 +77,16 @@ public class Lexer {
         boolean prvi = true;
         boolean jesiDosaDoKraja = false;
         boolean jesiDosaSkrozDoKraja = false;
+        boolean jesiNasaoIsta = false;
 
         int i = 0;
         currentWord.append(charArr[i]);
-        while (!jesiDosaSkrozDoKraja) {
+        while (!jesiDosaSkrozDoKraja || !jesiNasaoIsta) {
             while (!jesiDosaDoKraja && !jesiDosaSkrozDoKraja) {
                 prvi = true;
                 for (Automat automat : stateRules.keySet()) {
                     if (automat.Execute(currentWord.toString().toCharArray())) {
+                        jesiNasaoIsta=true;
                         tempStateRules.put(automat, stateRules.get(automat));
                         if (prvi) {
                             //System.out.println(automat.pocetnoStanje);
@@ -92,6 +95,13 @@ public class Lexer {
                             prvi = false;
                         }
                     }
+                }
+                System.out.println(currentWord);
+                if(!jesiNasaoIsta){
+                    i++;
+                    currentWord.append(charArr[i]);
+                    continue;
+
                 }
 
                 if (tempStateRules.size() == 0) {
@@ -112,8 +122,15 @@ public class Lexer {
 
             }
             List<Action> actionList = stateRules.get(prviAutomat);
+
+            for(Prijelaz mapa: prviAutomat.mapaPrijelaza.keySet()){
+                System.out.println(mapa.pocetnoStanje+" ---*"+ mapa.znakPrijelaza+"*--- "+ prviAutomat.mapaPrijelaza.get(mapa));
+
+            }
             actionList.forEach(action -> action.doAction(this));
+            System.out.println("B");
             printOutput();
+
         }
     }
 

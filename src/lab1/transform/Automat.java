@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Automat implements Serializable {
 
-    public int pocetnoStanje;
-    public int prihvatljivoStanje;
+    public int pocetnoStanje=0;
+    public int prihvatljivoStanje=1;
     public HashMap<Prijelaz, Integer> mapaPrijelaza = new HashMap<>();
     public int brStanja;
 
@@ -19,6 +19,8 @@ public class Automat implements Serializable {
     }*/
 
     public Automat(String rule) {
+
+
         Pretvorba.Pretvori(rule.toCharArray(), this);
     }
 
@@ -42,6 +44,7 @@ public class Automat implements Serializable {
     public boolean Execute(char[] input) {
 
         List<Integer> epsilon = new ArrayList<>();
+        List<Integer> tempEpsilon = new ArrayList<>();
         epsilon.add(pocetnoStanje);
         boolean prosiri = true;
         while (prosiri) {
@@ -53,15 +56,20 @@ public class Automat implements Serializable {
                 }
             }
         }
+        tempEpsilon.addAll(epsilon);
+        epsilon.clear();
         prosiri = true;
         for (int j = 0; j < input.length; j++) {
-            for (int i = 0; i < epsilon.size(); i++) {
+            tempEpsilon.addAll(epsilon);
+            epsilon.clear();
+            for (int i = 0; i < tempEpsilon.size(); i++) {
 
                 for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
-                    if (prijelaz.pocetnoStanje == epsilon.get(i) && prijelaz.znakPrijelaza == input[j] && !epsilon.contains(mapaPrijelaza.get(prijelaz))) {
+                    if (prijelaz.pocetnoStanje == tempEpsilon.get(i) && prijelaz.znakPrijelaza == input[j] && !epsilon.contains(mapaPrijelaza.get(prijelaz))) {
                         epsilon.add(mapaPrijelaza.get(prijelaz));
                     }
                 }
+                tempEpsilon.clear();
                 for (Integer stanje : epsilon) {
                     while (prosiri) {
                         prosiri = false;
@@ -73,7 +81,10 @@ public class Automat implements Serializable {
                         }
                     }
                 }
+
+
             }
+
         }
 
         if (epsilon.contains(prihvatljivoStanje)) {
