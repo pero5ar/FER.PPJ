@@ -149,11 +149,11 @@ public class Pretvorba {
 
     private static void DodajEpsilonPrijelaz(Automat automat, int a, int b) {
         Prijelaz prijelaz = new Prijelaz(a,'$');
-        automat.DodajPrijelaz(prijelaz, b);
+        automat.DodajPrijelazAutomatu(prijelaz, b);
     }
 
     private static void DodajPrijelaz(Automat automat, int a, int b, Character izraz) {
         Prijelaz prijelaz = new Prijelaz(a,izraz);
-        automat.DodajPrijelaz(prijelaz, b);
+        automat.DodajPrijelazAutomatu(prijelaz, b);
     }
 }

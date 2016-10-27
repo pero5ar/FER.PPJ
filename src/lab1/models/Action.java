@@ -29,6 +29,7 @@ public class Action implements Serializable {
 	}
 
 	public void doAction(Lexer lexer) {
+		//System.out.println(specialArgument);
 		if (specialArgument != null) {
 			int indexOfArgument = line.indexOf(' ');
 			String argument = null;

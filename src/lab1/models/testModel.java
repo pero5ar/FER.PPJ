@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class testModel {
 
-    private static String line = "(e|(E|$)a)|(+|-)|Q|R|S|T";
+    /*private static String line = "(e|(E|$)a)|(+|-)|Q|R|S|T";
 
     public static void main(String args[]) {
         RegEx regEx = new RegEx(line);
@@ -18,5 +18,5 @@ public class testModel {
         for (String s : set) {
             System.out.println(s);
         }
-    }
+    }*/
 }

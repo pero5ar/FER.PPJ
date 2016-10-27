@@ -3,6 +3,7 @@ package lab1.input;
 import lab1.storage.*;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class LangRuleReader {
 	 * @param tokenStorage
 	 */
 	public static void read(RegexStorage regexStorage, StateStorage stateStorage, TokenStorage tokenStorage, RulesStorage rulesStorage) {
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+		//try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\minusLang.lan"))) {
 			String stateLine = readRegexRules(reader, regexStorage);
 			readLineElements(stateLine, stateStorage, STATE_LINE_START);
 			readLineElements(reader.readLine(), tokenStorage, TOKEN_LINE_START);
@@ -48,6 +50,7 @@ public class LangRuleReader {
 			String definition = line.substring(line.indexOf('}') + 1).trim();
 			regexStorage.addDefinition(name, definition);
 		}
+
 		return line;
 	}
 

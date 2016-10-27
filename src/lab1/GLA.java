@@ -13,7 +13,7 @@ import java.io.ObjectOutputStream;
 
 public class GLA {
 
-	private static final String OUT_PATH = "storage.bin";
+	private static final String OUT_PATH = "C:\\Users\\CHOPPER\\Desktop\\PPJ\\storage.bin";
 
 	/**
 	 * Program main entry point.
@@ -25,9 +25,7 @@ public class GLA {
 		StateStorage stateStorage = new StateStorage();
 		TokenStorage tokenStorage = new TokenStorage();
 		RulesStorage rulesStorage = new RulesStorage();
-
 		LangRuleReader.read(regexStorage, stateStorage, tokenStorage, rulesStorage);
-
 		//save rules to OUT_PATH
 		//TODO provjeriti u pdf-u gdje spremiti fajl!
 		try {

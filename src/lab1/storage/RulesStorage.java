@@ -1,7 +1,6 @@
 package lab1.storage;
 
 import lab1.models.Action;
-import lab1.models.RegEx;
 import lab1.transform.Automat;
 
 import java.io.BufferedReader;
@@ -46,6 +45,7 @@ public class RulesStorage implements Serializable {
 			//a ovo je tek parsiranje :(
 			int iOfGthan = line.indexOf('>');
 			stateName = line.substring(1, iOfGthan);
+
 			automat = new Automat(line.substring(iOfGthan + 1));
 
 			reader.readLine();
@@ -53,6 +53,7 @@ public class RulesStorage implements Serializable {
 				Action action = Action.forLine(line);
 				actions.add(action);
 			}
+			//System.out.println(automat.mapaPrijelaza.values());
 			put(stateName, automat, actions);
 		}
 	}

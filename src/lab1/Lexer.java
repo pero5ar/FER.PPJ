@@ -61,76 +61,67 @@ public class Lexer {
      *
      * @throws NoSuchRuleException
      */
-    private void lex() throws NoSuchRuleException {
+    public void lex() {
+
         char[] charArr = sourceCode.toCharArray();
 
         currentWord = new StringBuilder();
         String state = states.getStorage().get(0);
+        Automat prviAutomat = new Automat("");
 
-		/*outerloop:
-        for (char c : charArr) {
-			currentWord.append(c);
 
-			List<Action> possibleRule = null;
-			LinkedHashMap<RegEx, List<Action>> stateRules = rules.getRulesForState(state);
-
-			for (Map.Entry<RegEx, List<Action>> rule : stateRules.entrySet()) {
-				if (rule.getKey().startsWith(currentWord.toString())) { //ovo bi trebalo bit je li automat prihvaca znak
-					if (possibleRule != null) {
-						continue outerloop;
-					}
-					possibleRule = rule.getValue();
-				}
-			}
-
-			if (possibleRule == null) {
-				throw new NoSuchRuleException();
-			}
-
-			possibleRule.forEach(action -> action.doAction(this));
-		}*/
         LinkedHashMap<Automat, List<Action>> stateRules = rules.getRulesForState(state);
         LinkedHashMap<Automat, List<Action>> tempStateRules = new LinkedHashMap<>();
-        Automat prviAutomat;
-        boolean prvi =true;
+
+        boolean prvi = true;
         boolean jesiDosaDoKraja = false;
+        boolean jesiDosaSkrozDoKraja = false;
+
         int i = 0;
-
         currentWord.append(charArr[i]);
+        while (!jesiDosaSkrozDoKraja) {
+            while (!jesiDosaDoKraja && !jesiDosaSkrozDoKraja) {
+                prvi = true;
+                for (Automat automat : stateRules.keySet()) {
+                    if (automat.Execute(currentWord.toString().toCharArray())) {
+                        tempStateRules.put(automat, stateRules.get(automat));
+                        if (prvi) {
+                            //System.out.println(automat.pocetnoStanje);
 
-        while (!jesiDosaDoKraja) {
-            prvi=true;
-            for (Automat automat : stateRules.keySet()) {
-                if (automat.Execute(currentWord.toString().toCharArray())) {
-                    tempStateRules.put(automat, stateRules.get(automat));
-                    if(prvi){
-                        prviAutomat = automat;
-                        prvi=false;
+                            prviAutomat = automat;
+                            prvi = false;
+                        }
                     }
                 }
-            }
-            if (tempStateRules.size() == 0) {
-                jesiDosaDoKraja = true;
-            } else {
-                //izbaci npotrebne automate
-                stateRules.clear();
-                stateRules.putAll(tempStateRules);
-                tempStateRules.clear();
+
+                if (tempStateRules.size() == 0) {
+                    jesiDosaDoKraja = true;
+                    i--;
+                } else {
+                    //izbaci npotrebne automate
+                    stateRules.clear();
+                    stateRules.putAll(tempStateRules);
+                    tempStateRules.clear();
+                }
                 i++;
-                currentWord.append(charArr[i]);
+                if (i != charArr.length) {
+                    currentWord.append(charArr[i]);
+                } else {
+                    jesiDosaSkrozDoKraja = true;
+                }
+
             }
-
+            List<Action> actionList = stateRules.get(prviAutomat);
+            actionList.forEach(action -> action.doAction(this));
+            printOutput();
         }
-        i--;
-        List<Action> actionList = stateRules.get(prvi);
-        actionList.forEach(action -> action.doAction(this));
-        printOutput();
-
     }
 
     public void saveLine(String line) {
         //a single entry is stored in all lists at the same index...
         //when reading, iterate through all the lists at the same time
+        System.out.println(line);
+
         uniformChars.add(line);
         sourceText.add(currentWord.toString());
         lineNumbers.add(lineNumber);
