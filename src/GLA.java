@@ -1,5 +1,3 @@
-package lab1;
-
 import lab1.input.LangRuleReader;
 import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
@@ -13,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 public class GLA {
 
-	private static final String OUT_PATH = "C:\\Users\\CHOPPER\\Desktop\\PPJ\\storage.bin";
+	private static final String OUT_PATH = "lab1.storage.bin";
 
 	/**
 	 * Program main entry point.

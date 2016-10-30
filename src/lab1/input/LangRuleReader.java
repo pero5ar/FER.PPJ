@@ -3,7 +3,6 @@ package lab1.input;
 import lab1.storage.*;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;

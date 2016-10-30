@@ -1,22 +1,14 @@
-package lab1;
-
-
+import lab1.lexer.Lexer;
 import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType.ASCII;
 
 public class LA {
 
-    private static final String IN_PATH = "C:\\Users\\CHOPPER\\Desktop\\PPJ\\storage.bin";
+    private static final String IN_PATH = "lab1.storage.bin";
 
     /**
      * Program main entry point.
@@ -24,7 +16,7 @@ public class LA {
      * @param args Command line arguments
      */
     public static void main(String args[])throws IOException {
-        //reading from storage bin
+        //reading from lab1.storage bin
         RulesStorage rulesStorage;
         TokenStorage tokenStorage;
         StateStorage stateStorage;

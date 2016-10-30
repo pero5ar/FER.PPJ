@@ -1,4 +1,4 @@
-package lab1;
+package lab1.lexer;
 
 import lab1.exceptions.NoSuchRuleException;
 import lab1.models.Action;
@@ -7,12 +7,10 @@ import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
 import lab1.transform.Automat;
-import lab1.transform.Prijelaz;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by juraj on 23.10.2016..

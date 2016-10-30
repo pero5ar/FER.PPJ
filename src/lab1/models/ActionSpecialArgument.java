@@ -1,6 +1,6 @@
 package lab1.models;
 
-import lab1.Lexer;
+import lab1.lexer.Lexer;
 
 import java.util.function.BiConsumer;
 
