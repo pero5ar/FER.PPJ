@@ -23,10 +23,14 @@ public class Lexer {
     private TokenStorage tokens;
     private RegexStorage regexes;
     private String sourceCode;
+    private int i = 0;
+    int k = 0;
+    int brojac = 0;
+    private boolean jeliUniZnak = false;
 
     private String state;
     private int lineNumber = 1;
-
+    private LinkedHashMap<Automat, List<Action>> stateRules = new LinkedHashMap<Automat, List<Action>>();
     // TODO maybe better mapping?
     // Still not sure how output should work...
     /**
@@ -40,9 +44,10 @@ public class Lexer {
     /**
      * Brojevi linija
      */
-    private List<Integer> lineNumbers;
+    private List<Integer> lineNumbers = new ArrayList<Integer>();
 
     private StringBuilder currentWord;
+    private  char[] znakovi = new char[1000];
 
 
     public Lexer(StateStorage states, RulesStorage rules, TokenStorage tokens, RegexStorage regexes, String sourceCode) {
@@ -67,93 +72,166 @@ public class Lexer {
         char[] charArr = sourceCode.toCharArray();
 
         currentWord = new StringBuilder();
-        String state = states.getStorage().get(0);
-        Automat prviAutomat = new Automat("");
+        state = states.getStorage().get(0);
+        char[] init = new char[0];
+        Automat prviAutomat = new Automat(init);
 
 
-        LinkedHashMap<Automat, List<Action>> stateRules = rules.getRulesForState(state);
+        stateRules = rules.getRulesForState(state);
         LinkedHashMap<Automat, List<Action>> tempStateRules = new LinkedHashMap<>();
 
         boolean prvi = true;
         boolean jesiDosaDoKraja = false;
         boolean jesiDosaSkrozDoKraja = false;
         boolean jesiNasaoIsta = false;
+        boolean provjerio = false;
 
-        int i = 0;
+
         currentWord.append(charArr[i]);
-        while (!jesiDosaSkrozDoKraja || !jesiNasaoIsta) {
-            while (!jesiDosaDoKraja && !jesiDosaSkrozDoKraja) {
-                prvi = true;
-                for (Automat automat : stateRules.keySet()) {
-                    if (automat.Execute(currentWord.toString().toCharArray())) {
-                        jesiNasaoIsta=true;
-                        tempStateRules.put(automat, stateRules.get(automat));
-                        if (prvi) {
-                            //System.out.println(automat.pocetnoStanje);
 
-                            prviAutomat = automat;
-                            prvi = false;
+
+        while (!jesiDosaSkrozDoKraja) {
+
+            //System.out.println(i);
+            prvi = true;
+            if (i == charArr.length - 1) {
+                provjerio = true;
+            }
+            if (currentWord.length() == 15) {
+                provjerio = true;
+            }
+            if (brojac > 30 || i==charArr.length-1 && !jesiNasaoIsta) {
+                k++;
+                i = k;
+                currentWord.delete(0, currentWord.length());
+                if(!(i==charArr.length)) {
+                    currentWord.append(charArr[i]);
+                } else{
+                    jesiDosaSkrozDoKraja = true;
+                    printOutput();
+                    continue;
+                }
+                brojac = 0;
+                jesiNasaoIsta = false;
+                provjerio = false;
+
+
+            }
+            for (Automat automat : stateRules.keySet()) {
+                if (automat.Execute(currentWord.toString().toCharArray())) {
+
+                    jesiNasaoIsta = true;
+                    brojac = 0;
+
+                    //jesiDosaDoKraja = true;
+                    tempStateRules.put(automat, stateRules.get(automat));
+                    if (prvi) {
+                        //System.out.println(automat.pocetnoStanje);
+                        prviAutomat = automat;
+                        prvi = false;
+
+                        if((i==charArr.length-1)) {
+                            jesiDosaDoKraja=true;
+                            provjerio=true;
                         }
                     }
                 }
-                System.out.println(currentWord);
-                if(!jesiNasaoIsta){
-                    i++;
-                    currentWord.append(charArr[i]);
-                    continue;
-
-                }
-
-                if (tempStateRules.size() == 0) {
-                    jesiDosaDoKraja = true;
-                    i--;
-                } else {
-                    //izbaci npotrebne automate
-                    stateRules.clear();
-                    stateRules.putAll(tempStateRules);
-                    tempStateRules.clear();
-                }
+            }
+            //System.out.println(currentWord);
+            if (!jesiNasaoIsta && currentWord.length()!=0) {
                 i++;
-                if (i != charArr.length) {
-                    currentWord.append(charArr[i]);
-                } else {
-                    jesiDosaSkrozDoKraja = true;
+                currentWord.append(charArr[i]);
+                brojac++;
+                continue;
+            }
+            if (prvi && provjerio && currentWord.length()!=0) {
+                jesiDosaDoKraja = true;
+                i--;
+                //System.out.println(state );
+                //System.out.println(currentWord);
+                currentWord.delete(currentWord.length() - 1, currentWord.length());
+                //System.out.println(currentWord);
+
+                continue;
+            }
+            if (jesiDosaDoKraja && currentWord.length()!=0) {
+                //izbaci npotrebne automate
+                //stateRules.clear();
+                //stateRules.putAll(tempStateRules);
+                //tempStateRules.clear();
+                // System.out.println(state );
+                // System.out.println(currentWord);
+                List<Action> actionList = stateRules.get(prviAutomat);
+                actionList.forEach(action -> action.doAction(this));
+                if (jeliUniZnak) {
+                    sourceText.add(currentWord.toString());
+                    lineNumbers.add(lineNumber);
                 }
+                jeliUniZnak = false;
+                //System.out.println(state );
+                /*for (Prijelaz mapa : prviAutomat.mapaPrijelaza.keySet()) {
+                    System.out.println(mapa.pocetnoStanje + " ---*" + mapa.znakPrijelaza + "*--- " + prviAutomat.mapaPrijelaza.get(mapa));
+
+                }*/
+                if (this.lineNumber==12 && i==199) {
+                    i=i;
+                }
+                if (!(i == charArr.length - 1)) {
+                    currentWord.delete(0, currentWord.length());
+                    i++;
+                    k = i;
+                    currentWord.append(charArr[i]);
+
+                    jesiNasaoIsta = false;
+                    jesiDosaDoKraja = false;
+                    provjerio = false;
+                }
+            } else if(currentWord.length()!=0){
+                i++;
+                currentWord.append(charArr[i]);
+                continue;
+            }
+            if (i == charArr.length - 1 && provjerio) {
+                jesiDosaSkrozDoKraja = true;
+                printOutput();
 
             }
-            List<Action> actionList = stateRules.get(prviAutomat);
-
-            for(Prijelaz mapa: prviAutomat.mapaPrijelaza.keySet()){
-                System.out.println(mapa.pocetnoStanje+" ---*"+ mapa.znakPrijelaza+"*--- "+ prviAutomat.mapaPrijelaza.get(mapa));
-
-            }
-            actionList.forEach(action -> action.doAction(this));
-            System.out.println("B");
-            printOutput();
-
+            //
+            // printOutput();
         }
+
     }
 
     public void saveLine(String line) {
         //a single entry is stored in all lists at the same index...
         //when reading, iterate through all the lists at the same time
-        System.out.println(line);
+        //System.out.println(line);
 
         uniformChars.add(line);
-        sourceText.add(currentWord.toString());
-        lineNumbers.add(lineNumber);
+        jeliUniZnak = true;
+
     }
 
     public void increaseLineNumber() {
-        lineNumber++;
+        this.lineNumber++;
     }
 
     public void setState(String state) {
+        //System.out.println("+++"+this.state);
         this.state = state;
+        stateRules = rules.getRulesForState(state);
+
+        //System.out.println("+++"+this.state);
     }
 
     public void vratiSe(String a) {
-        //TODO
+        int brojac = Integer.parseInt(a);
+        int t = currentWord.length() - brojac;
+        for (; t > 0; t--) {
+            i--;
+            currentWord.delete(currentWord.length() - 1, currentWord.length());
+
+        }
     }
 
     public void printOutput() {
@@ -163,9 +241,10 @@ public class Lexer {
         for (int i = 0; i < size; i++) {
             System.out.print(uniformChars.get(i));
             System.out.print(" ");
-            System.out.print(sourceText.get(i));
+            System.out.print(lineNumbers.get(i));
             System.out.print(" ");
-            System.out.println(lineNumbers.get(i));
+            System.out.println(sourceText.get(i));
+
             // ... you get the idea
         }
     }

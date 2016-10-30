@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -17,12 +18,12 @@ public class RulesStorage implements Serializable {
 	 * Order is important! (says Nicky)
 	 */
 	private LinkedHashMap<String, LinkedHashMap<Automat, List<Action>>> storage;
-
 	public RulesStorage() {
 		this.storage = new LinkedHashMap<>();
+
 	}
 
-	public void readRules(BufferedReader reader) throws IOException {
+	public void readRules(BufferedReader reader, RegexStorage regexRtorage) throws IOException {
 		//line by line reader
 		String line;
 		while ((line = reader.readLine()) != null) {
@@ -45,9 +46,9 @@ public class RulesStorage implements Serializable {
 			//a ovo je tek parsiranje :(
 			int iOfGthan = line.indexOf('>');
 			stateName = line.substring(1, iOfGthan);
-
-			automat = new Automat(line.substring(iOfGthan + 1));
-
+			String regex = line.substring(iOfGthan + 1);
+			automat = new Automat(regexRtorage.replaceByRef(regex).toCharArray());
+			//String nes = regexRtorage.replaceByRef("{sviZnakovi}");
 			reader.readLine();
 			while (!(line = reader.readLine()).equals("}")) {
 				Action action = Action.forLine(line);

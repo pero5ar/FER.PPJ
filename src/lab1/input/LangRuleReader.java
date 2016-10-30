@@ -24,12 +24,12 @@ public class LangRuleReader {
 	 * @param tokenStorage
 	 */
 	public static void read(RegexStorage regexStorage, StateStorage stateStorage, TokenStorage tokenStorage, RulesStorage rulesStorage) {
-		//try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-		try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\minusLang.lan"))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+		//try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\simplePpjLang.lan"))) {
 			String stateLine = readRegexRules(reader, regexStorage);
 			readLineElements(stateLine, stateStorage, STATE_LINE_START);
 			readLineElements(reader.readLine(), tokenStorage, TOKEN_LINE_START);
-			rulesStorage.readRules(reader);
+			rulesStorage.readRules(reader, regexStorage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -14,14 +14,15 @@ public class Automat implements Serializable {
     public int prihvatljivoStanje=1;
     public HashMap<Prijelaz, Integer> mapaPrijelaza = new HashMap<>();
     public int brStanja;
+    //public int najduza;
 
     /*public Automat() {
     }*/
 
-    public Automat(String rule) {
+    public Automat(char[] rule) {
 
 
-        Pretvorba.Pretvori(rule.toCharArray(), this);
+        Pretvorba.Pretvori(rule, this);
     }
 
     /*public Automat(Automat automat) {
@@ -46,7 +47,7 @@ public class Automat implements Serializable {
         List<Integer> epsilon = new ArrayList<>();
         List<Integer> tempEpsilon = new ArrayList<>();
         epsilon.add(pocetnoStanje);
-        boolean prosiri = true;
+        /*boolean prosiri = true;
         while (prosiri) {
             prosiri = false;
             for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
@@ -55,10 +56,11 @@ public class Automat implements Serializable {
                     prosiri = true;
                 }
             }
-        }
+        }*/
+        prosiri(epsilon);
         tempEpsilon.addAll(epsilon);
         epsilon.clear();
-        prosiri = true;
+
         for (int j = 0; j < input.length; j++) {
             tempEpsilon.addAll(epsilon);
             epsilon.clear();
@@ -69,21 +71,27 @@ public class Automat implements Serializable {
                         epsilon.add(mapaPrijelaza.get(prijelaz));
                     }
                 }
-                tempEpsilon.clear();
+            }
+            prosiri(epsilon);
+            tempEpsilon.clear();
+            /* while (prosiri) {
                 for (Integer stanje : epsilon) {
-                    while (prosiri) {
-                        prosiri = false;
-                        for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
-                            if (prijelaz.pocetnoStanje == stanje && prijelaz.znakPrijelaza == '$' && !epsilon.contains(mapaPrijelaza.get(prijelaz))) {
-                                epsilon.add(mapaPrijelaza.get(prijelaz));
-                                prosiri = true;
-                            }
+
+                    tempEpsilon.clear();
+                    tempEpsilon.addAll(epsilon);
+                    prosiri = false;
+                    for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
+                        if (prijelaz.pocetnoStanje == stanje && prijelaz.znakPrijelaza == '$' && !tempEpsilon.contains(mapaPrijelaza.get(prijelaz))) {
+                            tempEpsilon.add(mapaPrijelaza.get(prijelaz));
+                            prosiri = true;
                         }
                     }
+
                 }
+                epsilon.clear();
+                epsilon.addAll(tempEpsilon);
+            }*/
 
-
-            }
 
         }
 
@@ -92,6 +100,31 @@ public class Automat implements Serializable {
         } else {
             return false;
         }
+
+    }
+    public List<Integer> prosiri(List<Integer> list){
+        List<Integer> tempList=new ArrayList<Integer>();
+        boolean prosiri = true;
+        while(prosiri){
+            tempList.clear();
+            tempList.addAll(list);
+            prosiri=false;
+            for(Integer stanje: list){
+
+                for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
+                    if (prijelaz.pocetnoStanje == stanje && prijelaz.znakPrijelaza == '$' && !tempList.contains(mapaPrijelaza.get(prijelaz))) {
+                        tempList.add(mapaPrijelaza.get(prijelaz));
+                        prosiri = true;
+                    }
+                }
+
+            }
+            list.clear();
+            list.addAll(tempList);
+        }
+        return list;
+
+
 
     }
 }

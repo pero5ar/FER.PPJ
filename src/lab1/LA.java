@@ -6,12 +6,13 @@ import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType.ASCII;
 
 public class LA {
 
@@ -41,10 +42,19 @@ public class LA {
             e.printStackTrace();
             return;
         }
+        String sourceCode = null;
+        String lines;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            while((lines = reader.readLine())!=null && !(lines.isEmpty())) {
+               sourceCode += lines;
+                sourceCode+= '\n';
+            }
+        }
 
         //TODO file (source) read form stdin
-        byte[] encoded = Files.readAllBytes(Paths.get("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\minusLang.in"));
-        String sourceCode = new String(encoded, StandardCharsets.UTF_8);
+        //byte[] encoded = Files.readAllBytes(Paths.get("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\simplePpjLang.in"));
+
+        //String sourceCode = new String(encoded, Charset.defaultCharset());
         Lexer lexer = new Lexer(stateStorage, rulesStorage, tokenStorage, regexStorage, sourceCode);
         lexer.lex();
     }

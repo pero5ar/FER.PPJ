@@ -34,7 +34,7 @@ public class Action implements Serializable {
 			int indexOfArgument = line.indexOf(' ');
 			String argument = null;
 			if (indexOfArgument > -1) {
-				argument = line.substring(indexOfArgument);
+				argument = line.substring(indexOfArgument+1);
 			}
 			specialArgument.doAction(lexer, argument);
 		} else {
