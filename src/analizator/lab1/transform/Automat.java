@@ -69,7 +69,7 @@ public class Automat implements Serializable {
             for (int i = 0; i < tempEpsilon.size(); i++) {
 
                 for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
-                    if (prijelaz.pocetnoStanje == tempEpsilon.get(i) && prijelaz.znakPrijelaza == input[j] && !epsilon.contains(mapaPrijelaza.get(prijelaz))) {
+                    if (prijelaz.pocetnoStanje == tempEpsilon.get(i) && prijelaz.znakPrijelaza.equals(Character.toString(input[j])) && !epsilon.contains(mapaPrijelaza.get(prijelaz))) {
                         epsilon.add(mapaPrijelaza.get(prijelaz));
                     }
                 }
@@ -114,7 +114,7 @@ public class Automat implements Serializable {
             for(Integer stanje: list){
 
                 for (Prijelaz prijelaz : mapaPrijelaza.keySet()) {
-                    if (prijelaz.pocetnoStanje == stanje && prijelaz.znakPrijelaza == '$' && !tempList.contains(mapaPrijelaza.get(prijelaz))) {
+                    if (prijelaz.pocetnoStanje == stanje && prijelaz.znakPrijelaza.equals("$$") && !tempList.contains(mapaPrijelaza.get(prijelaz))) {
                         tempList.add(mapaPrijelaza.get(prijelaz));
                         prosiri = true;
                     }

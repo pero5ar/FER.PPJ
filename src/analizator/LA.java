@@ -34,7 +34,7 @@ public class LA {
             e.printStackTrace();
             return;
         }
-        String sourceCode = null;
+        String sourceCode = "";
         String lines;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while((lines = reader.readLine())!=null ) {

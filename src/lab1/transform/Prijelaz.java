@@ -10,9 +10,9 @@ public class Prijelaz implements Serializable{
     private static final long serialVersionUID = 3043420294362912402L;
 
     public int pocetnoStanje;
-    public char znakPrijelaza;
+    public String znakPrijelaza;
 
-    public Prijelaz(int pocetnoStanje, char znakPrijelaza){
+    public Prijelaz(int pocetnoStanje, String znakPrijelaza){
         this.pocetnoStanje = pocetnoStanje;
         this.znakPrijelaza = znakPrijelaza;
     }

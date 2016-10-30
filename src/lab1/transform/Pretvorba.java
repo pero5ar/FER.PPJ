@@ -148,12 +148,12 @@ public class Pretvorba {
     }
 
     private static void DodajEpsilonPrijelaz(Automat automat, int a, int b) {
-        Prijelaz prijelaz = new Prijelaz(a,'$');
+        Prijelaz prijelaz = new Prijelaz(a,"$$");
         automat.DodajPrijelazAutomatu(prijelaz, b);
     }
 
     private static void DodajPrijelaz(Automat automat, int a, int b, Character izraz) {
-        Prijelaz prijelaz = new Prijelaz(a,izraz);
+        Prijelaz prijelaz = new Prijelaz(a,izraz.toString());
         automat.DodajPrijelazAutomatu(prijelaz, b);
     }
 }
