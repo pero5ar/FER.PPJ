@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 public class GLA {
 
-	private static final String OUT_PATH = "lab1.storage.bin";
+	private static final String OUT_PATH = "analizator/storage.bin";
 
 	/**
 	 * Program main entry point.

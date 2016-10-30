@@ -8,7 +8,7 @@ import java.io.*;
 
 public class LA {
 
-    private static final String IN_PATH = "lab1.storage.bin";
+    private static final String IN_PATH = "storage.bin";
 
     /**
      * Program main entry point.
