@@ -45,7 +45,7 @@ public class LA {
         String sourceCode = null;
         String lines;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            while((lines = reader.readLine())!=null && !(lines.isEmpty())) {
+            while((lines = reader.readLine())!=null ) {
                sourceCode += lines;
                 sourceCode+= '\n';
             }
