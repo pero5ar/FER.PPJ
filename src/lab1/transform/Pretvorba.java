@@ -52,7 +52,7 @@ public class Pretvorba {
 
         int lijevoStanje = NovoStanje(automat);
         int desnoStanje = NovoStanje(automat);
-        if (baremJedan) {//ako je pronađen barem jedan operator izbora
+        if (baremJedan) {//ako je pronaden barem jedan operator izbora
             for (int j = 0; j < izbori.size(); j++) {
                 List<Integer> privremeno = Pretvori(izbori.get(j).toCharArray(), automat);
                 DodajEpsilonPrijelaz(automat, lijevoStanje, privremeno.get(0));
@@ -65,7 +65,7 @@ public class Pretvorba {
             for (int k = 0; k < izraz.length; k++) {
                 int a, b;
                 if (prefiksirano) {
-                    // slučaj 1
+                    // slucaj 1
                     prefiksirano = false;
 
                     if (izraz[k] == 't') {
@@ -82,13 +82,13 @@ public class Pretvorba {
                     b = NovoStanje(automat);
                     DodajPrijelaz(automat, a, b, prijelazniZnak);
                 } else {
-                    // slučaj 2
+                    // slucaj 2
                     if (izraz[k] == '\\') {
                         prefiksirano = true;
                         continue; // continue u Cu
                     }
                     if (izraz[k] != '(') {
-                        // slučaj 2a
+                        // slucaj 2a
                         a = NovoStanje(automat);
                         b = NovoStanje(automat);
                         if (izraz[k] == '$') {
@@ -97,9 +97,9 @@ public class Pretvorba {
                             DodajPrijelaz(automat, a, b, izraz[k]);
                         }
                     } else {
-                        // slučaj 2b
+                        // slucaj 2b
 
-                        int g; //= *pronađi odgovarajuću zatvorenu zagradu*
+                        int g; //= *pronadi odgovarajucu zatvorenu zagradu*
                         int brZagradaDva=1;
                         int n;
                         for (n = k+1; n < izraz.length; n++) {
