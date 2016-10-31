@@ -32,3 +32,6 @@
 - Ivan se vratio
 - Nicky i Ivan spavaju na kauču, Pero pokušava neš debugirat (ne ide)
 - Pero odusta od onog što je radio, ide doma, zora je (skoro 7)
+- (...) puno debugiranja kroz zadnjih sedmicu dana (...)
+- napokon gotovo, moramo ić pit za proslavit
+- trebat će ovu stvar dobro refaktorirat ako će ikad ić _public_
