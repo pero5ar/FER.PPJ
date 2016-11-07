@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by pero5ar on 22.10.2016..
+ * TODO: ovo se nalazi u common pod InlineDataStorage
  */
 public abstract class InlineStorage implements Serializable {
 	private static final long serialVersionUID = 6354904397308091181L;

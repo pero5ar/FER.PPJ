@@ -1,3 +1,4 @@
+import common.SerializableHelper;
 import lab1.input.LangRuleReader;
 import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
@@ -26,20 +27,7 @@ public class GLA {
 		LangRuleReader.read(regexStorage, stateStorage, tokenStorage, rulesStorage);
 		//save rules to OUT_PATH
 		//TODO provjeriti u pdf-u gdje spremiti fajl!
-		try {
-			File file = new File(OUT_PATH);
-			file.createNewFile();
-			FileOutputStream fileOut = new FileOutputStream(file);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(rulesStorage);
-			out.writeObject(tokenStorage);
-			out.writeObject(stateStorage);
-			out.writeObject(regexStorage);
-			out.close();
-			fileOut.close();
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		SerializableHelper.createOutput(OUT_PATH, regexStorage, stateStorage, tokenStorage, rulesStorage);
 	}
 
 }

@@ -1,13 +1,12 @@
 package lab1.input;
 
+import common.InlineDataStorage;
 import lab1.storage.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 
 /**
  * Created by pero5ar on 22.10.2016..
@@ -26,8 +25,8 @@ public class LangRuleReader {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 		//try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\CHOPPER\\Desktop\\PPJ\\integration\\simplePpjLang.lan"))) {
 			String stateLine = readRegexRules(reader, regexStorage);
-			readLineElements(stateLine, stateStorage, STATE_LINE_START);
-			readLineElements(reader.readLine(), tokenStorage, TOKEN_LINE_START);
+			InlineDataStorage.readLineToStorage(stateLine, stateStorage, STATE_LINE_START);
+			InlineDataStorage.readLineToStorage(reader.readLine(), tokenStorage, TOKEN_LINE_START);
 			rulesStorage.readRules(reader, regexStorage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,17 +52,4 @@ public class LangRuleReader {
 		return line;
 	}
 
-	/**
-	 * Fills StateStorage or TokenStorage
-	 *
-	 * @param line
-	 * @param storage
-	 * @param toRemove element to remove from line
-	 */
-	private static void readLineElements(String line, InlineStorage storage, String toRemove) {
-		String[] elementsArray = line.split(" ");
-		Collection<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
-		elements.remove(toRemove);
-		storage.add(elements);
-	}
 }
