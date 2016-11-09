@@ -19,7 +19,7 @@
 - pita ženska ko je to iz Rijeke, svi prsti na JJ-a, ona "a joj"
 - JJ i Pero jedini kodiraju, Ivan i Nicky filozofiraju o zadatku i piju
 - ženske pričaju kako su programiranje hijeroglifi, nastala diskusija o PHPu
-- Nicky non stop igra Heartstone
+- Nicky non stop igra Hearthstone
 - nakon 5 sati napokon uspješno čitamo fajl... ne, JJu neš ne radi, Nicky je zaboravio napomenut grupiranje sa zagradama
 - pričamo o tehnologijama, ženske nas gledaju ka da smo teški prosječni ferovci
 - ženske otišle van
@@ -35,3 +35,5 @@
 - (...) puno debugiranja kroz zadnjih sedmicu dana (...)
 - napokon gotovo, moramo ić pit za proslavit
 - trebat će ovu stvar dobro refaktorirat ako će ikad ić _public_
+
+##LAB2
