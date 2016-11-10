@@ -1,11 +1,11 @@
 package lab2.storage;
 
+import lab2.models.Production;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pero5ar on 7.11.2016..
@@ -17,6 +17,7 @@ public class ProductionRulesStorage implements Serializable {
     public static final String EPSILON = "$";
 
     private LinkedHashMap<String, List<String[]>> storage;
+    private List<Production> modeledStorage;
 
     public ProductionRulesStorage() {
         storage = new LinkedHashMap<>();
@@ -42,6 +43,8 @@ public class ProductionRulesStorage implements Serializable {
             }
         }
         addToStorage(currentKey, currentList);
+
+        modeledStorage = createModeledStorage(storage);
     }
 
     private void addToStorage(String key, List<String[]> value) {
@@ -56,4 +59,13 @@ public class ProductionRulesStorage implements Serializable {
         return storage;
     }
 
+    public List<Production> getModeledStorage() {
+        return modeledStorage;
+    }
+
+    public static List<Production> createModeledStorage(Map<String, List<String[]>> storage) {
+        List<Production> modeledStorage = new LinkedList<>();
+        storage.forEach((key, list) -> list.forEach(production -> modeledStorage.add(new Production(key, production))));
+        return modeledStorage;
+    }
 }

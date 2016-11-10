@@ -23,16 +23,18 @@ public class TestInputReader {
 
         try {
             InputReader.read(nonterminalStorage, terminalStorage, synchronizationStorage, productionStorage,
-                            new FileReader("src/lab2/tests/testFile"));
+                    new FileReader("src/lab2/tests/testFile"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         //output
+        /*
         printInlineDataStorage(nonterminalStorage);
         printInlineDataStorage(terminalStorage);
         printInlineDataStorage(synchronizationStorage);
         printProductionRulesStorage(productionStorage);
+        */
     }
 
     private static void printInlineDataStorage(InlineDataStorage storage) {
