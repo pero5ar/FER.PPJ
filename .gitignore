@@ -55,3 +55,6 @@ fabric.properties
 
 # Archives
 *.zip
+
+# Binary outputs
+*.bin
