@@ -1,8 +1,11 @@
 # FER.PPJ
 
-# Log
+## Submission upute:
+- Prije predaje, potrebno je premjestiti LA i SA u `/analizator`
 
-##LAB1
+## Log
+
+### LAB1
 - Nicky je kupio decaf kavu
 - JJ: "KAKO MOŽE REĆ MAIN... aha, static..."
 - JJ: "napisa je hello"
@@ -36,4 +39,4 @@
 - napokon gotovo, moramo ić pit za proslavit
 - trebat će ovu stvar dobro refaktorirat ako će ikad ić _public_
 
-##LAB2
+### LAB2
