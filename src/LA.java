@@ -1,3 +1,5 @@
+// TODO before submission, move to analizator directory
+
 import lab1.lexer.Lexer;
 import lab1.storage.RegexStorage;
 import lab1.storage.RulesStorage;
