@@ -156,5 +156,8 @@ public class ProductionStarts implements Serializable{
         return productionStartSymbols;
     }
 
+    //u+ovdje idu Nickyjeve 2 metode
+
+    //ovdje idu ivanove 3 metode
 
 }
