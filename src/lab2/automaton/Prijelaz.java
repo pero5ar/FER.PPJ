@@ -1,18 +1,15 @@
-package lab2.transform;
-
-import java.util.ArrayList;
+package lab2.automaton;
 
 /**
  * Created by CHOPPER on 11/18/2016.
  */
 public class Prijelaz {
-
     private String trenutnoStanje;
     private String prijelazniZnak;
-    private String  sljedeceStanje;
-
+    private String sljedeceStanje;
 
     public Prijelaz(){}
+
     public Prijelaz(String nezavrsniZnak, String prijelazniZnak, String skupZnakova) {
         this.trenutnoStanje = nezavrsniZnak;
         this.prijelazniZnak = prijelazniZnak;

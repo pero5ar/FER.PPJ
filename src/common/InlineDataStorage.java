@@ -1,5 +1,7 @@
 package common;
 
+import sun.plugin.dom.exception.InvalidStateException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,13 +14,18 @@ import java.util.List;
 public abstract class InlineDataStorage implements Serializable {
     private static final long serialVersionUID = 9055222797327608438L;
 
+    protected String first;
+
     protected Collection<String> storage;
 
     public void add(String element) {
+        if (first == null){
+            first = element;
+        }
         storage.add(element);
     }
 
-    public void addAll(Collection<String> newElements) {
+    private void addAll(Collection<String> newElements) {
         storage.addAll(newElements);
     }
 
@@ -34,11 +41,12 @@ public abstract class InlineDataStorage implements Serializable {
      */
     public void readLine(String line, String ... toRemove) {
         String[] elementsArray = line.split(" ");
-        Collection<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
+        List<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
 
         List<String> toRemoveList = new ArrayList<>(Arrays.asList(toRemove));
         elements.removeAll(toRemoveList);
 
+        first = elements.get(0);
         addAll(elements);
     }
 
@@ -52,5 +60,13 @@ public abstract class InlineDataStorage implements Serializable {
      */
     public static void readLineToStorage(String line, InlineDataStorage storage, String toRemove) {
         storage.readLine(line, toRemove);
+    }
+
+    public String getFirst(){
+        if (first == null){
+            throw new InvalidStateException("No data loaded.");
+        }
+
+        return first;
     }
 }
