@@ -18,6 +18,8 @@ public class DoubleMap<K, L, V>{
 	}
 
 	public DoubleMap(DoubleMap doubleMap){
+		Objects.requireNonNull(doubleMap);
+
 		map = new LinkedHashMap<>(doubleMap.map);
 	}
 
@@ -60,5 +62,21 @@ public class DoubleMap<K, L, V>{
 		});
 
 		return key2Set;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		DoubleMap<?, ?, ?> doubleMap = (DoubleMap<?, ?, ?>) o;
+
+		return map.equals(doubleMap.map);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return map.hashCode();
 	}
 }

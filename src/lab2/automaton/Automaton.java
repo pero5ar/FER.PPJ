@@ -37,4 +37,24 @@ public abstract class Automaton {
 	public DoubleMap<Set<State>, String, Set<State>> getPrijelazi() {
 		return prijelazi;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Automaton automaton = (Automaton) o;
+
+		if (pocetnoStanje != null ? !pocetnoStanje.equals(automaton.pocetnoStanje) : automaton.pocetnoStanje != null)
+			return false;
+		return prijelazi != null ? prijelazi.equals(automaton.prijelazi) : automaton.prijelazi == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = pocetnoStanje != null ? pocetnoStanje.hashCode() : 0;
+		result = 31 * result + (prijelazi != null ? prijelazi.hashCode() : 0);
+		return result;
+	}
 }
