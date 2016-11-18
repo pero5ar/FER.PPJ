@@ -70,7 +70,7 @@ public class Lexer {
         char[] charArr = sourceCode.toCharArray();
 
         currentWord = new StringBuilder();
-        state = states.getStorage().get(0);
+        state = states.getTypedStorage().get(0);
         char[] init = new char[0];
         Automat prviAutomat = new Automat(init);
 

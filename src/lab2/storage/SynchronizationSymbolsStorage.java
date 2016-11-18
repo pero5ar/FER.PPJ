@@ -1,11 +1,11 @@
 package lab2.storage;
 
-import common.InlineDataStorage;
+import common.InlineDataStorageSet;
 
 /**
- * Created by pero5ar on 7.11.2016..
+ * Used for storing synchonization symbols. Each entry will appear only once.
  */
-public class SynchronizationSymbolsStorage extends InlineDataStorage {
+public class SynchronizationSymbolsStorage extends InlineDataStorageSet {
 
     private static final long serialVersionUID = 4743420475511860073L;
 

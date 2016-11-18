@@ -11,16 +11,13 @@ import java.io.Reader;
  * Created by pero5ar on 7.11.2016..
  */
 public class InputReader {
-
-
     public static void read(NonterminalSymbolsStorage nonterminalStorage, TerminalSymbolsStorage terminalStorage,
                             SynchronizationSymbolsStorage synchronizationStorage, ProductionRulesStorage productionStorage,
-                            Reader input)
-    {
+                            Reader input) {
         try(BufferedReader reader = new BufferedReader(input)) {
-            InlineDataStorage.readLineToStorage(reader.readLine(), nonterminalStorage, NonterminalSymbolsStorage.LINE_START);
-            InlineDataStorage.readLineToStorage(reader.readLine(), terminalStorage, TerminalSymbolsStorage.LINE_START);
-            InlineDataStorage.readLineToStorage(reader.readLine(), synchronizationStorage, SynchronizationSymbolsStorage.LINE_START);
+            nonterminalStorage.readLine(reader.readLine(), NonterminalSymbolsStorage.LINE_START);
+            terminalStorage.readLine(reader.readLine(), TerminalSymbolsStorage.LINE_START);
+            synchronizationStorage.readLine(reader.readLine(), SynchronizationSymbolsStorage.LINE_START);
             productionStorage.readToStorage(reader);
         } catch (IOException e) {
             e.printStackTrace();

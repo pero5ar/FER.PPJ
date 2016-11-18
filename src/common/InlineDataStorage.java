@@ -10,37 +10,47 @@ import java.util.List;
  * Created by pero5ar on 7.11.2016..
  */
 public abstract class InlineDataStorage implements Serializable {
-    private static final long serialVersionUID = 6354904397308091181L;
+    private static final long serialVersionUID = 9055222797327608438L;
 
-    private List<String> storage;
-
-    public InlineDataStorage() {
-        storage = new ArrayList<String>();
-    }
+    protected Collection<String> storage;
 
     public void add(String element) {
         storage.add(element);
     }
 
-    public void add(Collection<String> newElements) {
+    public void addAll(Collection<String> newElements) {
         storage.addAll(newElements);
     }
 
-    public List<String> getStorage() {
+    public Collection<String> getStorage() {
         return storage;
     }
 
     /**
+     * Fills this InlineDataStorage with data elements
+     *
+     * @param line      line read from input that contains the data elements
+     * @param toRemove  elements to remove from line
+     */
+    public void readLine(String line, String ... toRemove) {
+        String[] elementsArray = line.split(" ");
+        Collection<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
+
+        List<String> toRemoveList = new ArrayList<>(Arrays.asList(toRemove));
+        elements.removeAll(toRemoveList);
+
+        addAll(elements);
+    }
+
+	/**
      * Fills InlineDataStorage with data elements
      *
-     * @param line      line read form input that contains the data elements
+     * @deprecated Use non-static readLine instead.
+     * @param line      line read from input that contains the data elements
      * @param storage   storage to fill
      * @param toRemove  element to remove from line
      */
     public static void readLineToStorage(String line, InlineDataStorage storage, String toRemove) {
-        String[] elementsArray = line.split(" ");
-        Collection<String> elements = new ArrayList<>(Arrays.asList(elementsArray));
-        elements.remove(toRemove);
-        storage.add(elements);
+        storage.readLine(line, toRemove);
     }
 }

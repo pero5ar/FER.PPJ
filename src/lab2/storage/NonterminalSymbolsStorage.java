@@ -1,11 +1,11 @@
 package lab2.storage;
 
-import common.InlineDataStorage;
+import common.InlineDataStorageSet;
 
 /**
- * Created by pero5ar on 7.11.2016..
+ * Used for storing non-terminal symbols. Each entry will appear only once.
  */
-public class NonterminalSymbolsStorage extends InlineDataStorage {
+public class NonterminalSymbolsStorage extends InlineDataStorageSet {
 
     private static final long serialVersionUID = 7976121188984433179L;
 

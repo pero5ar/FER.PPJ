@@ -1,11 +1,11 @@
 package lab2.storage;
 
-import common.InlineDataStorage;
+import common.InlineDataStorageSet;
 
 /**
- * Created by pero5ar on 7.11.2016..
+ * Used for storing terminal symbols. Each entry will appear only once.
  */
-public class TerminalSymbolsStorage extends InlineDataStorage {
+public class TerminalSymbolsStorage extends InlineDataStorageSet {
 
     private static final long serialVersionUID = -7347607160057867718L;
 
