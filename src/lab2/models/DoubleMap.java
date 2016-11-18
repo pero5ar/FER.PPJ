@@ -2,9 +2,7 @@ package lab2.models;
 
 import com.sun.istack.internal.NotNull;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Uses {@link LinkedHashMap}.
@@ -17,6 +15,10 @@ public class DoubleMap<K, L, V>{
 
 	public DoubleMap(){
 		map = new LinkedHashMap<>();
+	}
+
+	public DoubleMap(DoubleMap doubleMap){
+		map = new LinkedHashMap<>(doubleMap.map);
 	}
 
 	public Map<L, V> get(K key1){
@@ -44,5 +46,19 @@ public class DoubleMap<K, L, V>{
 
 	public Map<K, Map<L, V>> getMap(){
 		return map;
+	}
+
+	/**
+	 * A copy (not a view).
+	 * @return
+	 */
+	public Set<L> getKey2Set(){
+		Set<L> key2Set = new LinkedHashSet<L>();
+
+		map.forEach((key1, entry) -> {
+			entry.forEach((key2, value) -> key2Set.add(key2));
+		});
+
+		return key2Set;
 	}
 }

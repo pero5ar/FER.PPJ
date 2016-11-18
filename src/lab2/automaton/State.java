@@ -99,4 +99,11 @@ public class State {
 		set.add(this);
 		return set;
 	}
+
+	public static String setToString(Set<State> set){
+		Set<String> stringSet = new HashSet<>();
+		set.forEach(s -> stringSet.add(s.toString()));
+
+		return '{' + String.join(",", stringSet) + '}';
+	}
 }
