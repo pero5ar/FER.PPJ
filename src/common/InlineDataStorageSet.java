@@ -10,4 +10,8 @@ public abstract class InlineDataStorageSet extends InlineDataStorage {
 	public InlineDataStorageSet(){
 		storage = new HashSet<>();
 	}
+
+	public HashSet<String> getTypedStorage(){
+		return (HashSet<String>) storage;
+	}
 }
