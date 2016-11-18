@@ -28,10 +28,12 @@ public class ProductionStarts implements Serializable{
 
     private Map<Production, Set<String>> productionStartSymbols;
 
+    private static EpsilonNKA enka = new EpsilonNKA();
+
     public ProductionStarts(ProductionRulesStorage productionRulesStorage, TerminalSymbolsStorage terminalSymbolsStorage) {
         productionRules = productionRulesStorage.getStorage();
         modeledProductions = productionRulesStorage.getModeledStorage();
-        terminalSymbols = new HashSet<>(terminalSymbolsStorage.getStorage());
+        terminalSymbols = terminalSymbolsStorage.getTypedStorage();
 
         emptyNonterminalSymbols = generateEmptyNonterminalSymbolsSet(productionRules);
         startsDirectlyWithSymbols = generateStartsDirectlyWithSymbolsMap(productionRules, emptyNonterminalSymbols);
@@ -159,5 +161,67 @@ public class ProductionStarts implements Serializable{
     //u+ovdje idu Nickyjeve 2 metode
 
     //ovdje idu ivanove 3 metode
+    private static ArrayList<Prijelaz> epsilonToNka(){
+        ArrayList<String> skupStanja = enka.getSkupStanja();
+        LinkedHashMap<String, ArrayList<String>> epsilonOkruzenja = new LinkedHashMap<>();
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<Prijelaz> enkaPrijelazi = new ArrayList<Prijelaz>();
+        boolean zavrseno = false;
+        for(String stanje: skupStanja){
+            while(!zavrseno) {
+                zavrseno=true;
+                for (Prijelaz prijelaz : enka.getPrijelazi()) {
+                    if (prijelaz.getTrenutnoStanje().equals(stanje) && prijelaz.getPrijelazniZnak().equals('$') && !temp.contains(prijelaz.getSljedeceStanje())) {
+                        temp.add(prijelaz.getSljedeceStanje());
+                        zavrseno = false;
+                    }
+                }
+            }
+            epsilonOkruzenja.put(stanje, temp);
+            temp.clear();
+        }
+        zavrseno=false;
+        for(Prijelaz prijelaz: enka.getPrijelazi()){
+            if(prijelaz.getPrijelazniZnak().equals('$')) {
+                ArrayList<String> epsilonOkruzenje = epsilonOkruzenja.get(prijelaz.getTrenutnoStanje());
+                while (!zavrseno) {
+                    zavrseno = true;
+                    for (String trenutno : epsilonOkruzenje) {
+
+                        for (Prijelaz prijelaz2 : enka.getPrijelazi()) {
+                            if (trenutno.equals(prijelaz2) && prijelaz.getPrijelazniZnak().equals(prijelaz2.getPrijelazniZnak())) {
+                                enkaPrijelazi.add(new Prijelaz(trenutno, prijelaz.getPrijelazniZnak(), prijelaz2.getSljedeceStanje()));
+                                zavrseno = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return enkaPrijelazi;
+    }
+
+    private static ArrayList<Prijelaz> nkaToDka(ArrayList<Prijelaz> nkaPrijelazi){
+        LinkedHashMap<String, ArrayList<String>> znakStanje = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, String>> prijelazi = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, String>> dka = new LinkedHashMap<>();
+        String trenutniZnak;
+        boolean promijeniZnak;
+        for(String stanje: enka.getSkupStanja()){
+            promijeniZnak=true;
+            while(promijeniZnak) {
+                promijeniZnak=false;
+                for (Prijelaz prijelaz : nkaPrijelazi) {
+                    if (prijelaz.getTrenutnoStanje().equals(stanje)) {
+                        znakStanje.put(prijelaz.getPrijelazniZnak(), prijelaz.getSljedeceStanje());
+                    }
+                }
+            }
+            prijelazi.put(stanje, znakStanje);
+            znakStanje.clear();
+        }
+
+
+    }
 
 }

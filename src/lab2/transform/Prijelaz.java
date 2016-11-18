@@ -7,24 +7,24 @@ import java.util.ArrayList;
  */
 public class Prijelaz {
 
-    private String nezavrsniZnak;
+    private String trenutnoStanje;
     private String prijelazniZnak;
-    private ArrayList<String>  skupZnakova;
+    private String  sljedeceStanje;
 
 
     public Prijelaz(){}
-    public Prijelaz(String nezavrsniZnak, String prijelazniZnak, ArrayList<String> skupZnakova) {
-        this.nezavrsniZnak = nezavrsniZnak;
+    public Prijelaz(String nezavrsniZnak, String prijelazniZnak, String skupZnakova) {
+        this.trenutnoStanje = nezavrsniZnak;
         this.prijelazniZnak = prijelazniZnak;
-        this.skupZnakova = skupZnakova;
+        this.sljedeceStanje = skupZnakova;
     }
 
-    public String getNezavrsniZnak() {
-        return nezavrsniZnak;
+    public String getTrenutnoStanje() {
+        return trenutnoStanje;
     }
 
-    public void setNezavrsniZnak(String nezavrsniZnak) {
-        this.nezavrsniZnak = nezavrsniZnak;
+    public void setTrenutnoStanje(String nezavrsniZnak) {
+        this.trenutnoStanje = nezavrsniZnak;
     }
 
     public String getPrijelazniZnak() {
@@ -35,11 +35,11 @@ public class Prijelaz {
         this.prijelazniZnak = prijelazniZnak;
     }
 
-    public ArrayList<String> getSkupZnakova() {
-        return skupZnakova;
+    public String getSljedeceStanje() {
+        return sljedeceStanje;
     }
 
-    public void setSkupZnakova(ArrayList<String> skupZnakova) {
-        this.skupZnakova = skupZnakova;
+    public void setSljedeceStanje(String skupZnakova) {
+        this.sljedeceStanje = skupZnakova;
     }
 }
