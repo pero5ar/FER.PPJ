@@ -29,7 +29,7 @@ public class ProductionStarts implements Serializable{
 
     private Map<Production, Set<String>> productionStartSymbols;
 
-    private static EpsilonNKA enka = new EpsilonNKA();
+//    private static EpsilonNKA enka = new EpsilonNKA();
 
     public ProductionStarts(ProductionRulesStorage productionRulesStorage, TerminalSymbolsStorage terminalSymbolsStorage) {
         productionRules = productionRulesStorage.getStorage();
