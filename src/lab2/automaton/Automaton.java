@@ -1,28 +1,27 @@
 package lab2.automaton;
 
 import lab2.models.DoubleMap;
+import lab2.models.StateSet;
 
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public abstract class Automaton {
-	protected Set<State> pocetnoStanje;
-	protected Set<State> skupStanja;
+	protected StateSet pocetnoStanje;
+	protected StateSet skupStanja;
 	protected Set<String> skupSimbola;
-	protected DoubleMap<Set<State>, String, Set<State>> prijelazi;
+	protected DoubleMap<StateSet, String, StateSet> prijelazi;
 
-	public Automaton(Set<State> pocetnoStanje, Set<State> skupStanja, DoubleMap<Set<State>, String, Set<State>> prijelazi) {
+	public Automaton(StateSet pocetnoStanje, StateSet skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
 		this.pocetnoStanje = pocetnoStanje;
 		this.skupStanja = skupStanja;
 		this.prijelazi = prijelazi;
 	}
 
-	public Set<State> getPocetnoStanje() {
+	public StateSet getPocetnoStanje() {
 		return pocetnoStanje;
 	}
 
-	public Set<State> getSkupStanja() {
+	public StateSet getSkupStanja() {
 		return skupStanja;
 	}
 
@@ -34,7 +33,7 @@ public abstract class Automaton {
 		return skupSimbola;
 	}
 
-	public DoubleMap<Set<State>, String, Set<State>> getPrijelazi() {
+	public DoubleMap<StateSet, String, StateSet> getPrijelazi() {
 		return prijelazi;
 	}
 

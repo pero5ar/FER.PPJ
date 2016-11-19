@@ -6,6 +6,7 @@ import lab2.automaton.Prijelaz;
 import lab2.automaton.State;
 import lab2.models.DoubleMap;
 import lab2.models.Production;
+import lab2.models.StateSet;
 import lab2.storage.NonterminalSymbolsStorage;
 import lab2.storage.ProductionRulesStorage;
 import lab2.storage.TerminalSymbolsStorage;
@@ -192,9 +193,9 @@ public class ProductionStarts implements Serializable{
     }
     private static EpsilonNKA generirajENKA (ArrayList<Production> stavke, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols, String m_pocetnoStanje){
         //enka
-        Set<State> enkaPocetnoStanje = null;
-        Set<State> enkaSkupStanja = null;
-        DoubleMap<Set<State>, String, Set<State>> enkaPrijelazi = new DoubleMap<>();
+        StateSet enkaPocetnoStanje = null;
+        StateSet enkaSkupStanja = null;
+        DoubleMap<StateSet, String, StateSet> enkaPrijelazi = new DoubleMap<>();
 
         String novoPocetnoStanje = "<NovoPocetnoStanje>";
         String pocetnoStanje=m_pocetnoStanje;
@@ -214,7 +215,7 @@ public class ProductionStarts implements Serializable{
         Set<Production> noveProdukcije = null;
         Set<Production> dodaneProdukcije=null;
         List<Production> tempProdukcije = new ArrayList<>();
-        DoubleMap<Set<State>, String, Set<State>> prijelazi;
+        DoubleMap<StateSet, String, StateSet> prijelazi;
         stavke.add(pocetnaProdukcija);
         //dodja poc produkciju kao pco stanje enka;
         enkaPocetnoStanje.add(new State(pocetnaProdukcija.transformToString()));
@@ -238,8 +239,8 @@ public class ProductionStarts implements Serializable{
                     String prijazniZnak = Production.getPrijlazniZnak(produkcija);
                     // dodaj obicni prijelaz
                     //dodajprijelaz(prod, prijazni, tempProdukcija);
-                    Set<State> key1 = null;
-                    Set<State> value = null;
+                    StateSet key1 = null;
+                    StateSet value = null;
                     key1.add(new State(produkcija.transformToString()));
                     value.add(new State(tempProdukcija.transformToString()));
                     enkaPrijelazi.put(key1,prijazniZnak,value);

@@ -1,6 +1,7 @@
 package lab2.automaton;
 
 import lab2.models.DoubleMap;
+import lab2.models.StateSet;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -25,22 +26,22 @@ public class  DKA extends Automaton {
 	 * @param skupStanja
 	 * @param prijelazi State sets must have only one element!
 	 */
-	public DKA(Set<State> pocetnoStanje, Set<State> skupStanja, DoubleMap<Set<State>, String, Set<State>> prijelazi) {
+	public DKA(StateSet pocetnoStanje, StateSet skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
 		super(pocetnoStanje, skupStanja, prijelazi);
 	}
 
 	public static DKA fromNKA(NKA nka){
-		DoubleMap<Set<State>, String, Set<State>> prijelazi = new DoubleMap<>(nka.prijelazi);
+		DoubleMap<StateSet, String, StateSet> prijelazi = new DoubleMap<>(nka.prijelazi);
 
-		DoubleMap<Set<State>, String, Set<State>> prijelazi_copy = new DoubleMap<>(prijelazi);
+		DoubleMap<StateSet, String, StateSet> prijelazi_copy = new DoubleMap<>(prijelazi);
 
 
 		Set<String> skupSimbola = nka.getSkupSimbola();
-		for (Map.Entry<Set<State>, Map<String, Set<State>>> entry : prijelazi_copy.getMap().entrySet()) {
-			Set<State> stanje = entry.getKey();
-			for (Map.Entry<String, Set<State>> statePrijelaz : entry.getValue().entrySet()) {
+		for (Map.Entry<StateSet, Map<String, StateSet>> entry : prijelazi_copy.getMap().entrySet()) {
+			StateSet stanje = entry.getKey();
+			for (Map.Entry<String, StateSet> statePrijelaz : entry.getValue().entrySet()) {
 				String simbol = statePrijelaz.getKey();
-				Set<State> novoStanje = statePrijelaz.getValue();
+				StateSet novoStanje = statePrijelaz.getValue();
 
 				putStatesTargets(prijelazi, novoStanje, skupSimbola);
 			}
@@ -49,7 +50,7 @@ public class  DKA extends Automaton {
 		return new DKA(nka.pocetnoStanje, nka.skupStanja, prijelazi);
 	}
 
-	private static void putStatesTargets(DoubleMap<Set<State>, String, Set<State>> prijelazi, Set<State> novoStanje, Set<String> skupSimbola){
+	private static void putStatesTargets(DoubleMap<StateSet, String, StateSet> prijelazi, StateSet novoStanje, Set<String> skupSimbola){
 		if (novoStanje.isEmpty()){
 			return;
 		}
@@ -58,7 +59,7 @@ public class  DKA extends Automaton {
 			if (prijelazi.get(novoStanje, simbol) != null){
 				return;
 			}
-			Set<State> targets = new HashSet<>();
+			StateSet targets = new StateSet();
 			novoStanje.forEach(state -> {
 				targets.addAll(prijelazi.get(state.getSet(), simbol));
 			});
@@ -76,6 +77,10 @@ public class  DKA extends Automaton {
 
 	public boolean equals(Object other){
 		return super.equals(other);
+	}
+
+	public Set<StateSet> getSetStateSet(){
+		return prijelazi.getMap().keySet();
 	}
 
 }

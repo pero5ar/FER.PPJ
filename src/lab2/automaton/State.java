@@ -1,5 +1,7 @@
 package lab2.automaton;
 
+import lab2.models.StateSet;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -94,13 +96,13 @@ public class State {
 //		return result;
 //	}
 
-	public Set<State> getSet(){
-		Set<State> set = new HashSet<>();
+	public StateSet getSet(){
+		StateSet set = new StateSet();
 		set.add(this);
 		return set;
 	}
 
-	public static String setToString(Set<State> set){
+	public static String setToString(StateSet set){
 		Set<String> stringSet = new HashSet<>();
 		set.forEach(s -> stringSet.add(s.toString()));
 
