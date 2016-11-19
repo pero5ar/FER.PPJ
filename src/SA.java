@@ -62,6 +62,8 @@ public class SA {
 
 	private static ArrayList<String> Reduciraj(ArrayList<String> stog, String redukcija){
 		String stogString = "";
+		String lijeva = "";
+		String desna = "";
 		boolean pronaden;
 		int duljinaRedukcije = redukcija.length();
 		int polozaj = 0;
@@ -69,8 +71,8 @@ public class SA {
 			if(i%2==0){
 				if(stog.get(i).equals(redukcija.substring(polozaj, polozaj +1))){
 					if(polozaj==duljinaRedukcije){
-						for(int k=i; k<duljinaRedukcije*2; k++){
-							stog.remove(i);
+						for(int k=0; k<duljinaRedukcije*2; k++){
+							stog.remove(k+i);
 						}
 					}
 				} else {
