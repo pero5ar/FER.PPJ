@@ -18,6 +18,25 @@ public class Production implements Serializable {
     private List<String> codomainAsList;
     private Set<String> skupZavrsnih;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Production that = (Production) o;
+
+        if (!getDomain().equals(that.getDomain())) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(getCodomain(), that.getCodomain());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDomain().hashCode();
+        result = 31 * result + Arrays.hashCode(getCodomain());
+        return result;
+    }
 
     public Production(String domain, String[] codomain) {
         this.domain = domain;
@@ -118,7 +137,9 @@ public class Production implements Serializable {
         for(String cod: codomainAsList){
             codomainString = codomainString + cod + " ";
         }
-        codomainString += skupZavrsnih;
+        codomainString += "{";
+        codomainString += skupZavrsnih.toString();
+        codomainString += "}";
         return this.domain + "->" +codomainString;
 
     }

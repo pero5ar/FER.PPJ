@@ -1,8 +1,12 @@
 package lab2.transform;
 
+import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
 import lab2.automaton.Prijelaz;
+import lab2.automaton.State;
+import lab2.models.DoubleMap;
 import lab2.models.Production;
+import lab2.storage.NonterminalSymbolsStorage;
 import lab2.storage.ProductionRulesStorage;
 import lab2.storage.TerminalSymbolsStorage;
 
@@ -28,10 +32,11 @@ public class ProductionStarts implements Serializable{
     private Map<String, Set<String>> startsWithTerminalSymbols;
 
     private Map<Production, Set<String>> productionStartSymbols;
+    private String pocetnoStanje;
 
 //    private static EpsilonNKA enka = new EpsilonNKA();
 
-    public ProductionStarts(ProductionRulesStorage productionRulesStorage, TerminalSymbolsStorage terminalSymbolsStorage) {
+    public ProductionStarts(ProductionRulesStorage productionRulesStorage, TerminalSymbolsStorage terminalSymbolsStorage, NonterminalSymbolsStorage nonterminalSymbolsStorage) {
         productionRules = productionRulesStorage.getStorage();
         modeledProductions = productionRulesStorage.getModeledStorage();
         terminalSymbols = terminalSymbolsStorage.getTypedStorage();
@@ -40,8 +45,8 @@ public class ProductionStarts implements Serializable{
         startsDirectlyWithSymbols = generateStartsDirectlyWithSymbolsMap(productionRules, emptyNonterminalSymbols);
         startsWithSymbols = generateStartsWithSymbolsMap(startsDirectlyWithSymbols);
         startsWithTerminalSymbols = generateStartsWithTerminalSymbolsMap(terminalSymbols, startsWithSymbols);
-
-        productionStartSymbols = generateProductionStartSymbolsMap(modeledProductions, terminalSymbols, emptyNonterminalSymbols, startsWithTerminalSymbols);
+        //productionStartSymbols = generateProductionStartSymbolsMap(modeledProductions, terminalSymbols, emptyNonterminalSymbols, startsWithTerminalSymbols);
+        this.pocetnoStanje=nonterminalSymbolsStorage.getFirst();
     }
 
     private static Set<String> generateEmptyNonterminalSymbolsSet(Map<String, List<String[]>> productionRules) {
@@ -140,9 +145,8 @@ public class ProductionStarts implements Serializable{
         return startsWithTerminalSymbols;
     }
 
-    private static Map<Production, Set<String>> generateProductionStartSymbolsMap(List<Production> productions, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols) {
-        Map<Production, Set<String>> productionStartSymbols = new HashMap<>();
-        for (Production production : productions) {
+    private static Set<String> generateProductionStartSymbolsMap(Production production, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols) {
+
             Set<String> startSymbols = new HashSet<>();
             for (String symbol : production.getCodomainAsList()) {
                 if (terminalSymbols.contains(symbol)) {
@@ -154,11 +158,8 @@ public class ProductionStarts implements Serializable{
                     break;
                 }
             }
-            productionStartSymbols.put(production, startSymbols);
-        }
-        return productionStartSymbols;
-    }
-
+            return startSymbols;
+     }
 
     private static ArrayList<Production>generirajStavke (ArrayList<Production> productions){
 
@@ -189,11 +190,15 @@ public class ProductionStarts implements Serializable{
         }
         return list;
     }
-    private static EpsilonNKA generirajENKA (ArrayList<Production> stavke, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols){
-        Set<Prijelaz> prijelazi;
+    private static EpsilonNKA generirajENKA (ArrayList<Production> stavke, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols, String m_pocetnoStanje){
+        //enka
+        Set<State> enkaPocetnoStanje = null;
+        Set<State> enkaSkupStanja = null;
+        DoubleMap<Set<State>, String, Set<State>> enkaPrijelazi = new DoubleMap<>();
+
         String novoPocetnoStanje = "<NovoPocetnoStanje>";
-        String pocetnoStanje=null;
-        //String pocetnoStanje=  nonterminal.getFirst() //kad jure napravi ubaciti pravilan poziv za ovo;
+        String pocetnoStanje=m_pocetnoStanje;
+        boolean imaJos = true;
 
         String[] stavka1 = new String[2];
         String[] stavka2 = new String[2];
@@ -204,67 +209,96 @@ public class ProductionStarts implements Serializable{
         stavka2[0]=pocetnoStanje;
 
         Production pocetnaProdukcija =new Production(novoPocetnoStanje, stavka1);
-
+        Production tempProdukcija = null;
+        Set<Production> stareProdukcije = null ;
+        Set<Production> noveProdukcije = null;
+        Set<Production> dodaneProdukcije=null;
+        List<Production> tempProdukcije = new ArrayList<>();
+        DoubleMap<Set<State>, String, Set<State>> prijelazi;
         stavke.add(pocetnaProdukcija);
+        //dodja poc produkciju kao pco stanje enka;
+        enkaPocetnoStanje.add(new State(pocetnaProdukcija.transformToString()));
         stavke.add(new Production(novoPocetnoStanje, stavka2));
+        Set<String> skupZavrsnih =null;
+        skupZavrsnih.add("<OznakaKrajaNiza>");
+        pocetnaProdukcija.setSkupZavrsnih(skupZavrsnih);
+        skupZavrsnih.clear();
+        stareProdukcije.add(pocetnaProdukcija);
+        dodaneProdukcije.add(pocetnaProdukcija);
 
-        //Set<Production> trenutni = null;
-        LinkedHashMap<Production, ArrayList<String>> trenutni = new LinkedHashMap<>();
-        ArrayList<String> zagrade = new ArrayList<>();
-        zagrade.add("<prazno>");
-        trenutni.put(pocetnaProdukcija, zagrade);
-        boolean gotov= false;
-        while(!gotov) {
-            for(Production prod2: trenutni.keySet()) {
-                for (Production prod : stavke) {
-                    List<String> desnaStrana = pocetnaProdukcija.getCodomainAsList();
-                    String znakPoslijeTocke = null;
-                    for (String temp : desnaStrana) {
-                        if (temp.equals("<OznakaTocke>")) {
-                            znakPoslijeTocke = desnaStrana.get(desnaStrana.indexOf(temp));
+        while(imaJos){
+            imaJos=false;
+            for(Production produkcija : stareProdukcije){
+                //  dodaj produkciju u skup stanja enka
+                enkaSkupStanja.add(new State(produkcija.transformToString()));
+                if(!produkcija.getCodomainAsList().get(produkcija.getCodomainAsList().size()-1).equals("<OznakaTocke>")){ //tocka nije na kraju
+                    tempProdukcija= Production.nadjiSljedecu(produkcija);
+                    // set skupzavrnsih nove pr na skupZavrsnih stare pr
+                    tempProdukcija.setSkupZavrsnih(produkcija.getSkupZavrsnih());
+                    String prijazniZnak = Production.getPrijlazniZnak(produkcija);
+                    // dodaj obicni prijelaz
+                    //dodajprijelaz(prod, prijazni, tempProdukcija);
+                    Set<State> key1 = null;
+                    Set<State> value = null;
+                    key1.add(new State(produkcija.transformToString()));
+                    value.add(new State(tempProdukcija.transformToString()));
+                    enkaPrijelazi.put(key1,prijazniZnak,value);
+                    key1.clear();
+                    value.clear();
+                    //dodaj novu produkciju u set;
+                    noveProdukcije.add(tempProdukcija);
+                    prijazniZnak=null;
+                    imaJos=true;
+                    //epislon prijelaz {}
+                    tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
+                    Set<String> noviSkup = ProductionStarts.generateProductionStartSymbolsMap(tempProdukcija,terminalSymbols,emptyNonterminalSymbols, startsWithTerminalSymbols );
+                    boolean jeliProdukcijaPrazna=true;
+                    for(String s : tempProdukcija.getCodomainAsList()){
+                        if(!emptyNonterminalSymbols.contains(s)){
+                            jeliProdukcijaPrazna=false;
+                            break;
                         }
                     }
-                    if (prod.getDomain().equals(znakPoslijeTocke)) {
-                        if(trenutni.get(prod2).get(0).equals("<OznakaTocke>"))
-                            trenutni.put(prod,zagrade);
+                    if(jeliProdukcijaPrazna){
+                        noviSkup.addAll(produkcija.getSkupZavrsnih());
+                    }
+                    tempProdukcije=Production.getNoveProdukcije(stavke, produkcija);
+                    for(Production pro : tempProdukcije){
+                        boolean jelVecPostoji=false;
+                        for(Production pro2 : dodaneProdukcije){
+                            if(pro.equals(pro2)){
+                                jelVecPostoji=true;
+                                tempProdukcija=new Production(pro2);
+                                break;
+                            }
+                        }
+                        if(!jelVecPostoji){
+                            tempProdukcija=new Production(pro);
+                            tempProdukcija.setSkupZavrsnih(noviSkup);
+                            noveProdukcije.add(tempProdukcija);
+                        }
+                        //dodaj eps prijelaz
+                        key1.add(new State(produkcija.transformToString()));
+                        value.add(new State(tempProdukcija.transformToString()));
+                        enkaPrijelazi.put(key1,"&",value);
+                        key1.clear();
+                        value.clear();
                     }
                 }
             }
+            stareProdukcije.clear();
+            stareProdukcije.addAll(noveProdukcije);
+            dodaneProdukcije.addAll(noveProdukcije);
+            noveProdukcije.clear();
+        }
+        return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanja,enkaPrijelazi);
+    }
+
+    /*private static DKA generirajBrojeve (DKA dka){
+        for(State s : dka.getSkupStanja()){
+
         }
 
 
-
-
-
-
-
-
-    }
-
-    //ovdje idu Nickyjeve 2 metode
-
-
-//    private static ArrayList<Prijelaz> nkaToDka(ArrayList<Prijelaz> nkaPrijelazi){
-//        LinkedHashMap<String, ArrayList<String>> znakStanje = new LinkedHashMap<>();
-//        LinkedHashMap<String, LinkedHashMap<String, String>> prijelazi = new LinkedHashMap<>();
-//        LinkedHashMap<String, LinkedHashMap<String, String>> dka = new LinkedHashMap<>();
-//        String trenutniZnak;
-//        boolean promijeniZnak;
-//        for(String stanje: enka.getSkupStanja()){
-//            promijeniZnak=true;
-//            while(promijeniZnak) {
-//                promijeniZnak=false;
-//                for (Prijelaz prijelaz : nkaPrijelazi) {
-//                    if (prijelaz.getTrenutnoStanje().equals(stanje)) {
-//                        znakStanje.put(prijelaz.getPrijelazniZnak(), prijelaz.getSljedeceStanje());
-//                    }
-//                }
-//            }
-//            prijelazi.put(stanje, znakStanje);
-//            znakStanje.clear();
-//        }
-//
-//
-//    }
-
+    }*/
 }

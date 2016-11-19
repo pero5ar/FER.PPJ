@@ -6,7 +6,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DKA extends Automaton {
+public class  DKA extends Automaton {
+
+
+	private String broj;
+
+	public String getBroj() {
+		return broj;
+	}
+
+	public void setBroj(String broj) {
+		this.broj = broj;
+	}
 
 	/**
 	 * From ε-NKA arguments
