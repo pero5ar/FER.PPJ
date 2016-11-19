@@ -159,6 +159,88 @@ public class ProductionStarts implements Serializable{
         return productionStartSymbols;
     }
 
+
+    private static ArrayList<Production>generirajStavke (ArrayList<Production> productions){
+
+        ArrayList<Production> list = new ArrayList<>();
+        ArrayList<String> codomain = new ArrayList<>();
+        ArrayList<String> newCodomain = new ArrayList<>();
+        String domain = null;
+        int i;
+        for(Production production: productions){
+            domain=production.getDomain();
+            //ako je epsilon produkcija
+            if(production.getCodomainAsList().size()==1 &&production.getCodomainAsList().get(0).equals("&")){
+                newCodomain.clear();
+                newCodomain.add("<OznakaTocke>");
+                list.add(new Production(domain, newCodomain.toArray(new String[0])));
+            }
+            //ako nije epsilon produkcija
+            else{
+                codomain.addAll(production.getCodomainAsList());
+                //dodaj tocku na svako moguce mjesto
+                for(i=0;i<=codomain.size();i++){
+                    newCodomain.clear();
+                    newCodomain.addAll(codomain);
+                    newCodomain.add(i, "<OznakaTocke>");
+                    list.add(new Production(domain, newCodomain.toArray(new String[0])));
+                }
+            }
+        }
+        return list;
+    }
+    private static EpsilonNKA generirajENKA (ArrayList<Production> stavke, Set<String> terminalSymbols,Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols){
+        Set<Prijelaz> prijelazi;
+        String novoPocetnoStanje = "<NovoPocetnoStanje>";
+        String pocetnoStanje=null;
+        //String pocetnoStanje=  nonterminal.getFirst() //kad jure napravi ubaciti pravilan poziv za ovo;
+
+        String[] stavka1 = new String[2];
+        String[] stavka2 = new String[2];
+
+        stavka1[0]="<OznakaTocke>";
+        stavka1[1]=pocetnoStanje;
+        stavka2[1]="<OznakaTocke>";
+        stavka2[0]=pocetnoStanje;
+
+        Production pocetnaProdukcija =new Production(novoPocetnoStanje, stavka1);
+
+        stavke.add(pocetnaProdukcija);
+        stavke.add(new Production(novoPocetnoStanje, stavka2));
+
+        //Set<Production> trenutni = null;
+        LinkedHashMap<Production, ArrayList<String>> trenutni = new LinkedHashMap<>();
+        ArrayList<String> zagrade = new ArrayList<>();
+        zagrade.add("<prazno>");
+        trenutni.put(pocetnaProdukcija, zagrade);
+        boolean gotov= false;
+        while(!gotov) {
+            for(Production prod2: trenutni.keySet()) {
+                for (Production prod : stavke) {
+                    List<String> desnaStrana = pocetnaProdukcija.getCodomainAsList();
+                    String znakPoslijeTocke = null;
+                    for (String temp : desnaStrana) {
+                        if (temp.equals("<OznakaTocke>")) {
+                            znakPoslijeTocke = desnaStrana.get(desnaStrana.indexOf(temp));
+                        }
+                    }
+                    if (prod.getDomain().equals(znakPoslijeTocke)) {
+                        if(trenutni.get(prod2).get(0).equals("<OznakaTocke>"))
+                            trenutni.put(prod,zagrade);
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+    }
+
     //ovdje idu Nickyjeve 2 metode
 
 
