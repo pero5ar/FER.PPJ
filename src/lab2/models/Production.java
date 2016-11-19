@@ -36,4 +36,19 @@ public class Production implements Serializable {
     public boolean inCodomain(String symobol) {
         return codomainAsList.contains(symobol);
     }
+
+    public  String transformToString(){
+        return this.domain + "->" +codomain;
+
+    }
+
+    public Production transformFromString(String prod){
+        String temp = prod.split("->")[1];
+        String[] codomainArray = new String[]{};
+        for(int i=0;i<temp.length();i++){
+            codomainArray[i]= String.valueOf(temp.charAt(i));
+        }
+        return new Production(prod.split("->")[0], codomainArray);
+
+    }
 }
