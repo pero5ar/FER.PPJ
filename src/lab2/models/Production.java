@@ -13,6 +13,8 @@ public class Production implements Serializable {
 
     private static final long serialVersionUID = -7753802406325313450L;
 
+    public static final String OZNAKA_TOCKE = "<OznakaTocke>";
+
     private String domain;
     private String[] codomain;
     private List<String> codomainAsList;
@@ -79,19 +81,19 @@ public class Production implements Serializable {
         List<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
-            if(s.equals("<OznakaTocke>")){
+            if(s.equals(OZNAKA_TOCKE)){
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
         tempList.remove(n);
-        tempList.add(n+1, "<OznakaTocke>");
+        tempList.add(n+1, OZNAKA_TOCKE);
         return new Production(produkcija.domain, tempList.toArray(new String[0]));
     }
     public static String getPrijlazniZnak (Production produkcija){
         List<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
-            if(s.equals("<OznakaTocke>")){
+            if(s.equals(OZNAKA_TOCKE)){
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
@@ -101,7 +103,7 @@ public class Production implements Serializable {
         List<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
-            if(s.equals("<OznakaTocke>")){
+            if(s.equals(OZNAKA_TOCKE)){
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
@@ -113,7 +115,7 @@ public class Production implements Serializable {
         List<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
-            if(s.equals("<OznakaTocke>")){
+            if(s.equals(OZNAKA_TOCKE)){
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }

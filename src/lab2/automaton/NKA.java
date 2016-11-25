@@ -12,6 +12,7 @@ public class NKA extends Automaton {
         super(pocetnoStanje, skupStanja, prijelazi);
     }
 
+    /*
     public static NKA fromEpsilonNKA(EpsilonNKA enka){
         StateSet skupStanja = enka.getSkupStanja();
         DoubleMap<StateSet, String, StateSet> nkaPrijelazi = new DoubleMap<>();
@@ -33,4 +34,5 @@ public class NKA extends Automaton {
 
         return new NKA(enka.pocetnoStanje, skupStanja, nkaPrijelazi);
     }
+    */
 }

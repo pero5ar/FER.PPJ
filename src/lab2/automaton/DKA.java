@@ -30,6 +30,7 @@ public class  DKA extends Automaton {
 		super(pocetnoStanje, skupStanja, prijelazi);
 	}
 
+    /*
 	public static DKA fromNKA(NKA nka){
 		DoubleMap<StateSet, String, StateSet> prijelazi = new DoubleMap<>(nka.prijelazi);
 
@@ -49,7 +50,9 @@ public class  DKA extends Automaton {
 
 		return new DKA(nka.pocetnoStanje, nka.skupStanja, prijelazi);
 	}
+	*/
 
+	/*
 	private static void putStatesTargets(DoubleMap<StateSet, String, StateSet> prijelazi, StateSet novoStanje, Set<String> skupSimbola){
 		if (novoStanje.isEmpty()){
 			return;
@@ -69,11 +72,14 @@ public class  DKA extends Automaton {
 			putStatesTargets(prijelazi, targets, skupSimbola);
 		});
 	}
+	*/
 
+	/*
 	public static DKA fromEpsilonNKA(EpsilonNKA enka){
 		NKA nka = NKA.fromEpsilonNKA(enka);
 		return fromNKA(nka);
 	}
+	*/
 
 	public boolean equals(Object other){
 		return super.equals(other);

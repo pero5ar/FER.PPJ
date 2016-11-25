@@ -15,6 +15,7 @@ public class EpsilonNKA extends Automaton {
         prijelazi.put(source, symbol, destination);
     }
 
+    /*
     public StateSet getEpsilonOkruzenje(State state) {
         StateSet epsilonOkruzenje = new StateSet();
 
@@ -27,4 +28,5 @@ public class EpsilonNKA extends Automaton {
 
         return epsilonOkruzenje;
     }
+     */
 }

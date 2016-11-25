@@ -1,32 +1,31 @@
 package lab2.models;
 
-import lab2.automaton.State;
-
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
  * Created by JJ on 19.11.2016..
  */
-public class StateSet extends HashSet<State> {
+public class StateSet extends HashSet<String> {
+
 	/**
 	 * Broj u DKA
 	 */
-	protected String nazivStanja;
+	protected String stateName;
 
-	public void setNazivStanja(String nazivStanja){
-		this.nazivStanja = nazivStanja;
+	public void setStateName(String stateName){
+		this.stateName = stateName;
 	}
 
-	public String getNazivStanja(){
-		return nazivStanja;
+	public String getStateName(){
+		return stateName;
 	}
 
 	public StateSet(){
 		super();
 	}
 
-	public StateSet(Collection<State> collection){
+	public StateSet(Collection<String> collection){
 		super(collection);
 	}
 }
