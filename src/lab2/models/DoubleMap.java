@@ -63,6 +63,15 @@ public class DoubleMap<K, L, V>{
 
 		return key2Set;
 	}
+	public boolean jeliVecPostoji (K key1, L key2){
+		if(this.get(key1,key2)==null){
+			return false;
+
+		}
+		else{
+			return  true;
+		}
+	}
 
 	@Override
 	public boolean equals(Object o) {

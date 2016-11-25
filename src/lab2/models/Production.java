@@ -1,10 +1,7 @@
 package lab2.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pero5ar on 10.11.2016..
@@ -40,18 +37,20 @@ public class Production implements Serializable {
         return result;
     }
 
-    public Production(){}
+    public Production(){
+        codomainAsList = new ArrayList<>();
+    }
     public Production(String domain, String[] codomain) {
         this.domain = domain;
         this.codomain = codomain;
-        codomainAsList = new ArrayList<>(Arrays.asList(codomain));
-        skupZavrsnih=null;
+        this.codomainAsList = new ArrayList<>(Arrays.asList(codomain));
+        this.skupZavrsnih=new HashSet<>();
     }
     public Production(Production produkcija){
         this.domain=produkcija.getDomain();
         this.codomain=produkcija.getCodomain();
-        codomainAsList = new ArrayList<>(Arrays.asList(codomain));
-        skupZavrsnih=produkcija.getSkupZavrsnih();
+        this.codomainAsList = new ArrayList<>(Arrays.asList(codomain));
+        this.skupZavrsnih=produkcija.getSkupZavrsnih();
     }
 
     public String getDomain() {
@@ -108,7 +107,10 @@ public class Production implements Serializable {
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
-        tempList = new ArrayList<>(tempList.subList(n+1, tempList.size()));
+        if(n==produkcija.getCodomainAsList().size()-2){
+            return new Production();
+        }
+        tempList = new ArrayList<>(tempList.subList(n+2, tempList.size()));
         return new Production(produkcija.domain, tempList.toArray(new String[0]));
     }
     public static List<Production> getNoveProdukcije (ArrayList<Production> listaSvih, Production produkcija){
@@ -126,12 +128,14 @@ public class Production implements Serializable {
         }
         else{
             for(Production pro : listaSvih){
-                if(pro.getDomain().equals(domena) && pro.getCodomainAsList().get(0).equals("<OznakaTocke>")){
-                    list.add(pro);
+                if(pro.getDomain().equals(domena) && pro.getCodomainAsList().get(0).equals(OZNAKA_TOCKE)){
+                    list.add(new Production(pro));
                 }
             }
         }
+
         return list;
+
 
     }
 
@@ -140,7 +144,7 @@ public class Production implements Serializable {
         for(String cod: codomainAsList){
             codomainString = codomainString + cod + " ";
         }
-        if (skupZavrsnih != null) {
+        if (skupZavrsnih != null && !skupZavrsnih.isEmpty()) {
             codomainString += "{";
             codomainString += skupZavrsnih.toString();
             codomainString += "}";
