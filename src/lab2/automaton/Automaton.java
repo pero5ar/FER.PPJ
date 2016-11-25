@@ -59,7 +59,11 @@ public abstract class Automaton {
 
 	public void ispisPrijelaza(){
 
+
+		int i = 0;
 		for(StateSet set : this.getPrijelazi().getMap().keySet()){
+			//System.out.println(set.isEmpty() + Integer.toString(i++));
+			/*
 			for(String znak : this.getPrijelazi().get(set).keySet()){
 				for(String state : set){
 					System.out.print(state+",");
@@ -69,7 +73,7 @@ public abstract class Automaton {
 					System.out.print(state2+",");
 				}
 				System.out.println();
-			}
+			}*/
 
 		}
 

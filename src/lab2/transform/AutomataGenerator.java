@@ -151,6 +151,8 @@ public class AutomataGenerator {
             tempSet.add(s);
             enkaSkupStanjaSet.add(tempSet);
         });
+        System.out.println(enkaPocetnoStanje);
+        enkaSkupStanja.forEach(e -> System.out.println(e + " , "));
 
         return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanjaSet,enkaPrijelazi);
     }

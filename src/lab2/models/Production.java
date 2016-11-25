@@ -51,7 +51,7 @@ public class Production implements Serializable {
         this.domain=produkcija.getDomain();
         this.codomain=produkcija.getCodomain();
         codomainAsList = new ArrayList<>(Arrays.asList(codomain));
-        skupZavrsnih=null;
+        skupZavrsnih=produkcija.getSkupZavrsnih();
     }
 
     public String getDomain() {
@@ -79,7 +79,7 @@ public class Production implements Serializable {
     }
 
     public static Production nadjiSljedecu (Production produkcija){
-        List<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = new ArrayList<>(produkcija.getCodomainAsList());
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){
@@ -91,7 +91,7 @@ public class Production implements Serializable {
         return new Production(produkcija.domain, tempList.toArray(new String[0]));
     }
     public static String getPrijlazniZnak (Production produkcija){
-        ArrayList<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = new ArrayList<>(produkcija.getCodomainAsList());
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){
@@ -101,7 +101,7 @@ public class Production implements Serializable {
         return tempList.get(n+1);
     }
     public static Production pripremiProdukciju (Production produkcija){
-        ArrayList<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = new ArrayList<>(produkcija.getCodomainAsList());
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){
@@ -113,7 +113,7 @@ public class Production implements Serializable {
     }
     public static List<Production> getNoveProdukcije (ArrayList<Production> listaSvih, Production produkcija){
         ArrayList<Production> list = new ArrayList<>();
-        List<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = new ArrayList<>(produkcija.getCodomainAsList());
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){

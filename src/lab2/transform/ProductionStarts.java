@@ -166,6 +166,8 @@ public class ProductionStarts implements Serializable{
                 if (terminalSymbols.contains(symbol)) {
                     startSymbols.add(symbol);
                     break;
+                } else if (symbol.equals(EPSILON)) {
+                    break;
                 }
                 startSymbols.addAll(startsWithTerminalSymbols.get(symbol));
                 if (!emptyNonterminalSymbols.contains(symbol)) {
