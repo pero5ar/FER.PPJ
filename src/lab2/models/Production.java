@@ -140,20 +140,22 @@ public class Production implements Serializable {
         for(String cod: codomainAsList){
             codomainString = codomainString + cod + " ";
         }
-        codomainString += "{";
-        codomainString += skupZavrsnih.toString();
-        codomainString += "}";
+        if(skupZavrsnih!=null) {
+            codomainString += "{";
+            codomainString += skupZavrsnih.toString();
+            codomainString += "}";
+        }
         return this.domain + "->" +codomainString;
 
     }
 
-    public Production transformFromString(String prod){
-        String temp = prod.split("->")[1];
-        String[] codomainArray = new String[]{};
-        for(int i=0;i<temp.length();i++){
-            codomainArray[i]= String.valueOf(temp.charAt(i));
+    public ArrayList<String> transformFromString(String prod){
+        String[] temp = (prod.split("->")[1]).split(" ");
+        ArrayList<String> codomainArray = new ArrayList<>();
+        for(int i=0;i<temp.length;i++){
+            codomainArray.add(String.valueOf(temp[i]));
         }
-        return new Production(prod.split("->")[0], codomainArray);
+        return codomainArray;
 
     }
 }
