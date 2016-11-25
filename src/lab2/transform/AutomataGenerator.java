@@ -4,6 +4,7 @@ import lab2.automaton.EpsilonNKA;
 import lab2.models.DoubleMap;
 import lab2.models.Production;
 import lab2.models.StateSet;
+import lab2.storage.ProductionRulesStorage;
 
 import java.util.*;
 
@@ -21,10 +22,10 @@ public class AutomataGenerator {
         ArrayList<String> newCodomain = new ArrayList<>();
         String domain = null;
         int i;
-        for(Production production: productions){
+        for(Production production : productions){
             domain=production.getDomain();
             //ako je epsilon produkcija
-            if(production.getCodomainAsList().size()==1 &&production.getCodomainAsList().get(0).equals("&")){
+            if(production.getCodomainAsList().contains(ProductionRulesStorage.EPSILON)){
                 newCodomain.clear();
                 newCodomain.add(OZNAKA_TOCKE);
                 list.add(new Production(domain, newCodomain.toArray(new String[0])));
@@ -40,6 +41,7 @@ public class AutomataGenerator {
                     list.add(new Production(domain, newCodomain.toArray(new String[0])));
                 }
             }
+            codomain.clear();
         }
         return list;
     }

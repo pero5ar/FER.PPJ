@@ -50,7 +50,7 @@ public class TestInputReader {
                 productionStarts.getStartsWithTerminalSymbols(),
                 productionStarts.getPocetnoStanje()
         );
-        eNKA.ispisPrijelaza();
+        // eNKA.ispisPrijelaza();
     }
 
 

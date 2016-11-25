@@ -140,9 +140,11 @@ public class Production implements Serializable {
         for(String cod: codomainAsList){
             codomainString = codomainString + cod + " ";
         }
-        codomainString += "{";
-        codomainString += skupZavrsnih.toString();
-        codomainString += "}";
+        if (skupZavrsnih != null) {
+            codomainString += "{";
+            codomainString += skupZavrsnih.toString();
+            codomainString += "}";
+        }
         return this.domain + "->" +codomainString;
 
     }
