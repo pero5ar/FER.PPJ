@@ -5,10 +5,7 @@ import lab2.models.DoubleMap;
 import lab2.models.Production;
 import lab2.models.StateSet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pero5ar on 25.11.2016..
@@ -17,7 +14,7 @@ public class AutomataGenerator {
 
     private static final String OZNAKA_TOCKE = Production.OZNAKA_TOCKE;
 
-    private static ArrayList<Production> generirajStavke(ArrayList<Production> productions){
+    public static ArrayList<Production> generirajStavke(List<Production> productions){
 
         ArrayList<Production> list = new ArrayList<>();
         ArrayList<String> codomain = new ArrayList<>();
@@ -47,10 +44,10 @@ public class AutomataGenerator {
         return list;
     }
 
-    private static EpsilonNKA generirajENKA (ArrayList<Production> produkcije, Set<String> terminalSymbols, Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols, String m_pocetnoStanje){
+    public static EpsilonNKA generirajENKA (ArrayList<Production> produkcije, Set<String> terminalSymbols, Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols, String m_pocetnoStanje){
         //enka
-        StateSet enkaPocetnoStanje = null;
-        StateSet enkaSkupStanja = null;
+        StateSet enkaPocetnoStanje = new StateSet();
+        StateSet enkaSkupStanja = new StateSet();
         DoubleMap<StateSet, String, StateSet> enkaPrijelazi = new DoubleMap<>();
 
         String novoPocetnoStanje = "<NovoPocetnoStanje>";
@@ -66,19 +63,19 @@ public class AutomataGenerator {
         stavka2[0]=pocetnoStanje;
 
         Production pocetnaProdukcija =new Production(novoPocetnoStanje, stavka1);
-        Production tempProdukcija = null;
-        Set<Production> stareProdukcije = null ;
-        Set<Production> noveProdukcije = null;
-        Set<Production> dodaneProdukcije=null;
+        Production tempProdukcija = new Production();
+        Set<Production> stareProdukcije = new HashSet<>();
+        Set<Production> noveProdukcije = new HashSet<>();
+        Set<Production> dodaneProdukcije= new HashSet<>();
         List<Production> tempProdukcije = new ArrayList<>();
         DoubleMap<StateSet, String, StateSet> prijelazi;
         produkcije.add(pocetnaProdukcija);
-        //dodja poc produkciju kao pco stanje enka;
-        enkaPocetnoStanje.add(pocetnaProdukcija.transformToString());
         produkcije.add(new Production(novoPocetnoStanje, stavka2));
-        Set<String> skupZavrsnih =null;
+        Set<String> skupZavrsnih = new HashSet<>();
         skupZavrsnih.add("<OznakaKrajaNiza>");
         pocetnaProdukcija.setSkupZavrsnih(skupZavrsnih);
+        //dodja poc produkciju kao pco stanje enka;
+        enkaPocetnoStanje.add(pocetnaProdukcija.transformToString());
         skupZavrsnih.clear();
         stareProdukcije.add(pocetnaProdukcija);
         dodaneProdukcije.add(pocetnaProdukcija);
@@ -95,8 +92,8 @@ public class AutomataGenerator {
                     String prijazniZnak = Production.getPrijlazniZnak(produkcija);
                     // dodaj obicni prijelaz
                     //dodajprijelaz(prod, prijazni, tempProdukcija);
-                    StateSet key1 = null;
-                    StateSet value = null;
+                    StateSet key1 = new StateSet();
+                    StateSet value = new StateSet();
                     key1.add(produkcija.transformToString());
                     value.add(tempProdukcija.transformToString());
                     enkaPrijelazi.put(key1,prijazniZnak,value);
@@ -104,7 +101,7 @@ public class AutomataGenerator {
                     value.clear();
                     //dodaj novu produkciju u set;
                     noveProdukcije.add(tempProdukcija);
-                    prijazniZnak=null;
+                    //prijazniZnak=null;
                     imaJos=true;
                     //epislon prijelaz {}
                     tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
@@ -148,6 +145,13 @@ public class AutomataGenerator {
             dodaneProdukcije.addAll(noveProdukcije);
             noveProdukcije.clear();
         }
-        return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanja,enkaPrijelazi);
+        Set<StateSet> enkaSkupStanjaSet = new HashSet<>();
+        enkaSkupStanja.forEach(s -> {
+            StateSet tempSet = new StateSet();
+            tempSet.add(s);
+            enkaSkupStanjaSet.add(tempSet);
+        });
+
+        return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanjaSet,enkaPrijelazi);
     }
 }

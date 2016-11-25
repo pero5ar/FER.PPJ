@@ -1,8 +1,12 @@
 package lab2.tests;
 
 import common.InlineDataStorage;
+import lab2.automaton.Automaton;
+import lab2.automaton.EpsilonNKA;
 import lab2.input.InputReader;
 import lab2.storage.*;
+import lab2.transform.AutomataGenerator;
+import lab2.transform.ProductionStarts;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,19 +19,19 @@ import java.util.Map;
  */
 public class TestInputReader {
 
-    public static void main(String[] args) {
-        NonterminalSymbolsStorage nonterminalStorage = new NonterminalSymbolsStorage();
-        TerminalSymbolsStorage terminalStorage = new TerminalSymbolsStorage();
-        SynchronizationSymbolsStorage synchronizationStorage = new SynchronizationSymbolsStorage();
-        ProductionRulesStorage productionStorage = new ProductionRulesStorage();
+    private static NonterminalSymbolsStorage nonterminalStorage = new NonterminalSymbolsStorage();
+    private static TerminalSymbolsStorage terminalStorage = new TerminalSymbolsStorage();
+    private static SynchronizationSymbolsStorage synchronizationStorage = new SynchronizationSymbolsStorage();
+    private static ProductionRulesStorage productionStorage = new ProductionRulesStorage();
 
+    public static void main(String[] args) {
         try {
             InputReader.read(nonterminalStorage, terminalStorage, synchronizationStorage, productionStorage,
                     new FileReader("src/lab2/tests/testFile"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        transformLogic();
         //output
         /*
         printInlineDataStorage(nonterminalStorage);
@@ -36,6 +40,19 @@ public class TestInputReader {
         printProductionRulesStorage(productionStorage);
         */
     }
+
+    public static void transformLogic() {
+        ProductionStarts productionStarts = new ProductionStarts(productionStorage, terminalStorage, nonterminalStorage);
+        EpsilonNKA eNKA = AutomataGenerator.generirajENKA(
+                AutomataGenerator.generirajStavke(productionStorage.getModeledStorage()),
+                terminalStorage.getTypedStorage(),
+                productionStarts.getEmptyNonterminalSymbols(),
+                productionStarts.getStartsWithTerminalSymbols(),
+                productionStarts.getPocetnoStanje()
+        );
+        eNKA.ispisPrijelaza();
+    }
+
 
     private static void printInlineDataStorage(InlineDataStorage storage) {
         storage.getStorage().forEach(s -> System.out.print(s + " "));

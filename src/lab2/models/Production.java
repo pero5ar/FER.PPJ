@@ -17,7 +17,7 @@ public class Production implements Serializable {
 
     private String domain;
     private String[] codomain;
-    private List<String> codomainAsList;
+    private ArrayList<String> codomainAsList;
     private Set<String> skupZavrsnih;
 
     @Override
@@ -40,16 +40,17 @@ public class Production implements Serializable {
         return result;
     }
 
+    public Production(){}
     public Production(String domain, String[] codomain) {
         this.domain = domain;
         this.codomain = codomain;
-        codomainAsList = Arrays.asList(codomain);
+        codomainAsList = new ArrayList<>(Arrays.asList(codomain));
         skupZavrsnih=null;
     }
     public Production(Production produkcija){
         this.domain=produkcija.getDomain();
         this.codomain=produkcija.getCodomain();
-        codomainAsList = Arrays.asList(codomain);
+        codomainAsList = new ArrayList<>(Arrays.asList(codomain));
         skupZavrsnih=null;
     }
 
@@ -61,7 +62,7 @@ public class Production implements Serializable {
         return codomain;
     }
 
-    public List<String> getCodomainAsList() {
+    public ArrayList<String> getCodomainAsList() {
         return codomainAsList;
     }
 
@@ -85,12 +86,12 @@ public class Production implements Serializable {
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
-        tempList.remove(n);
+        tempList.remove(OZNAKA_TOCKE);
         tempList.add(n+1, OZNAKA_TOCKE);
         return new Production(produkcija.domain, tempList.toArray(new String[0]));
     }
     public static String getPrijlazniZnak (Production produkcija){
-        List<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){
@@ -100,14 +101,14 @@ public class Production implements Serializable {
         return tempList.get(n+1);
     }
     public static Production pripremiProdukciju (Production produkcija){
-        List<String> tempList = produkcija.getCodomainAsList();
+        ArrayList<String> tempList = produkcija.getCodomainAsList();
         int n=0;
         for(String s : tempList){
             if(s.equals(OZNAKA_TOCKE)){
                 n = produkcija.getCodomainAsList().indexOf(s);
             }
         }
-        tempList = tempList.subList(n+1, tempList.size());
+        tempList = new ArrayList<>(tempList.subList(n+1, tempList.size()));
         return new Production(produkcija.domain, tempList.toArray(new String[0]));
     }
     public static List<Production> getNoveProdukcije (ArrayList<Production> listaSvih, Production produkcija){

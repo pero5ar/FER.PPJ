@@ -56,4 +56,22 @@ public abstract class Automaton {
 		result = 31 * result + (prijelazi != null ? prijelazi.hashCode() : 0);
 		return result;
 	}
+
+	public void ispisPrijelaza(){
+
+		for(StateSet set : this.getPrijelazi().getMap().keySet()){
+			for(String znak : this.getPrijelazi().get(set).keySet()){
+				for(String state : set){
+					System.out.print(state+",");
+				}
+				System.out.print("----"+znak+"----");
+				for(String state2 : this.getPrijelazi().get(set, znak)){
+					System.out.print(state2+",");
+				}
+				System.out.println();
+			}
+
+		}
+
+	}
 }

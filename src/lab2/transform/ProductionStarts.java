@@ -26,10 +26,29 @@ public class ProductionStarts implements Serializable{
     private Map<String, Set<String>> startsWithSymbols;
     private Map<String, Set<String>> startsWithTerminalSymbols;
 
+    public Set<String> getEmptyNonterminalSymbols() {
+        return emptyNonterminalSymbols;
+    }
+
+    public Map<String, Set<String>> getStartsDirectlyWithSymbols() {
+        return startsDirectlyWithSymbols;
+    }
+
+    public Map<String, Set<String>> getStartsWithSymbols() {
+        return startsWithSymbols;
+    }
+
+    public Map<String, Set<String>> getStartsWithTerminalSymbols() {
+        return startsWithTerminalSymbols;
+    }
+
     private Map<Production, Set<String>> productionStartSymbols;
+
     private String pocetnoStanje;
 
-//    private static EpsilonNKA enka = new EpsilonNKA();
+    public String getPocetnoStanje() {
+        return pocetnoStanje;
+    }
 
     public ProductionStarts(ProductionRulesStorage productionRulesStorage, TerminalSymbolsStorage terminalSymbolsStorage, NonterminalSymbolsStorage nonterminalSymbolsStorage) {
         productionRules = productionRulesStorage.getStorage();
