@@ -26,11 +26,11 @@ public class  DKA extends Automaton {
 	 * @param skupStanja
 	 * @param prijelazi State sets must have only one element!
 	 */
-	public DKA(StateSet pocetnoStanje, StateSet skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
+	public DKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
 		super(pocetnoStanje, skupStanja, prijelazi);
 	}
 
-    /*
+
 	public static DKA fromNKA(NKA nka){
 		DoubleMap<StateSet, String, StateSet> prijelazi = new DoubleMap<>(nka.prijelazi);
 
@@ -50,9 +50,9 @@ public class  DKA extends Automaton {
 
 		return new DKA(nka.pocetnoStanje, nka.skupStanja, prijelazi);
 	}
-	*/
 
-	/*
+
+
 	private static void putStatesTargets(DoubleMap<StateSet, String, StateSet> prijelazi, StateSet novoStanje, Set<String> skupSimbola){
 		if (novoStanje.isEmpty()){
 			return;
@@ -64,7 +64,9 @@ public class  DKA extends Automaton {
 			}
 			StateSet targets = new StateSet();
 			novoStanje.forEach(state -> {
-				targets.addAll(prijelazi.get(state.getSet(), simbol));
+                StateSet tempSet = new StateSet();
+                tempSet.add(state);
+				targets.addAll(prijelazi.get(tempSet, simbol));
 			});
 
 			prijelazi.put(novoStanje, simbol, targets);
@@ -72,14 +74,14 @@ public class  DKA extends Automaton {
 			putStatesTargets(prijelazi, targets, skupSimbola);
 		});
 	}
-	*/
 
-	/*
+
+
 	public static DKA fromEpsilonNKA(EpsilonNKA enka){
 		NKA nka = NKA.fromEpsilonNKA(enka);
 		return fromNKA(nka);
 	}
-	*/
+
 
 	public boolean equals(Object other){
 		return super.equals(other);

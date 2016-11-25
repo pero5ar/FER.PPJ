@@ -7,11 +7,11 @@ import java.util.Set;
 
 public abstract class Automaton {
 	protected StateSet pocetnoStanje;
-	protected StateSet skupStanja;
+	protected Set<StateSet> skupStanja;
 	protected Set<String> skupSimbola;
 	protected DoubleMap<StateSet, String, StateSet> prijelazi;
 
-	public Automaton(StateSet pocetnoStanje, StateSet skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
+	public Automaton(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
 		this.pocetnoStanje = pocetnoStanje;
 		this.skupStanja = skupStanja;
 		this.prijelazi = prijelazi;
@@ -21,7 +21,7 @@ public abstract class Automaton {
 		return pocetnoStanje;
 	}
 
-	public StateSet getSkupStanja() {
+	public Set<StateSet> getSkupStanja() {
 		return skupStanja;
 	}
 
