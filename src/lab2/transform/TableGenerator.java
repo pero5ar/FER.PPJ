@@ -4,6 +4,7 @@ import lab2.automaton.DKA;
 import lab2.models.DoubleMap;
 import lab2.models.Production;
 import lab2.models.StateSet;
+import lab2.storage.ProductionRulesStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +15,7 @@ import java.util.Set;
  */
 public class TableGenerator {
 
-
-    public DoubleMap<String, String, String> generateActionTable(DKA dka) {
+    public static DoubleMap<String, String, String> generateActionTable(DKA dka, ProductionRulesStorage storage) {
         DoubleMap<String, String, String> actionTable = new DoubleMap<>();
         for (StateSet state : dka.getPrijelazi().getMap().keySet()) {
             for (String prod : state) {
@@ -32,13 +32,32 @@ public class TableGenerator {
 
                 String[] znakoviUUglatima = uglate.split(",");
 
+                String[] produkcija = (prijeOznakeTocke.trim() + " " + poslijeOznakeTocke.trim()).split(" ");
                 if (poslijeOznakeTocke != null && !poslijeOznakeTocke.equals(" ") && !poslijeOznakeTocke.startsWith("<")) {
                     for (StateSet tempState : dka.getPrijelazi().get(state, poslijeOznakeTocke.substring(0, 1))) {
                         actionTable.put(state.getStateName(), poslijeOznakeTocke.substring(0, 1), "P(" + tempState.getStateName() + ")");
                     }
-                } else if (!lijevaStranaProdukcije.equals("NovoPocetnoStanje") && prijeOznakeTocke != null && poslijeOznakeTocke == null) {
+                } else if (!lijevaStranaProdukcije.equals("NovoPocetnoStanje") && prijeOznakeTocke != null && (poslijeOznakeTocke == null || poslijeOznakeTocke.equals(" "))) {
                     for (int i = 0; i < znakoviUUglatima.length; i++) {
-                        actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                        String action;
+                        if(( action = actionTable.get(state.getStateName(),znakoviUUglatima[i]) ) != null) {
+                            if (action.startsWith("P")) {
+                                continue;
+                            } else {
+                                Production newProduction = new Production(lijevaStranaProdukcije, produkcija);
+                                String sve = (action.split("\\(")[1]).split("\\)")[0];
+                                Production oldProduction = new Production(sve.split("->")[0],(sve.split("->")[1].split(" ")));
+                                for (Production element : storage.getModeledStorage()) {
+                                    if (element.equals(oldProduction)) {
+                                        break;
+                                    } else if (element.equals(newProduction)) {
+                                        actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                                    }
+                                }
+                            }
+                        } else {
+                            actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                        }
                     }
 
                 } else if (lijevaStranaProdukcije.equals("NovoPocetnoStanje") && poslijeOznakeTocke == null) {
@@ -51,7 +70,7 @@ public class TableGenerator {
         return actionTable;
     }
 
-    public DoubleMap<String, String, String> generateNewStateTable(DKA dka) {
+    public static DoubleMap<String, String, String> generateNewStateTable(DKA dka) {
         DoubleMap<String, String, String> newStateTable = new DoubleMap<>();
         for (StateSet state : dka.getPrijelazi().getMap().keySet()) {
             Map<String, Set<StateSet>> tempMap = dka.getPrijelazi().get(state);
