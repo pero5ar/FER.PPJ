@@ -173,7 +173,7 @@ public class SA {
 				stog.addAll(reduciraj);
 
 				String stogStanje = stog.get(1);
-				String temp1 = actionTable.get(stogStanje, stog.get(0)).split("\\(")[1];
+				String temp1 = newStateTable.get(stogStanje, stog.get(0)).split("\\(")[1];
 				String temp2 = temp1.split("\\)")[0];
 				stog.add(0, temp2);
 				trenutnoStanje= temp2;
