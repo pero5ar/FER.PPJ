@@ -9,42 +9,33 @@ import java.util.Set;
 
 public class  DKA extends Automaton {
 
-
-	private String broj;
-
-	public String getBroj() {
-		return broj;
-	}
-
-	public void setBroj(String broj) {
-		this.broj = broj;
-	}
-
 	/**
 	 * From ε-NKA arguments
 	 * @param pocetnoStanje
 	 * @param skupStanja
 	 * @param prijelazi State sets must have only one element!
 	 */
-	public DKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
+	public DKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, Set<StateSet>> prijelazi) {
 		super(pocetnoStanje, skupStanja, prijelazi);
 	}
 
 
 	public static DKA fromNKA(NKA nka){
-		DoubleMap<StateSet, String, StateSet> prijelazi = new DoubleMap<>(nka.prijelazi);
+		DoubleMap<StateSet, String, Set<StateSet>> prijelazi = new DoubleMap<>(nka.prijelazi);
 
-		DoubleMap<StateSet, String, StateSet> prijelazi_copy = new DoubleMap<>(prijelazi);
+		DoubleMap<StateSet, String, Set<StateSet>> prijelazi_copy = new DoubleMap<>(prijelazi);
 
 
 		Set<String> skupSimbola = nka.getSkupSimbola();
-		for (Map.Entry<StateSet, Map<String, StateSet>> entry : prijelazi_copy.getMap().entrySet()) {
+		for (Map.Entry<StateSet, Map<String,Set<StateSet>>> entry : prijelazi_copy.getMap().entrySet()) {
 			StateSet stanje = entry.getKey();
-			for (Map.Entry<String, StateSet> statePrijelaz : entry.getValue().entrySet()) {
+			for (Map.Entry<String, Set<StateSet>> statePrijelaz : entry.getValue().entrySet()) {
 				String simbol = statePrijelaz.getKey();
-				StateSet novoStanje = statePrijelaz.getValue();
+                Set<StateSet> novaStanja = statePrijelaz.getValue();
 
-				putStatesTargets(prijelazi, novoStanje, skupSimbola);
+
+                    putStatesTargets(prijelazi, novaStanja, skupSimbola);
+
 			}
 		}
 
@@ -53,26 +44,27 @@ public class  DKA extends Automaton {
 
 
 
-	private static void putStatesTargets(DoubleMap<StateSet, String, StateSet> prijelazi, StateSet novoStanje, Set<String> skupSimbola){
-		if (novoStanje.isEmpty()){
+	private static void putStatesTargets(DoubleMap<StateSet, String,Set<StateSet>> prijelazi, Set<StateSet> novaStanja, Set<String> skupSimbola){
+		if (novaStanja.isEmpty()){
 			return;
 		}
+        for(StateSet novoStanje: novaStanja) {
+            skupSimbola.forEach(simbol -> {
+                if (prijelazi.get(novoStanje, simbol) != null) {
+                    return;
+                }
+                Set<StateSet> targets = new HashSet<StateSet>();
+                novoStanje.forEach(state -> {
+                    StateSet tempSet = new StateSet();
+                    tempSet.add(state);
+                    targets.addAll(prijelazi.get(tempSet, simbol));
+                });
 
-		skupSimbola.forEach(simbol -> {
-			if (prijelazi.get(novoStanje, simbol) != null){
-				return;
-			}
-			StateSet targets = new StateSet();
-			novoStanje.forEach(state -> {
-                StateSet tempSet = new StateSet();
-                tempSet.add(state);
-				targets.addAll(prijelazi.get(tempSet, simbol));
-			});
+                prijelazi.put(novoStanje, simbol, targets);
 
-			prijelazi.put(novoStanje, simbol, targets);
-
-			putStatesTargets(prijelazi, targets, skupSimbola);
-		});
+                putStatesTargets(prijelazi, targets, skupSimbola);
+            });
+        }
 	}
 
 

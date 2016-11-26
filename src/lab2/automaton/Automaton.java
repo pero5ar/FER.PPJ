@@ -9,9 +9,9 @@ public abstract class Automaton {
 	protected StateSet pocetnoStanje;
 	protected Set<StateSet> skupStanja;
 	protected Set<String> skupSimbola;
-	protected DoubleMap<StateSet, String, StateSet> prijelazi;
+	protected DoubleMap<StateSet, String, Set<StateSet>> prijelazi;
 
-	public Automaton(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
+	public Automaton(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, Set<StateSet>> prijelazi) {
 		this.pocetnoStanje = pocetnoStanje;
 		this.skupStanja = skupStanja;
 		this.prijelazi = prijelazi;
@@ -33,7 +33,7 @@ public abstract class Automaton {
 		return skupSimbola;
 	}
 
-	public DoubleMap<StateSet, String, StateSet> getPrijelazi() {
+	public DoubleMap<StateSet, String, Set<StateSet>> getPrijelazi() {
 		return prijelazi;
 	}
 
@@ -61,19 +61,22 @@ public abstract class Automaton {
 
 
 		int i = 0;
+
 		for(StateSet set : this.getPrijelazi().getMap().keySet()){
 			//System.out.println(set.isEmpty() + Integer.toString(i++));
-			/*
-			for(String znak : this.getPrijelazi().get(set).keySet()){
-				for(String state : set){
-					System.out.print(state+",");
-				}
-				System.out.print("----"+znak+"----");
-				for(String state2 : this.getPrijelazi().get(set, znak)){
-					System.out.print(state2+",");
-				}
-				System.out.println();
-			}*/
+
+			for(String znak : this.getPrijelazi().get(set).keySet()) {
+                for (StateSet set2 : this.getPrijelazi().get(set, znak)) {
+                    for (String state : set) {
+                        System.out.print(state + "|||");
+                    }
+                    System.out.print("----" + znak + "----");
+				    for(String state2 : set2){
+					    System.out.print(state2+",");
+				    }
+				    System.out.println();
+                }
+            }
 
 		}
 

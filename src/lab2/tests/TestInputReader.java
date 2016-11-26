@@ -2,6 +2,7 @@ package lab2.tests;
 
 import common.InlineDataStorage;
 import lab2.automaton.Automaton;
+import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
 import lab2.input.InputReader;
 import lab2.storage.*;
@@ -50,7 +51,10 @@ public class TestInputReader {
                 productionStarts.getStartsWithTerminalSymbols(),
                 productionStarts.getPocetnoStanje()
         );
-        eNKA.ispisPrijelaza();
+        // eNKA.ispisPrijelaza();
+        DKA dka = DKA.fromEpsilonNKA(eNKA);
+        dka.ispisPrijelaza();
+
     }
 
 

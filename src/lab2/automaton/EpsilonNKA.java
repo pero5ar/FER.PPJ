@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EpsilonNKA extends Automaton {
-    public EpsilonNKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, StateSet> prijelazi) {
+    public EpsilonNKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, Set<StateSet>> prijelazi) {
         super(pocetnoStanje, skupStanja, prijelazi);
     }
 
-    public void addPrijelaz(StateSet source, String symbol, StateSet destination){
+    public void addPrijelaz(StateSet source, String symbol, Set<StateSet> destination){
         prijelazi.put(source, symbol, destination);
     }
 
@@ -20,15 +20,17 @@ public class EpsilonNKA extends Automaton {
         StateSet epsilonOkruzenje = new StateSet();
 
         for (StateSet set : skupStanja) {
-            StateSet epsPrijelazi = getPrijelazi().get(set, NKA.EPSILON);
-            epsilonOkruzenje.addAll(epsPrijelazi);
+            for (StateSet epsPrijelazi : getPrijelazi().get(set, NKA.EPSILON)) {
+                //StateSet epsPrijelazi = getPrijelazi().get(set, NKA.EPSILON);
+                epsilonOkruzenje.addAll(epsPrijelazi);
 
-            epsPrijelazi.forEach(s ->
-            {
-                StateSet tempSet = new StateSet();
-                tempSet.add(s);
-                epsilonOkruzenje.addAll(getEpsilonOkruzenje(tempSet));
-            });
+                epsPrijelazi.forEach(s ->
+                {
+                    StateSet tempSet = new StateSet();
+                    tempSet.add(s);
+                    epsilonOkruzenje.addAll(getEpsilonOkruzenje(tempSet));
+                });
+            }
         }
 
         return epsilonOkruzenje;

@@ -1,9 +1,11 @@
 package lab2.transform;
 
+import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
 import lab2.models.DoubleMap;
 import lab2.models.Production;
 import lab2.models.StateSet;
+import lab2.storage.ProductionRulesStorage;
 
 import java.util.*;
 
@@ -14,6 +16,7 @@ public class AutomataGenerator {
 
     private static final String OZNAKA_TOCKE = Production.OZNAKA_TOCKE;
 
+
     public static ArrayList<Production> generirajStavke(List<Production> productions){
 
         ArrayList<Production> list = new ArrayList<>();
@@ -21,10 +24,10 @@ public class AutomataGenerator {
         ArrayList<String> newCodomain = new ArrayList<>();
         String domain = null;
         int i;
-        for(Production production: productions){
+        for(Production production : productions){
             domain=production.getDomain();
             //ako je epsilon produkcija
-            if(production.getCodomainAsList().size()==1 &&production.getCodomainAsList().get(0).equals("&")){
+            if(production.getCodomainAsList().contains(ProductionRulesStorage.EPSILON)){
                 newCodomain.clear();
                 newCodomain.add(OZNAKA_TOCKE);
                 list.add(new Production(domain, newCodomain.toArray(new String[0])));
@@ -40,15 +43,17 @@ public class AutomataGenerator {
                     list.add(new Production(domain, newCodomain.toArray(new String[0])));
                 }
             }
+            codomain.clear();
         }
         return list;
     }
 
     public static EpsilonNKA generirajENKA (ArrayList<Production> produkcije, Set<String> terminalSymbols, Set<String> emptyNonterminalSymbols, Map<String, Set<String>> startsWithTerminalSymbols, String m_pocetnoStanje){
         //enka
+
         StateSet enkaPocetnoStanje = new StateSet();
         StateSet enkaSkupStanja = new StateSet();
-        DoubleMap<StateSet, String, StateSet> enkaPrijelazi = new DoubleMap<>();
+        DoubleMap<StateSet, String, Set<StateSet>> enkaPrijelazi = new DoubleMap<>();
 
         String novoPocetnoStanje = "<NovoPocetnoStanje>";
         String pocetnoStanje=m_pocetnoStanje;
@@ -76,9 +81,11 @@ public class AutomataGenerator {
         pocetnaProdukcija.setSkupZavrsnih(skupZavrsnih);
         //dodja poc produkciju kao pco stanje enka;
         enkaPocetnoStanje.add(pocetnaProdukcija.transformToString());
-        skupZavrsnih.clear();
-        stareProdukcije.add(pocetnaProdukcija);
-        dodaneProdukcije.add(pocetnaProdukcija);
+        //skupZavrsnih.clear();
+        stareProdukcije.add(new Production(pocetnaProdukcija));
+        dodaneProdukcije.add(new Production(pocetnaProdukcija));
+        int br=0;
+        int br2=0;
 
         while(imaJos){
             imaJos=false;
@@ -86,26 +93,45 @@ public class AutomataGenerator {
                 //  dodaj produkciju u skup stanja enka
                 enkaSkupStanja.add((produkcija.transformToString()));
                 if(!produkcija.getCodomainAsList().get(produkcija.getCodomainAsList().size()-1).equals(OZNAKA_TOCKE)){ //tocka nije na kraju
-                    tempProdukcija= Production.nadjiSljedecu(produkcija);
+                    tempProdukcija= new Production(Production.nadjiSljedecu(produkcija));
                     // set skupzavrnsih nove pr na skupZavrsnih stare pr
                     tempProdukcija.setSkupZavrsnih(produkcija.getSkupZavrsnih());
-                    String prijazniZnak = Production.getPrijlazniZnak(produkcija);
+                    String prijelazniZnak = Production.getPrijlazniZnak(produkcija);
                     // dodaj obicni prijelaz
                     //dodajprijelaz(prod, prijazni, tempProdukcija);
                     StateSet key1 = new StateSet();
                     StateSet value = new StateSet();
                     key1.add(produkcija.transformToString());
                     value.add(tempProdukcija.transformToString());
-                    enkaPrijelazi.put(key1,prijazniZnak,value);
-                    key1.clear();
-                    value.clear();
+                    if(enkaPrijelazi.jeliVecPostoji(key1, prijelazniZnak)){
+                        Set<StateSet> tempSet = enkaPrijelazi.get(key1, prijelazniZnak);
+                        tempSet.add(value);
+                    }
+                    else{
+                        Set<StateSet> tempSet = new HashSet<>();
+                        tempSet.add(value);
+                        enkaPrijelazi.put(key1,prijelazniZnak,tempSet);
+                    }
+
+
+                    key1 = new StateSet();
+                    value = new StateSet();
                     //dodaj novu produkciju u set;
-                    noveProdukcije.add(tempProdukcija);
-                    //prijazniZnak=null;
+                    //System.out.println(tempProdukcija.transformToString());
+                    noveProdukcije.add(new Production(tempProdukcija));
                     imaJos=true;
                     //epislon prijelaz {}
-                    tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
-                    Set<String> noviSkup = ProductionStarts.generateProductionStartSymbolsMap(tempProdukcija,terminalSymbols,emptyNonterminalSymbols, startsWithTerminalSymbols );
+                    prijelazniZnak = "$";
+                    Set<String> noviSkup = new HashSet<>();
+
+                    if(Production.pripremiProdukciju(produkcija).getCodomainAsList().size()!=0) {
+                        tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
+                        noviSkup = ProductionStarts.generateProductionStartSymbolsMap(tempProdukcija,terminalSymbols,emptyNonterminalSymbols, startsWithTerminalSymbols );
+
+                    }
+                    if(noviSkup.size()==0){
+                        noviSkup.addAll(produkcija.getSkupZavrsnih());
+                    }
                     boolean jeliProdukcijaPrazna=true;
                     for(String s : tempProdukcija.getCodomainAsList()){
                         if(!emptyNonterminalSymbols.contains(s)){
@@ -117,27 +143,44 @@ public class AutomataGenerator {
                         noviSkup.addAll(produkcija.getSkupZavrsnih());
                     }
                     tempProdukcije=Production.getNoveProdukcije(produkcije, produkcija);
+                    br+=tempProdukcije.size();
+
                     for(Production pro : tempProdukcije){
+
                         boolean jelVecPostoji=false;
                         for(Production pro2 : dodaneProdukcije){
                             if(pro.equals(pro2)){
                                 jelVecPostoji=true;
                                 tempProdukcija=new Production(pro2);
-                                break;
+
                             }
                         }
                         if(!jelVecPostoji){
                             tempProdukcija=new Production(pro);
+                            //System.out.println(noviSkup);
                             tempProdukcija.setSkupZavrsnih(noviSkup);
-                            noveProdukcije.add(tempProdukcija);
+                            noveProdukcije.add(new Production(tempProdukcija));
                         }
                         //dodaj eps prijelaz
                         key1.add(produkcija.transformToString());
                         value.add(tempProdukcija.transformToString());
-                        enkaPrijelazi.put(key1,"&",value);
-                        key1.clear();
-                        value.clear();
+                        if(enkaPrijelazi.jeliVecPostoji(key1, prijelazniZnak)){
+                            Set<StateSet> tempSet = enkaPrijelazi.get(key1, prijelazniZnak);
+                            tempSet.add(value);
+                        }
+                        else{
+                            Set<StateSet> tempSet = new HashSet<>();
+                            tempSet.add(value);
+                            enkaPrijelazi.put(key1,prijelazniZnak,tempSet);
+                        }
+                        key1 = new StateSet();
+                        value = new StateSet();
+
                     }
+
+                }
+                else{
+                    continue;
                 }
             }
             stareProdukcije.clear();
@@ -151,9 +194,25 @@ public class AutomataGenerator {
             tempSet.add(s);
             enkaSkupStanjaSet.add(tempSet);
         });
-        System.out.println(enkaPocetnoStanje);
-        enkaSkupStanja.forEach(e -> System.out.println(e + " , "));
+        //System.out.println(enkaPocetnoStanje);
+        //enkaSkupStanja.forEach(e -> System.out.println(e + " , "));
+
 
         return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanjaSet,enkaPrijelazi);
     }
+    public DKA generirajBrojeveStanja (DKA dka, String pocetniPrijelaz){
+        int i = 1;
+        for(StateSet set : dka.getSkupStanja()){
+
+            if(set.contains(pocetniPrijelaz)){
+                set.setStateName("0");
+            }
+            else{
+                set.setStateName(Integer.toString(i));
+                i++;
+            }
+        }
+        return dka;
+    }
 }
+
