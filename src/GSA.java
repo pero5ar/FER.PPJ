@@ -1,6 +1,11 @@
 import common.SerializableHelper;
+import lab2.automaton.DKA;
+import lab2.automaton.EpsilonNKA;
 import lab2.input.InputReader;
+import lab2.models.AnalizerTables;
 import lab2.storage.*;
+import lab2.transform.AutomataGenerator;
+import lab2.transform.ProductionStarts;
 
 import java.io.InputStreamReader;
 
@@ -9,7 +14,13 @@ import java.io.InputStreamReader;
  */
 public class GSA {
 
-    private static final String OUT_PATH = "";
+    private static final String OUT_PATH = "analizator/storage.bin";
+    private static NonterminalSymbolsStorage nonterminalStorage;
+    private static TerminalSymbolsStorage terminalStorage;
+    private static SynchronizationSymbolsStorage synchronizationStorage;
+    private static ProductionRulesStorage productionStorage;
+
+
 
     public static void main(String args[]) {
         NonterminalSymbolsStorage nonterminalStorage = new NonterminalSymbolsStorage();
@@ -20,6 +31,22 @@ public class GSA {
         InputReader.read(nonterminalStorage, terminalStorage, synchronizationStorage, productionStorage,
                         new InputStreamReader(System.in));
 
-        SerializableHelper.createOutput(OUT_PATH, nonterminalStorage, terminalStorage, synchronizationStorage, productionStorage);
+        AnalizerTables tables = buildTables();
+
+        SerializableHelper.createOutput(OUT_PATH, synchronizationStorage, tables);
+    }
+
+    public static AnalizerTables buildTables() {
+        ProductionStarts productionStarts = new ProductionStarts(productionStorage, terminalStorage, nonterminalStorage);
+        EpsilonNKA eNKA = AutomataGenerator.generirajENKA(
+                AutomataGenerator.generirajStavke(productionStorage.getModeledStorage()),
+                terminalStorage.getTypedStorage(),
+                productionStarts.getEmptyNonterminalSymbols(),
+                productionStarts.getStartsWithTerminalSymbols(),
+                productionStarts.getPocetnoStanje()
+        );
+        DKA dka = DKA.fromEpsilonNKA(eNKA);
+        dka = AutomataGenerator.generirajBrojeveStanja(dka);
+        return new AnalizerTables(dka, productionStorage);
     }
 }

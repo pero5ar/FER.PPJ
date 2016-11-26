@@ -1,15 +1,11 @@
 // TODO before submission, move to analizator directory
 
-import lab2.models.AnalizerInput;
-import lab2.models.DoubleMap;
-import lab2.models.Node;
-import lab2.models.Production;
+import lab2.models.*;
 import lab2.storage.ProductionRulesStorage;
+import lab2.storage.SynchronizationSymbolsStorage;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,114 +14,134 @@ import java.util.List;
 public class SA {
 	public static final String EPSILON = ProductionRulesStorage.EPSILON;
 
+    private static final String IN_PATH = "storage.bin";
+
+    private static SynchronizationSymbolsStorage synchronizationStorage;
+    private static AnalizerTables tables;
+
 	public static void main(String[] args){
 		String uniform = "";
 		String lines;
 		ArrayList<AnalizerInput> ulaz = new ArrayList<AnalizerInput>();
+		/*
 		ulaz.add(new AnalizerInput(null,0,"var"));
 		ulaz.add(new AnalizerInput(null,0,"+"));
 		ulaz.add(new AnalizerInput(null,0,"var"));
 		ulaz.add(new AnalizerInput(null,0,"*"));
 		ulaz.add(new AnalizerInput(null,0,"var"));
 		ulaz.add(new AnalizerInput(null,0,"<OznakaKrajaNiza>"));
+		*/
 
-		/*try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(IN_PATH))) {
+            tables = (AnalizerTables) in.readObject();
+            synchronizationStorage = (SynchronizationSymbolsStorage) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Storage class not found.");
+            e.printStackTrace();
+            return;
+        }
+
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 			while((lines = reader.readLine())!=null ) {
 				AnalizerInput input = new AnalizerInput(lines.split(" ")[0], Integer.parseInt(lines.split(" ")[1]), lines.split(" ")[2]);
 				ulaz.add(input);
 			}
 		}catch(IOException e){
 			e.printStackTrace();
-		}*/
+		}
 
 
 
-		DoubleMap<String, String, String> tablica = new DoubleMap<>();
-		/*tablica.put("0","a","P(3)");
-		tablica.put("0","b","P(4)");
-		tablica.put("0","<OznakaKrajaNiza>","R(A->epsilon)");
-		tablica.put("0","B","S(2)");
-		tablica.put("0","A","S(1)");
+		DoubleMap<String, String, String> actionTable = tables.getActionTable();
+		DoubleMap<String, String, String> newStateTable = tables.getNewStateTable();
+		/*actionTable.put("0","a","P(3)");
+		actionTable.put("0","b","P(4)");
+		actionTable.put("0","<OznakaKrajaNiza>","R(A->epsilon)");
+		actionTable.put("0","B","S(2)");
+		actionTable.put("0","A","S(1)");
 
-		tablica.put("1","<OznakaKrajaNiza>","O");
+		actionTable.put("1","<OznakaKrajaNiza>","O");
 
-		tablica.put("2","a","P(3)");
-		tablica.put("2","b","P(4)");
-		tablica.put("2","<OznakaKrajaNiza>","R(A->epsilon)");
-		tablica.put("2","B","S(2)");
-		tablica.put("2","A","S(5)");
+		actionTable.put("2","a","P(3)");
+		actionTable.put("2","b","P(4)");
+		actionTable.put("2","<OznakaKrajaNiza>","R(A->epsilon)");
+		actionTable.put("2","B","S(2)");
+		actionTable.put("2","A","S(5)");
 
-		tablica.put("3","a","P(3)");
-		tablica.put("3","b","P(4)");
-		tablica.put("3","B","S(6)");
+		actionTable.put("3","a","P(3)");
+		actionTable.put("3","b","P(4)");
+		actionTable.put("3","B","S(6)");
 
-		tablica.put("4","a","R(B->b)");
-		tablica.put("4","b","R(B->b)");
-		tablica.put("4","<OznakaKrajaNiza>","R(B->b)");
+		actionTable.put("4","a","R(B->b)");
+		actionTable.put("4","b","R(B->b)");
+		actionTable.put("4","<OznakaKrajaNiza>","R(B->b)");
 
-		tablica.put("5","<OznakaKrajaNiza>","R(A->BA)");
+		actionTable.put("5","<OznakaKrajaNiza>","R(A->BA)");
 
-		tablica.put("4","a","R(B->aB)");
-		tablica.put("4","b","R(B->aB)");
-		tablica.put("4","<OznakaKrajaNiza>","R(B->aB)");*/
+		actionTable.put("4","a","R(B->aB)");
+		actionTable.put("4","b","R(B->aB)");
+		actionTable.put("4","<OznakaKrajaNiza>","R(B->aB)");
 
-		tablica.put("0","var","P(5)");
-		tablica.put("0","\\(","P(4)");
-		tablica.put("0","E","S(1)");
-		tablica.put("0","T","S(2)");
-		tablica.put("0","F","S(3)");
+		actionTable.put("0","var","P(5)");
+		actionTable.put("0","\\(","P(4)");
+		actionTable.put("0","E","S(1)");
+		actionTable.put("0","T","S(2)");
+		actionTable.put("0","F","S(3)");
 
-		tablica.put("1","+","P(6)");
-		tablica.put("1","<OznakaKrajaNiza>","O()");
+		actionTable.put("1","+","P(6)");
+		actionTable.put("1","<OznakaKrajaNiza>","O()");
 
-		tablica.put("2","+","R(E->T)");
-		tablica.put("2","*","P(7)");
-		tablica.put("2","\\)","R(E->T)");
-		tablica.put("2","<OznakaKrajaNiza>","R(E->T)");
+		actionTable.put("2","+","R(E->T)");
+		actionTable.put("2","*","P(7)");
+		actionTable.put("2","\\)","R(E->T)");
+		actionTable.put("2","<OznakaKrajaNiza>","R(E->T)");
 
-		tablica.put("3","+","R(T->F)");
-		tablica.put("3","*","R(T->F)");
-		tablica.put("3","\\)","R(T->F)");
-		tablica.put("3","<OznakaKrajaNiza>","R(T->F)");
+		actionTable.put("3","+","R(T->F)");
+		actionTable.put("3","*","R(T->F)");
+		actionTable.put("3","\\)","R(T->F)");
+		actionTable.put("3","<OznakaKrajaNiza>","R(T->F)");
 
-		tablica.put("4","var","P(5)");
-		tablica.put("4","\\(","P(4)");
-		tablica.put("4","E","S(8)");
-		tablica.put("4","T","S(2)");
-		tablica.put("4","F","S(3)");
+		actionTable.put("4","var","P(5)");
+		actionTable.put("4","\\(","P(4)");
+		actionTable.put("4","E","S(8)");
+		actionTable.put("4","T","S(2)");
+		actionTable.put("4","F","S(3)");
 
-		tablica.put("5","+","R(F->var)");
-		tablica.put("5","*","R(F->var)");
-		tablica.put("5","\\)","R(F->var)");
-		tablica.put("5","<OznakaKrajaNiza>","R(F->var)");
+		actionTable.put("5","+","R(F->var)");
+		actionTable.put("5","*","R(F->var)");
+		actionTable.put("5","\\)","R(F->var)");
+		actionTable.put("5","<OznakaKrajaNiza>","R(F->var)");
 
-		tablica.put("6","var","P(5)");
-		tablica.put("6","\\(","P(4)");
-		tablica.put("6","T","S(9)");
-		tablica.put("6","F","S(3)");
+		actionTable.put("6","var","P(5)");
+		actionTable.put("6","\\(","P(4)");
+		actionTable.put("6","T","S(9)");
+		actionTable.put("6","F","S(3)");
 
-		tablica.put("7","var","P(5)");
-		tablica.put("7","\\(","P(4)");
-		tablica.put("7","F","S(10)");
+		actionTable.put("7","var","P(5)");
+		actionTable.put("7","\\(","P(4)");
+		actionTable.put("7","F","S(10)");
 
-		tablica.put("8","+","P(6)");
-		tablica.put("8","\\)","P(11)");
+		actionTable.put("8","+","P(6)");
+		actionTable.put("8","\\)","P(11)");
 
-		tablica.put("9","+","R(E->E + T)");
-		tablica.put("9","*","P(7)");
-		tablica.put("9","\\)","R(E->E + T)");
-		tablica.put("9","<OznakaKrajaNiza>","R(E->E + T)");
+		actionTable.put("9","+","R(E->E + T)");
+		actionTable.put("9","*","P(7)");
+		actionTable.put("9","\\)","R(E->E + T)");
+		actionTable.put("9","<OznakaKrajaNiza>","R(E->E + T)");
 
-		tablica.put("10","+","R(T->T * F)");
-		tablica.put("10","*","R(T->T * F)");
-		tablica.put("10","\\)","R(T->T * F)");
-		tablica.put("10","<OznakaKrajaNiza>","R(T->T * F)");
+		actionTable.put("10","+","R(T->T * F)");
+		actionTable.put("10","*","R(T->T * F)");
+		actionTable.put("10","\\)","R(T->T * F)");
+		actionTable.put("10","<OznakaKrajaNiza>","R(T->T * F)");
 
-		tablica.put("11","+","R(F->(E))");
-		tablica.put("11","*","R(F->(E))");
-		tablica.put("11","\\)","R(F->(E))");
-		tablica.put("11","<OznakaKrajaNiza>","R(F->(E))");
-
+		actionTable.put("11","+","R(F->(E))");
+		actionTable.put("11","*","R(F->(E))");
+		actionTable.put("11","\\)","R(F->(E))");
+		actionTable.put("11","<OznakaKrajaNiza>","R(F->(E))");
+        */
 
 		ArrayList<String> stog = new ArrayList<>();
 		ArrayList<Node> stogNode = new ArrayList<>();
@@ -146,7 +162,7 @@ public class SA {
 			//for(AnalizerInput znak: ulaz){
 
 
-			String operacija = tablica.get(trenutnoStanje, znak.getIdentifikator());
+			String operacija = actionTable.get(trenutnoStanje, znak.getIdentifikator());
 			String podatak = operacija.split("\\(")[1];
 			String pod = podatak.substring(0, podatak.length() - 1);
 
@@ -157,7 +173,7 @@ public class SA {
 				stog.addAll(reduciraj);
 
 				String stogStanje = stog.get(1);
-				String temp1 = tablica.get(stogStanje, stog.get(0)).split("\\(")[1];
+				String temp1 = actionTable.get(stogStanje, stog.get(0)).split("\\(")[1];
 				String temp2 = temp1.split("\\)")[0];
 				stog.add(0, temp2);
 				trenutnoStanje= temp2;

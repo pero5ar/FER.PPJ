@@ -2,6 +2,7 @@ package lab2.models;
 
 import com.sun.istack.internal.NotNull;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -10,7 +11,9 @@ import java.util.*;
  * @param <L> key2
  * @param <V> value
  */
-public class DoubleMap<K, L, V>{
+public class DoubleMap<K, L, V> implements Serializable{
+	private static final long serialVersionUID = 7769076974748642674L;
+
 	protected Map<K, Map<L, V>> map;
 
 	public DoubleMap(){
