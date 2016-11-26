@@ -25,6 +25,7 @@ public class StateSet extends HashSet<String> {
 		super();
 	}
 
+
 	public StateSet(Collection<String> collection){
 		super(collection);
 	}

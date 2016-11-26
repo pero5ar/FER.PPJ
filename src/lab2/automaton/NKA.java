@@ -15,30 +15,39 @@ public class NKA extends Automaton {
 
     public static NKA fromEpsilonNKA(EpsilonNKA enka){
         Set<StateSet> skupStanja = enka.getSkupStanja();
+        System.out.print(skupStanja.size());
         DoubleMap<StateSet, String, Set<StateSet>> nkaPrijelazi = new DoubleMap<>();
 
         for(StateSet stanje : skupStanja){
+            if(enka.getPrijelazi().get(stanje)==null){
+                continue;
+            }
+
             Map<String, Set<StateSet>> prijelazi = enka.getPrijelazi().get(stanje);
-            for(Map.Entry<String, Set<StateSet>> entry : prijelazi.entrySet()) {
-                if (entry.getKey().equals(EPSILON)) {
+            for(String prijelazniZnak: enka.getPrijelazi().getKey2Set()) {
+                if (prijelazniZnak.equals(EPSILON)) {
                     continue;
                 }
+                Set<StateSet> set = new HashSet<>();
+                Set<StateSet> newSet = new HashSet<>();
+                Set<StateSet> newSetCopy = new HashSet<>();
+                set.add(stanje);
+                Set<StateSet> setCopy = new HashSet<>();
+                setCopy.add(stanje);
+                set=enka.getEpsilonOkruzenje(setCopy);
 
-                Set<StateSet> nkaStates = entry.getValue();
-                Set<StateSet> nkaStates3 = new HashSet<>();
-                for (StateSet nkaStates2 : nkaStates) {
-                    StateSet nkaStates_copy = new StateSet(nkaStates2);
-                    nkaStates_copy.forEach(s ->
-                    {
-                        StateSet tempSet = new StateSet();
-                        tempSet.add(s);
-                        nkaStates2.addAll(enka.getEpsilonOkruzenje(tempSet));
-                    });
-                    nkaStates3.add(nkaStates2);
-
-
+                for(StateSet ss : set){
+                    if(enka.getPrijelazi().get(ss,prijelazniZnak)==null){
+                        continue;
+                    }
+                    for(StateSet ss2 : enka.getPrijelazi().get(ss, prijelazniZnak)){
+                        newSet.add(ss2);
+                    }
                 }
-                nkaPrijelazi.put(stanje, entry.getKey(), nkaStates3);
+                newSetCopy.addAll(newSet);
+                newSet=enka.getEpsilonOkruzenje(newSetCopy);
+
+                nkaPrijelazi.put(stanje, prijelazniZnak, newSet);
             }
         }
 

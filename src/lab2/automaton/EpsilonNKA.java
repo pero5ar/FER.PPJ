@@ -16,23 +16,29 @@ public class EpsilonNKA extends Automaton {
     }
 
 
-    public StateSet getEpsilonOkruzenje(StateSet state) {
-        StateSet epsilonOkruzenje = new StateSet();
+    public Set<StateSet> getEpsilonOkruzenje(Set<StateSet> states) {
+        Set<StateSet> epsilonOkruzenje = new HashSet<>();
+        Set<StateSet> tempSet = new HashSet<>();
 
-        for (StateSet set : skupStanja) {
-            for (StateSet epsPrijelazi : getPrijelazi().get(set, NKA.EPSILON)) {
-                //StateSet epsPrijelazi = getPrijelazi().get(set, NKA.EPSILON);
-                epsilonOkruzenje.addAll(epsPrijelazi);
-
-                epsPrijelazi.forEach(s ->
-                {
-                    StateSet tempSet = new StateSet();
-                    tempSet.add(s);
-                    epsilonOkruzenje.addAll(getEpsilonOkruzenje(tempSet));
-                });
+        epsilonOkruzenje.addAll(states);
+        boolean t= true;
+        while(t) {
+            t=false;
+            tempSet.clear();
+            for (StateSet set : epsilonOkruzenje) {
+                if(getPrijelazi().get(set, NKA.EPSILON)== null){
+                    continue;
+                }
+                for (StateSet epsPrijelazi : getPrijelazi().get(set, NKA.EPSILON)) {
+                    //StateSet epsPrijelazi = getPrijelazi().get(set, NKA.EPSILON);
+                    if(!epsilonOkruzenje.contains(epsPrijelazi)&&!tempSet.contains((epsPrijelazi))){
+                        tempSet.add(epsPrijelazi);
+                        t=true;
+                    }
+                }
             }
+            epsilonOkruzenje.addAll(tempSet);
         }
-
         return epsilonOkruzenje;
     }
 
