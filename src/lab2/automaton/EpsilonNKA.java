@@ -26,10 +26,10 @@ public class EpsilonNKA extends Automaton {
             t=false;
             tempSet.clear();
             for (StateSet set : epsilonOkruzenje) {
-                if(getPrijelazi().get(set, NKA.EPSILON)== null){
+                if(getPrijelazi().get(set, DKA.EPSILON)== null){
                     continue;
                 }
-                for (StateSet epsPrijelazi : getPrijelazi().get(set, NKA.EPSILON)) {
+                for (StateSet epsPrijelazi : getPrijelazi().get(set, DKA.EPSILON)) {
                     //StateSet epsPrijelazi = getPrijelazi().get(set, NKA.EPSILON);
                     if(!epsilonOkruzenje.contains(epsPrijelazi)&&!tempSet.contains((epsPrijelazi))){
                         tempSet.add(epsPrijelazi);

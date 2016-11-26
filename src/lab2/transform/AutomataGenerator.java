@@ -200,11 +200,11 @@ public class AutomataGenerator {
 
         return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanjaSet,enkaPrijelazi);
     }
-    public DKA generirajBrojeveStanja (DKA dka, String pocetniPrijelaz){
+    public static DKA generirajBrojeveStanja (DKA dka){
         int i = 1;
         for(StateSet set : dka.getSkupStanja()){
 
-            if(set.contains(pocetniPrijelaz)){
+            if(set.equals(dka.getPocetnoStanje())){
                 set.setStateName("0");
             }
             else{

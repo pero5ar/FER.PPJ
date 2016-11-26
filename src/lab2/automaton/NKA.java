@@ -6,14 +6,14 @@ import lab2.models.StateSet;
 import java.util.*;
 
 public class NKA extends Automaton {
-    public static final String EPSILON = "$";
+
 
     public NKA(StateSet pocetnoStanje, Set<StateSet> skupStanja, DoubleMap<StateSet, String, Set<StateSet>> prijelazi){
         super(pocetnoStanje, skupStanja, prijelazi);
     }
 
 
-    public static NKA fromEpsilonNKA(EpsilonNKA enka){
+    /*public static NKA fromEpsilonNKA(EpsilonNKA enka){
         Set<StateSet> skupStanja = enka.getSkupStanja();
         System.out.print(skupStanja.size());
         DoubleMap<StateSet, String, Set<StateSet>> nkaPrijelazi = new DoubleMap<>();
@@ -52,6 +52,6 @@ public class NKA extends Automaton {
         }
 
         return new NKA(enka.pocetnoStanje, skupStanja, nkaPrijelazi);
-    }
+    }*/
 
 }
