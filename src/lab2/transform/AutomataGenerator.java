@@ -77,7 +77,7 @@ public class AutomataGenerator {
         produkcije.add(pocetnaProdukcija);
         produkcije.add(new Production(novoPocetnoStanje, stavka2));
         Set<String> skupZavrsnih = new HashSet<>();
-        skupZavrsnih.add("<OznakaKrajaNiza>");
+        skupZavrsnih.add("OznakaKrajaNiza");
         pocetnaProdukcija.setSkupZavrsnih(skupZavrsnih);
         //dodja poc produkciju kao pco stanje enka;
         enkaPocetnoStanje.add(pocetnaProdukcija.transformToString());
