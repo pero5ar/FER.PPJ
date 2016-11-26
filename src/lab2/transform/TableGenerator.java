@@ -17,27 +17,28 @@ public class TableGenerator {
 
     public static DoubleMap<String, String, String> generateActionTable(DKA dka, ProductionRulesStorage storage) {
         DoubleMap<String, String, String> actionTable = new DoubleMap<>();
-        for (StateSet state : dka.getPrijelazi().getMap().keySet()) {
+        for (StateSet state : dka.getSkupStanja()) {
             for (String prod : state) {
-
                 String lijevaStranaProdukcije = prod.split("->")[0];
                 String desnaStranaProdukcije = prod.split("->")[1];
 
                 String prijeOznakeTocke = desnaStranaProdukcije.split("<OznakaTocke>")[0];
                 String svePoslijeOznakeTocke = desnaStranaProdukcije.split("<OznakaTocke>")[1];
 
-                String poslijeOznakeTocke = svePoslijeOznakeTocke.split("\\{")[0];
-                String uglate = svePoslijeOznakeTocke.split("\\{")[1];
-                uglate = uglate.split("\\}")[0];
+                String poslijeOznakeTocke = svePoslijeOznakeTocke.split("\\{")[0].trim();
+                String uglate = svePoslijeOznakeTocke.split("\\[")[1];
+                uglate = uglate.split("]")[0];
 
                 String[] znakoviUUglatima = uglate.split(",");
 
                 String[] produkcija = (prijeOznakeTocke.trim() + " " + poslijeOznakeTocke.trim()).split(" ");
-                if (poslijeOznakeTocke != null && !poslijeOznakeTocke.equals(" ") && !poslijeOznakeTocke.startsWith("<")) {
+
+                if (poslijeOznakeTocke != null && !poslijeOznakeTocke.equals("") && !poslijeOznakeTocke.equals(" ") && !poslijeOznakeTocke.startsWith("<")) {
                     for (StateSet tempState : dka.getPrijelazi().get(state, poslijeOznakeTocke.substring(0, 1))) {
                         actionTable.put(state.getStateName(), poslijeOznakeTocke.substring(0, 1), "P(" + tempState.getStateName() + ")");
                     }
-                } else if (!lijevaStranaProdukcije.equals("NovoPocetnoStanje") && prijeOznakeTocke != null && (poslijeOznakeTocke == null || poslijeOznakeTocke.equals(" "))) {
+                } else if (!lijevaStranaProdukcije.equals("<NovoPocetnoStanje>")  && (poslijeOznakeTocke == null || poslijeOznakeTocke.equals(" ") || poslijeOznakeTocke.equals(""))) {
+
                     for (int i = 0; i < znakoviUUglatima.length; i++) {
                         String action;
                         if(( action = actionTable.get(state.getStateName(),znakoviUUglatima[i]) ) != null) {
@@ -51,16 +52,25 @@ public class TableGenerator {
                                     if (element.equals(oldProduction)) {
                                         break;
                                     } else if (element.equals(newProduction)) {
-                                        actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                                        if(prijeOznakeTocke.equals("")) {
+                                            actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + "$" + ")");
+                                        } else {
+                                            actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                                        }
+                                        break;
                                     }
                                 }
                             }
                         } else {
-                            actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                            if(prijeOznakeTocke.equals("")) {
+                                actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + "$" + ")");
+                            } else {
+                                actionTable.put(state.getStateName(), znakoviUUglatima[i], "R(" + lijevaStranaProdukcije + "->" + prijeOznakeTocke + ")");
+                            }
                         }
                     }
 
-                } else if (lijevaStranaProdukcije.equals("NovoPocetnoStanje") && poslijeOznakeTocke == null) {
+                } else if (lijevaStranaProdukcije.equals("<NovoPocetnoStanje>") && (poslijeOznakeTocke == null || poslijeOznakeTocke.equals(" ") || poslijeOznakeTocke.equals(""))) {
                     actionTable.put(state.getStateName(), "<OznakaKrajaNiza>", "O()");
                 }
 
