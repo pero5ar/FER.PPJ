@@ -72,13 +72,15 @@ public abstract class Automaton {
                     }
                     System.out.print("----" + znak + "----");
 				    for(String state2 : set2){
-					    System.out.print(state2+",");
+					    System.out.print(state2+"|||");
 				    }
 				    System.out.println();
+					i++;
                 }
             }
 
-		}
+
+		}System.out.println(i);
 
 	}
 }

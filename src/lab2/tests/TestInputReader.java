@@ -53,8 +53,9 @@ public class TestInputReader {
                 productionStarts.getPocetnoStanje()
         );
         //eNKA.ispisPrijelaza();
-        NKA nka = NKA.fromEpsilonNKA(eNKA);
-        nka.ispisPrijelaza();
+        DKA dka = DKA.fromEpsilonNKA(eNKA);
+        dka = AutomataGenerator.generirajBrojeveStanja(dka);
+        dka.ispisPrijelaza();
 
     }
 
