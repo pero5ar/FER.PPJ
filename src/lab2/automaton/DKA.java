@@ -141,7 +141,6 @@ public class  DKA extends Automaton {
 			oldSet.addAll(newSet);
 			newSet = new HashSet<>();
 		}
-		System.out.println(dkaSkupStanja.size());
 
 		return new DKA(enka.pocetnoStanje, dkaSkupStanja, dkaPrijelazi);
 	}

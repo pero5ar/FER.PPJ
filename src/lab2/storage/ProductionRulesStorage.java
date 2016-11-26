@@ -28,7 +28,7 @@ public class ProductionRulesStorage implements Serializable {
         String currentKey = "";
         List<String[]> currentList = new ArrayList<>();
         String line;
-        while ((line = reader.readLine()) != null) {
+        while (!(line = reader.readLine()).equals("")) {
             if (start) {
                 currentKey = line.trim();
                 start = false;

@@ -33,8 +33,8 @@ public class SA {
 		*/
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(IN_PATH))) {
-            tables = (AnalizerTables) in.readObject();
             synchronizationStorage = (SynchronizationSymbolsStorage) in.readObject();
+            tables = (AnalizerTables) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
             return;
