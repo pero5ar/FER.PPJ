@@ -6,6 +6,9 @@ import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
 import lab2.automaton.NKA;
 import lab2.input.InputReader;
+import lab2.models.AnalizerInput;
+import lab2.models.AnalizerTables;
+import lab2.models.DoubleMap;
 import lab2.storage.*;
 import lab2.transform.AutomataGenerator;
 import lab2.transform.ProductionStarts;
@@ -55,7 +58,9 @@ public class TestInputReader {
         //eNKA.ispisPrijelaza();
         DKA dka = DKA.fromEpsilonNKA(eNKA);
         dka = AutomataGenerator.generirajBrojeveStanja(dka);
-        dka.ispisPrijelaza();
+        //dka.ispisPrijelaza();
+        AnalizerTables tables = new AnalizerTables(dka, productionStorage);
+        printActionTable(tables.getNewStateTable());
 
     }
 
@@ -71,6 +76,14 @@ public class TestInputReader {
             System.out.println(entry.getKey());
             entry.getValue().forEach(a -> System.out.println(Arrays.toString(a)));
             System.out.println();
+        }
+    }
+
+    private static void printActionTable(DoubleMap<String, String, String> actionTable) {
+        for(String state : actionTable.getMap().keySet()){
+            for(String symbol : actionTable.get(state).keySet()){
+                System.out.println(state + " --- " + symbol + " --- " + actionTable.get(state,symbol));
+            }
         }
     }
 }
