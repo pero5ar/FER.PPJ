@@ -15,18 +15,17 @@ import java.io.InputStreamReader;
 public class GSA {
 
     private static final String OUT_PATH = "analizator/storage.bin";
+
     private static NonterminalSymbolsStorage nonterminalStorage;
     private static TerminalSymbolsStorage terminalStorage;
     private static SynchronizationSymbolsStorage synchronizationStorage;
     private static ProductionRulesStorage productionStorage;
 
-
-
     public static void main(String args[]) {
-        NonterminalSymbolsStorage nonterminalStorage = new NonterminalSymbolsStorage();
-        TerminalSymbolsStorage terminalStorage = new TerminalSymbolsStorage();
-        SynchronizationSymbolsStorage synchronizationStorage = new SynchronizationSymbolsStorage();
-        ProductionRulesStorage productionStorage = new ProductionRulesStorage();
+        nonterminalStorage = new NonterminalSymbolsStorage();
+        terminalStorage = new TerminalSymbolsStorage();
+        synchronizationStorage = new SynchronizationSymbolsStorage();
+        productionStorage = new ProductionRulesStorage();
 
         InputReader.read(nonterminalStorage, terminalStorage, synchronizationStorage, productionStorage,
                         new InputStreamReader(System.in));
