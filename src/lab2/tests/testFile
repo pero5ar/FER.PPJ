@@ -1,11 +1,10 @@
-%V <S> <B> <A>
+%V <A> <B>
 %T a b
-%Syn a
-<S>
- <A>
+%Syn b
 <A>
  <B> <A>
- $
 <B>
  a <B>
  b
+<A>
+ $

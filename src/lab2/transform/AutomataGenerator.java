@@ -202,16 +202,37 @@ public class AutomataGenerator {
     }
     public static DKA generirajBrojeveStanja (DKA dka){
         int i = 1;
+        Set<StateSet> tempSet = new HashSet<>();
+
+
         for(StateSet set : dka.getSkupStanja()){
 
             if(set.equals(dka.getPocetnoStanje())){
                 set.setStateName("0");
+
             }
             else{
                 set.setStateName(Integer.toString(i));
                 i++;
             }
+            tempSet.add(set);
         }
+         for(StateSet set: dka.getPrijelazi().getMap().keySet()){
+             for(String znak : dka.getPrijelazi().getKey2Set()){
+                 if(dka.getPrijelazi().get(set,znak)==null){
+                     continue;
+                 }
+                 for(StateSet set2 : dka.getPrijelazi().get(set,znak)){
+                     for(StateSet set3: tempSet){
+                         if(set3.equals(set2) && set2.getStateName()==null){
+                             set2.setStateName(set3.getStateName());
+                         }
+                     }
+                 }
+             }
+         }
+
+
         return dka;
     }
 }

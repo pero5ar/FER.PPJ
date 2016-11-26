@@ -133,12 +133,13 @@ public class  DKA extends Automaton {
 						dkaSkupStanja.add(tempStateSet);
 						t=true;
 					}
+
 				}
 			}
 
-			oldSet.clear();
+			oldSet = new HashSet<>();
 			oldSet.addAll(newSet);
-			newSet.clear();
+			newSet = new HashSet<>();
 		}
 		System.out.println(dkaSkupStanja.size());
 
