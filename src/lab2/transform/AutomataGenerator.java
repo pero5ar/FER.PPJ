@@ -1,5 +1,6 @@
 package lab2.transform;
 
+import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
 import lab2.models.DoubleMap;
 import lab2.models.Production;
@@ -14,6 +15,7 @@ import java.util.*;
 public class AutomataGenerator {
 
     private static final String OZNAKA_TOCKE = Production.OZNAKA_TOCKE;
+
 
     public static ArrayList<Production> generirajStavke(List<Production> productions){
 
@@ -119,7 +121,7 @@ public class AutomataGenerator {
                     noveProdukcije.add(new Production(tempProdukcija));
                     imaJos=true;
                     //epislon prijelaz {}
-
+                    prijelazniZnak = "$";
                     Set<String> noviSkup = new HashSet<>();
 
                     if(Production.pripremiProdukciju(produkcija).getCodomainAsList().size()!=0) {
@@ -197,6 +199,20 @@ public class AutomataGenerator {
 
 
         return new EpsilonNKA(enkaPocetnoStanje,enkaSkupStanjaSet,enkaPrijelazi);
+    }
+    public DKA generirajBrojeveStanja (DKA dka, String pocetniPrijelaz){
+        int i = 1;
+        for(StateSet set : dka.getSkupStanja()){
+
+            if(set.contains(pocetniPrijelaz)){
+                set.setStateName("0");
+            }
+            else{
+                set.setStateName(Integer.toString(i));
+                i++;
+            }
+        }
+        return dka;
     }
 }
 

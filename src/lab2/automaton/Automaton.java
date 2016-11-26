@@ -68,7 +68,7 @@ public abstract class Automaton {
 			for(String znak : this.getPrijelazi().get(set).keySet()) {
                 for (StateSet set2 : this.getPrijelazi().get(set, znak)) {
                     for (String state : set) {
-                        System.out.print(state + ",");
+                        System.out.print(state + "|||");
                     }
                     System.out.print("----" + znak + "----");
 				    for(String state2 : set2){
