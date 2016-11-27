@@ -57,6 +57,12 @@ public class SA {
 
 		DoubleMap<String, String, String> actionTable = tables.getActionTable();
 		DoubleMap<String, String, String> newStateTable = tables.getNewStateTable();
+
+		/*for(String state : actionTable.getMap().keySet()){
+			for(String symbol : actionTable.get(state).keySet()){
+				System.out.println(state + " --- " + symbol + " --- " + actionTable.get(state,symbol));
+			}
+		}*/
 		/*actionTable.put("0","a","P(3)");
 		actionTable.put("0","b","P(4)");
 		actionTable.put("0","<OznakaKrajaNiza>","R(A->epsilon)");
@@ -174,6 +180,7 @@ public class SA {
 			String operacija = actionTable.get(trenutnoStanje, znak.getIdentifikator());
 			//System.out.print(trenutnoStanje+"    ----   ");
 			//System.out.println(znak.getIdentifikator());
+			//System.out.println(trenutnoStanje +" +++ " +znak.getIdentifikator());
 			String podatak = "";
 			String pod = "";
 			if(operacija!=null) {
@@ -216,8 +223,12 @@ public class SA {
 					if (synchronizationStorage.getStorage().contains(znak.getIdentifikator())) {
 
 						while(true) {
-							String tempi = stog.remove(0);
-
+							String tempi = "";
+							if(stog.size()==2) {
+								 tempi = stog.remove(0);
+								krajNiiza=true;
+								break;
+							}
 							if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
 								//System.out.println("TU SAM");
 								trenutnoStanje = tempi;
