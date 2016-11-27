@@ -40,3 +40,4 @@
 - trebat će ovu stvar dobro refaktorirat ako će ikad ić _public_
 
 ### LAB2
+- _valjda_ nećemo ovo past
