@@ -152,11 +152,13 @@ public class AutomataGenerator {
                         for(Production pro2 : dodaneProdukcije){
                             if(pro.equals(pro2)){
                                 jelVecPostoji=true;
-                                Set<String> tempSetStr = new HashSet<>();
+                                /*Set<String> tempSetStr = new HashSet<>();
                                 tempSetStr.addAll(pro2.getSkupZavrsnih());
                                 tempSetStr.addAll(noviSkup);
-                                pro2.setSkupZavrsnih(tempSetStr);
+                                pro2.setSkupZavrsnih(tempSetStr);*/
+                                //pro2.getSkupZavrsnih().addAll(noviSkup);
                                 tempProdukcija=new Production(pro2);
+                                //tempProdukcija.getSkupZavrsnih().addAll(noviSkup);
 
                             }
                         }
