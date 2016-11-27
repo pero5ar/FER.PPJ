@@ -174,10 +174,14 @@ public class SA {
 			String operacija = actionTable.get(trenutnoStanje, znak.getIdentifikator());
 			//System.out.print(trenutnoStanje+"    ----   ");
 			//System.out.println(znak.getIdentifikator());
-			String podatak = operacija.split("\\(")[1];
-			String pod = podatak.substring(0, podatak.length() - 1);
+			String podatak = "";
+			String pod = "";
+			if(operacija!=null) {
+				 podatak = operacija.split("\\(")[1];
+				pod = podatak.substring(0, podatak.length() - 1);
+			}
 
-			if (operacija.startsWith("R")) {
+			if (operacija != null && operacija.startsWith("R")) {
 
 				ArrayList<String> reduciraj = Reduciraj(new ArrayList<>(stog), pod, stogNode, root);
 				stog.clear();
@@ -189,7 +193,7 @@ public class SA {
 				stog.add(0, temp1);
 				trenutnoStanje= temp1;
 
-			} else if (operacija.startsWith("P")) {
+			} else if (operacija != null && operacija.startsWith("P")) {
 				trenutnoStanje = pod.split("\\)")[0];
 				stog.add(0, znak.getIdentifikator());
 				Node node = new Node(znak.getIdentifikator(), znak);
@@ -198,19 +202,34 @@ public class SA {
 				elementUNizu++;
 				znak = ulaz.get(elementUNizu);
 
-			} else if(operacija.startsWith("O")){
+			} else if(operacija != null && operacija.startsWith("O")){
 				krajNiiza=true;
 			} else {
 				while(true) {
-					znak = ulaz.get(++elementUNizu);
-					String tempi = stog.remove(0);
-					stog.remove(0);
+
+					elementUNizu++;
+					if(elementUNizu==ulaz.size()){
+						krajNiiza=true;
+						break;
+					}
+					znak = ulaz.get(elementUNizu);
 					if (synchronizationStorage.getStorage().contains(znak.getIdentifikator())) {
-						if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
-							break;
+
+						while(true) {
+							String tempi = stog.remove(0);
+
+							if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
+								System.out.println("TU SAM");
+								trenutnoStanje = tempi;
+								stog.add(0,tempi);
+								break;
+							}
+							stog.remove(0);
 						}
+						break;
 					}
 				}
+
 			}
 			/*for(String tem : stog){
 				System.out.print(tem+"  ");
