@@ -8,6 +8,7 @@ import java.util.HashSet;
  */
 public class StateSet extends HashSet<String> {
 
+	private static final long serialVersionUID = 9184858509883218672L;
 	/**
 	 * Broj u DKA
 	 */

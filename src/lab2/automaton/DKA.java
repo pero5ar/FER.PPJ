@@ -1,6 +1,5 @@
 package lab2.automaton;
 
-import lab1.storage.StateStorage;
 import lab2.models.DoubleMap;
 import lab2.models.StateSet;
 
@@ -11,7 +10,7 @@ import java.util.Set;
 public class  DKA extends Automaton {
 
 	/**
-	 * From ε-NKA arguments
+	 * From eps-NKA arguments
 	 * @param pocetnoStanje
 	 * @param skupStanja
 	 * @param prijelazi State sets must have only one element!

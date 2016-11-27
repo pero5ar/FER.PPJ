@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  */
 public class GSA {
 
-    private static final String OUT_PATH = "storage.bin";
+    private static final String OUT_PATH = "analizator/storage.bin";
 
     private static NonterminalSymbolsStorage nonterminalStorage;
     private static TerminalSymbolsStorage terminalStorage;

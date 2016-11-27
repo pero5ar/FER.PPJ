@@ -3,7 +3,7 @@ package lab2.automaton;
 import lab2.models.DoubleMap;
 import lab2.models.StateSet;
 
-import java.util.*;
+import java.util.Set;
 
 public class NKA extends Automaton {
 

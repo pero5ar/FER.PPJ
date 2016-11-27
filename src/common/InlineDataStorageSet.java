@@ -1,7 +1,5 @@
 package common;
 
-import sun.plugin.dom.exception.InvalidStateException;
-
 import java.util.HashSet;
 
 /**
@@ -9,6 +7,8 @@ import java.util.HashSet;
  * Much faster than {@link InlineDataStorageList}, but allows only one instance of object to be stored.
  */
 public abstract class InlineDataStorageSet extends InlineDataStorage {
+	private static final long serialVersionUID = 375243336300369935L;
+
 	public InlineDataStorageSet(){
 		storage = new HashSet<>();
 	}

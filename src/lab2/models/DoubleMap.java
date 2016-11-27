@@ -1,7 +1,5 @@
 package lab2.models;
 
-import com.sun.istack.internal.NotNull;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -20,7 +18,7 @@ public class DoubleMap<K, L, V> implements Serializable{
 		map = new LinkedHashMap<>();
 	}
 
-	public DoubleMap(DoubleMap doubleMap){
+	public DoubleMap(DoubleMap<K, L, V> doubleMap){
 		Objects.requireNonNull(doubleMap);
 
 		map = new LinkedHashMap<>(doubleMap.map);

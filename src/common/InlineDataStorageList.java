@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * Slower than {@link InlineDataStorageSet}, but allows multiple instances of object to be stored.
  */
 public abstract class InlineDataStorageList extends InlineDataStorage {
+	private static final long serialVersionUID = 121459582349935953L;
+
 	public InlineDataStorageList(){
 		storage = new ArrayList<>();
 }

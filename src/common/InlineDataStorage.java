@@ -1,7 +1,5 @@
 package common;
 
-import sun.plugin.dom.exception.InvalidStateException;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +51,7 @@ public abstract class InlineDataStorage implements Serializable {
 	/**
      * Fills InlineDataStorage with data elements
      *
-     * @deprecated Use non-static readLine instead.
+     * @Deprecated Use non-static readLine instead.
      * @param line      line read from input that contains the data elements
      * @param storage   storage to fill
      * @param toRemove  element to remove from line
@@ -64,7 +62,7 @@ public abstract class InlineDataStorage implements Serializable {
 
     public String getFirst(){
         if (first == null){
-            throw new InvalidStateException("No data loaded.");
+            throw new RuntimeException("No data loaded.");
         }
 
         return first;
