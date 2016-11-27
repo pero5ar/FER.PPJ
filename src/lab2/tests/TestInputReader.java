@@ -58,13 +58,13 @@ public class TestInputReader {
                 productionStarts.getPocetnoStanje()
         );
         //eNKA.ispisPrijelaza();
-        for(String sesi: productionStarts.getEmptyNonterminalSymbols()){
+        /*for(String sesi: productionStarts.getEmptyNonterminalSymbols()){
             System.out.print(sesi+" , ");
-        }
-        Map<String, Set<String>> nesto = productionStarts.getStartsWithTerminalSymbols();
-        /*for(String heto: nesto.get("<C>")){
-            System.out.print(heto+" , ");
         }*/
+        Map<String, Set<String>> nesto = productionStarts.getStartsDirectlyWithSymbols();
+        for(String heto: nesto.get("<C>")){
+            System.out.print(heto+" , ");
+        }
         DKA dka = DKA.fromEpsilonNKA(eNKA);
         dka = AutomataGenerator.generirajBrojeveStanja(dka);
         //dka.ispisPrijelaza();
