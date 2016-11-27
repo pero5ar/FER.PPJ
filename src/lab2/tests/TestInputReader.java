@@ -9,6 +9,7 @@ import lab2.input.InputReader;
 import lab2.models.AnalizerInput;
 import lab2.models.AnalizerTables;
 import lab2.models.DoubleMap;
+import lab2.models.StateSet;
 import lab2.storage.*;
 import lab2.transform.AutomataGenerator;
 import lab2.transform.ProductionStarts;
@@ -68,10 +69,17 @@ public class TestInputReader {
         DKA dka = DKA.fromEpsilonNKA(eNKA);
         dka = AutomataGenerator.generirajBrojeveStanja(dka);
         //dka.ispisPrijelaza();
+        for(StateSet set : dka.getSkupStanja()){
+            for(String s : set){
+                System.out.print(s+" , ");
+            }
+            System.out.println(set.getStateName());
+        }
+        System.out.print(dka.getSkupStanja().size());
         AnalizerTables tables = new AnalizerTables(dka, productionStorage);
 
 
-        //printActionTable(tables.getActionTable());
+        printActionTable(tables.getActionTable());
 
     }
 

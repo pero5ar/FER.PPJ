@@ -148,23 +148,26 @@ public class AutomataGenerator {
 
                     for(Production pro : tempProdukcije){
 
+                        tempProdukcija=new Production(pro);
+                        tempProdukcija.setSkupZavrsnih(noviSkup);
+
                         boolean jelVecPostoji=false;
                         for(Production pro2 : dodaneProdukcije){
-                            if(pro.equals(pro2)){
+                            if(tempProdukcija.equals(pro2)){
                                 jelVecPostoji=true;
-                                /*Set<String> tempSetStr = new HashSet<>();
-                                tempSetStr.addAll(pro2.getSkupZavrsnih());
-                                tempSetStr.addAll(noviSkup);
-                                pro2.setSkupZavrsnih(tempSetStr);*/
                                 //pro2.getSkupZavrsnih().addAll(noviSkup);
                                 tempProdukcija=new Production(pro2);
                                 //tempProdukcija.getSkupZavrsnih().addAll(noviSkup);
+                                /*Set<String> tempSetStr = new HashSet<>();
+                                tempSetStr.addAll(tempProdukcija.getSkupZavrsnih());
+                                tempSetStr.addAll(noviSkup);
+                                tempProdukcija.setSkupZavrsnih(tempSetStr);*/
+
 
                             }
                         }
                         if(!jelVecPostoji){
-                            tempProdukcija=new Production(pro);
-                            tempProdukcija.setSkupZavrsnih(noviSkup);
+
                             noveProdukcije.add(new Production(tempProdukcija));
                         }
                         else{

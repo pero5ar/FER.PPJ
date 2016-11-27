@@ -17,7 +17,7 @@ public class Production implements Serializable {
     private ArrayList<String> codomainAsList;
     private Set<String> skupZavrsnih;
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -34,6 +34,28 @@ public class Production implements Serializable {
     public int hashCode() {
         int result = getDomain().hashCode();
         result = 31 * result + Arrays.hashCode(getCodomain());
+        return result;
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Production that = (Production) o;
+
+        if (getDomain() != null ? !getDomain().equals(that.getDomain()) : that.getDomain() != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(getCodomain(), that.getCodomain())) return false;
+        return getSkupZavrsnih() != null ? getSkupZavrsnih().equals(that.getSkupZavrsnih()) : that.getSkupZavrsnih() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDomain() != null ? getDomain().hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(getCodomain());
+        result = 31 * result + (getSkupZavrsnih() != null ? getSkupZavrsnih().hashCode() : 0);
         return result;
     }
 
