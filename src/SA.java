@@ -219,7 +219,7 @@ public class SA {
 							String tempi = stog.remove(0);
 
 							if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
-								System.out.println("TU SAM");
+								//System.out.println("TU SAM");
 								trenutnoStanje = tempi;
 								stog.add(0,tempi);
 								break;
