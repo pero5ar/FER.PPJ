@@ -213,13 +213,6 @@ public class SA {
 				krajNiiza=true;
 			} else {
 				while(true) {
-
-					elementUNizu++;
-					if(elementUNizu==ulaz.size()){
-						krajNiiza=true;
-						break;
-					}
-					znak = ulaz.get(elementUNizu);
 					if (synchronizationStorage.getStorage().contains(znak.getIdentifikator())) {
 
 						while(true) {
@@ -240,6 +233,13 @@ public class SA {
 						}
 						break;
 					}
+					elementUNizu++;
+					if(elementUNizu==ulaz.size()){
+						krajNiiza=true;
+						break;
+					}
+					znak = ulaz.get(elementUNizu);
+
 				}
 
 			}
