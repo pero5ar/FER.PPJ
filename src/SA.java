@@ -223,12 +223,9 @@ public class SA {
 					if (synchronizationStorage.getStorage().contains(znak.getIdentifikator())) {
 
 						while(true) {
-							String tempi = "";
-							if(stog.size()==2) {
-								 tempi = stog.remove(0);
-								krajNiiza=true;
-								break;
-							}
+
+								String tempi = stog.remove(0);
+
 							if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
 								//System.out.println("TU SAM");
 								trenutnoStanje = tempi;
