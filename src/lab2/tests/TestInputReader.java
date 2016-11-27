@@ -62,9 +62,9 @@ public class TestInputReader {
             System.out.print(sesi+" , ");
         }*/
         Map<String, Set<String>> nesto = productionStarts.getStartsDirectlyWithSymbols();
-        for(String heto: nesto.get("<C>")){
+        /*for(String heto: nesto.get("<C>")){
             System.out.print(heto+" , ");
-        }
+        }*/
         DKA dka = DKA.fromEpsilonNKA(eNKA);
         dka = AutomataGenerator.generirajBrojeveStanja(dka);
         //dka.ispisPrijelaza();
