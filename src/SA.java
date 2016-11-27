@@ -45,15 +45,15 @@ public class SA {
         }
 
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-			while((lines = reader.readLine())!=null ) {
-				AnalizerInput input = new AnalizerInput(lines.split(" ")[0], Integer.parseInt(lines.split(" ")[1]), lines.split(" ")[2]);
+			while((lines = reader.readLine())!=null && !lines.equals("")) {
+				AnalizerInput input = new AnalizerInput(lines.split(" ",3)[2], Integer.parseInt(lines.split(" ")[1]), lines.split(" ")[0]);
 				ulaz.add(input);
 			}
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 
-
+		ulaz.add(new AnalizerInput(null, 0,"OznakaKrajaNiza"));
 
 		DoubleMap<String, String, String> actionTable = tables.getActionTable();
 		DoubleMap<String, String, String> newStateTable = tables.getNewStateTable();
@@ -142,6 +142,15 @@ public class SA {
 		actionTable.put("11","\\)","R(F->(E))");
 		actionTable.put("11","<OznakaKrajaNiza>","R(F->(E))");
         */
+		/*for(String nesto : actionTable.getMap().keySet()){
+			for(String nestoDrugo : actionTable.get(nesto).keySet()){
+				System.out.println(nesto + " --- " + nestoDrugo + " --- " + actionTable.get(nesto,nestoDrugo));
+			}
+		}*/
+
+		/*for(AnalizerInput nestoDrugo : ulaz){
+			System.out.println(nestoDrugo.getIdentifikator());
+		}*/
 
 		ArrayList<String> stog = new ArrayList<>();
 		ArrayList<Node> stogNode = new ArrayList<>();
@@ -163,6 +172,8 @@ public class SA {
 
 
 			String operacija = actionTable.get(trenutnoStanje, znak.getIdentifikator());
+			//System.out.print(trenutnoStanje+"    ----   ");
+			//System.out.println(znak.getIdentifikator());
 			String podatak = operacija.split("\\(")[1];
 			String pod = podatak.substring(0, podatak.length() - 1);
 
@@ -173,10 +184,10 @@ public class SA {
 				stog.addAll(reduciraj);
 
 				String stogStanje = stog.get(1);
-				String temp1 = newStateTable.get(stogStanje, stog.get(0)).split("\\(")[1];
-				String temp2 = temp1.split("\\)")[0];
-				stog.add(0, temp2);
-				trenutnoStanje= temp2;
+				String temp1 = newStateTable.get(stogStanje, stog.get(0));
+				//String temp2 = temp1.split("\\)")[0];
+				stog.add(0, temp1);
+				trenutnoStanje= temp1;
 
 			} else if (operacija.startsWith("P")) {
 				trenutnoStanje = pod.split("\\)")[0];
@@ -189,7 +200,22 @@ public class SA {
 
 			} else if(operacija.startsWith("O")){
 				krajNiiza=true;
+			} else {
+				while(true) {
+					znak = ulaz.get(++elementUNizu);
+					String tempi = stog.remove(0);
+					stog.remove(0);
+					if (synchronizationStorage.getStorage().contains(znak.getIdentifikator())) {
+						if (actionTable.get(tempi, znak.getIdentifikator()) != null) {
+							break;
+						}
+					}
+				}
 			}
+			/*for(String tem : stog){
+				System.out.print(tem+"  ");
+			}
+			System.out.println();*/
 		}
 		printTree(root,0);
 
@@ -198,11 +224,12 @@ public class SA {
 	}
 
 	private static ArrayList<String> Reduciraj(ArrayList<String> stog, String redukcija, ArrayList<Node> stogNode, Node root){
-		String lijeva = redukcija.split("-")[0];   //JE LI OVAJ FORMAT?
-		String desno = redukcija.split(">")[1];
+		String lijeva = redukcija.split("->")[0];   //JE LI OVAJ FORMAT?
+		String desno = redukcija.split("->")[1];
+		//System.out.println(desno);
 		Node node = new Node(lijeva, null);
 		root.setNode(node);
-		if(!desno.equals("$")) {
+		if(!desno.startsWith(EPSILON)) {
 			Production prod = new Production();
 			ArrayList<String> desna = prod.transformFromString(redukcija);
 			int duljinaRedukcije = desna.size();
