@@ -34,9 +34,9 @@ public class TableGenerator {
                 String[] produkcija = (prijeOznakeTocke.trim() + " " + poslijeOznakeTocke.trim()).split(" ");
 
                 if (poslijeOznakeTocke != null && !poslijeOznakeTocke.equals("") && !poslijeOznakeTocke.equals(" ") && !poslijeOznakeTocke.startsWith("<")) {
-                    if(dka.getPrijelazi().get(state, poslijeOznakeTocke.substring(0, 1))!=null) {
-                        for (StateSet tempState : dka.getPrijelazi().get(state, poslijeOznakeTocke.substring(0, 1))) {
-                            actionTable.put(state.getStateName(), poslijeOznakeTocke.substring(0, 1), "P(" + tempState.getStateName() + ")");
+                    if(dka.getPrijelazi().get(state, poslijeOznakeTocke.split(" ")[0])!=null) {
+                        for (StateSet tempState : dka.getPrijelazi().get(state, poslijeOznakeTocke.split(" ")[0])) {
+                            actionTable.put(state.getStateName(), poslijeOznakeTocke.split(" ")[0], "P(" + tempState.getStateName() + ")");
                         }
                     }
                 } else if (!lijevaStranaProdukcije.equals("<NovoPocetnoStanje>")  && (poslijeOznakeTocke == null || poslijeOznakeTocke.equals(" ") || poslijeOznakeTocke.equals(""))) {
