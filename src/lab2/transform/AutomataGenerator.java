@@ -127,12 +127,7 @@ public class AutomataGenerator {
                     if(Production.pripremiProdukciju(produkcija).getCodomainAsList().size()!=0) {
                         tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
                         noviSkup = ProductionStarts.generateProductionStartSymbolsMap(tempProdukcija,terminalSymbols,emptyNonterminalSymbols, startsWithTerminalSymbols );
-                        if(produkcija.getDomain().equals("<A>")) {
-                            System.out.println(noviSkup+" 2");
-                            if(noviSkup.size()==3){
-                                System.out.println(produkcija.transformToString());
-                            }
-                        }
+
 
                     }
                     if(noviSkup.size()==0){
