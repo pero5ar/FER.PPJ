@@ -81,13 +81,22 @@ public class ProductionStarts implements Serializable{
                 continue;
             }
             for (String[] production : entry.getValue()) {
-                if (emptyNonterminalSymbols.contains(production[0])) {
+                if (isProductionEmpty(production, emptyNonterminalSymbols)) {
                     newSymbols.add(entry.getKey());
                     break;
                 }
             }
         }
         return newSymbols;
+    }
+
+    private static boolean isProductionEmpty(String[] production, Set<String> emptyNonterminalSymbols) {
+        for (String symbol : production) {
+            if (!emptyNonterminalSymbols.contains(symbol)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static Map<String, Set<String>> generateStartsDirectlyWithSymbolsMap(Map<String, List<String[]>> productionRules, Set<String> emptyNonterminalSymbols) {
