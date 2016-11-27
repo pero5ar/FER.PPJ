@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by pero5ar on 7.11.2016..
@@ -37,6 +38,7 @@ public class TestInputReader {
             e.printStackTrace();
         }
         transformLogic();
+
         //output
         /*
         printInlineDataStorage(nonterminalStorage);
@@ -56,11 +58,20 @@ public class TestInputReader {
                 productionStarts.getPocetnoStanje()
         );
         //eNKA.ispisPrijelaza();
+        /*for(String sesi: productionStarts.getEmptyNonterminalSymbols()){
+            System.out.print(sesi+" , ");
+        }*/
+        Map<String, Set<String>> nesto = productionStarts.getStartsDirectlyWithSymbols();
+        /*for(String heto: nesto.get("<C>")){
+            System.out.print(heto+" , ");
+        }*/
         DKA dka = DKA.fromEpsilonNKA(eNKA);
         dka = AutomataGenerator.generirajBrojeveStanja(dka);
         //dka.ispisPrijelaza();
         AnalizerTables tables = new AnalizerTables(dka, productionStorage);
-        printActionTable(tables.getNewStateTable());
+
+
+        //printActionTable(tables.getActionTable());
 
     }
 

@@ -128,6 +128,7 @@ public class AutomataGenerator {
                         tempProdukcija = new Production(Production.pripremiProdukciju(produkcija));
                         noviSkup = ProductionStarts.generateProductionStartSymbolsMap(tempProdukcija,terminalSymbols,emptyNonterminalSymbols, startsWithTerminalSymbols );
 
+
                     }
                     if(noviSkup.size()==0){
                         noviSkup.addAll(produkcija.getSkupZavrsnih());
@@ -151,15 +152,21 @@ public class AutomataGenerator {
                         for(Production pro2 : dodaneProdukcije){
                             if(pro.equals(pro2)){
                                 jelVecPostoji=true;
+                                Set<String> tempSetStr = new HashSet<>();
+                                tempSetStr.addAll(pro2.getSkupZavrsnih());
+                                tempSetStr.addAll(noviSkup);
+                                pro2.setSkupZavrsnih(tempSetStr);
                                 tempProdukcija=new Production(pro2);
 
                             }
                         }
                         if(!jelVecPostoji){
                             tempProdukcija=new Production(pro);
-                            //System.out.println(noviSkup);
                             tempProdukcija.setSkupZavrsnih(noviSkup);
                             noveProdukcije.add(new Production(tempProdukcija));
+                        }
+                        else{
+
                         }
                         //dodaj eps prijelaz
                         key1.add(produkcija.transformToString());
