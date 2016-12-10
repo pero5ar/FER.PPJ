@@ -22,6 +22,11 @@ public class GSA {
     private static ProductionRulesStorage productionStorage;
 
     public static void main(String args[]) {
+        String outPath = OUT_PATH;
+        if (args.length > 0){
+            outPath = args[0];
+        }
+
         nonterminalStorage = new NonterminalSymbolsStorage();
         terminalStorage = new TerminalSymbolsStorage();
         synchronizationStorage = new SynchronizationSymbolsStorage();
@@ -32,7 +37,7 @@ public class GSA {
 
         AnalizerTables tables = buildTables();
 
-        SerializableHelper.createOutput(OUT_PATH, synchronizationStorage, tables);
+        SerializableHelper.createOutput(outPath, synchronizationStorage, tables);
     }
 
     public static AnalizerTables buildTables() {

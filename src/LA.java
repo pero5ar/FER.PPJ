@@ -18,16 +18,21 @@ public class LA {
      * @param args Command line arguments
      */
     public static void main(String args[])throws IOException {
+        String inPath = IN_PATH;
+        if (args.length > 0){
+            inPath = args[0];
+        }
+
         //reading from lab1.storage bin
         RulesStorage rulesStorage;
         TokenStorage tokenStorage;
         StateStorage stateStorage;
         RegexStorage regexStorage;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(IN_PATH))) {
-            rulesStorage = (RulesStorage) in.readObject();
-            tokenStorage = (TokenStorage) in.readObject();
-            stateStorage = (StateStorage) in.readObject();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(inPath))) {
             regexStorage = (RegexStorage) in.readObject();
+            stateStorage = (StateStorage) in.readObject();
+            tokenStorage = (TokenStorage) in.readObject();
+            rulesStorage = (RulesStorage) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
             return;

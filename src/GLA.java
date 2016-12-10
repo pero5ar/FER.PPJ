@@ -20,6 +20,11 @@ public class GLA {
 	 * @param args Command line arguments
 	 */
 	public static void main(String args[]) {
+		String outPath = OUT_PATH;
+		if (args.length > 0){
+			outPath = args[0];
+		}
+
 		RegexStorage regexStorage = new RegexStorage();
 		StateStorage stateStorage = new StateStorage();
 		TokenStorage tokenStorage = new TokenStorage();
@@ -27,7 +32,7 @@ public class GLA {
 		LangRuleReader.read(regexStorage, stateStorage, tokenStorage, rulesStorage);
 		//save rules to OUT_PATH
 		//TODO provjeriti u pdf-u gdje spremiti fajl!
-		SerializableHelper.createOutput(OUT_PATH, regexStorage, stateStorage, tokenStorage, rulesStorage);
+		SerializableHelper.createOutput(outPath, regexStorage, stateStorage, tokenStorage, rulesStorage);
 	}
 
 }

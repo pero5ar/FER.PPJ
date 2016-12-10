@@ -20,6 +20,11 @@ public class SA {
     private static AnalizerTables tables;
 
 	public static void main(String[] args){
+		String inPath = IN_PATH;
+		if (args.length > 0){
+			inPath = args[0];
+		}
+
 		String uniform = "";
 		String lines;
 		ArrayList<AnalizerInput> ulaz = new ArrayList<AnalizerInput>();
@@ -32,7 +37,7 @@ public class SA {
 		ulaz.add(new AnalizerInput(null,0,"<OznakaKrajaNiza>"));
 		*/
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(IN_PATH))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(inPath))) {
             synchronizationStorage = (SynchronizationSymbolsStorage) in.readObject();
             tables = (AnalizerTables) in.readObject();
         } catch (IOException e) {
