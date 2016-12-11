@@ -2,6 +2,7 @@ package lab3.types;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -65,6 +66,31 @@ public class ArrayTypeTest {
         // "Invalid\"
         String test = "\"Invalid\\\"";
         assertFalse(ArrayType.validString(test));
+    }
+
+    @Test
+    public void stringLengthTest() throws Exception {
+        assertEquals(6, ArrayType.calcStringLength("\"12345\""));
+    }
+
+    @Test
+    public void stringLengthTest2() throws Exception {
+        assertEquals(5, ArrayType.calcStringLength("\"1\\n34\""));
+    }
+
+    @Test
+    public void stringLengthTest3() throws Exception {
+        assertEquals(5, ArrayType.calcStringLength("\"1\\\\34\""));
+    }
+
+    @Test
+    public void stringLengthTest4() throws Exception {
+        assertEquals(5, ArrayType.calcStringLength("\"1\\\\3\\\"\""));
+    }
+
+    @Test
+    public void stringLengthTest5() throws Exception {
+        assertEquals(5, ArrayType.calcStringLength("\"\\\\\\\\\\\\\\\\\""));
     }
 
 }

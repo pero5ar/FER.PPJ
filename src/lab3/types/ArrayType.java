@@ -68,4 +68,22 @@ public class ArrayType extends Type {
 
         return !escaping;
     }
+
+    public static int calcStringLength(String value) {
+        value = value.substring(1, value.length()-1);
+
+        int length = 0;
+        boolean escaping = false;
+        for(char c : value.toCharArray()) {
+            if (escaping) {
+                escaping = false;
+                continue;
+            }
+
+            escaping = (c == '\\');
+            length++;
+        }
+
+        return length;
+    }
 }

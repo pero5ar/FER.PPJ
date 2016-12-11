@@ -4,9 +4,7 @@ import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.types.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -27,15 +25,16 @@ public class SemanticNode {
     private String value;
     private SemanticNode parent;
     private Type type;
+    private List<Type> types;
     private Scope scope;
     private boolean isLValue = false;
-
     /**
      * Svojstvo ntip sluzi za prijenos jednog dijela informacije o tipu u sve deklaratore. Za varijable
      * brojevnog tipa ntip ce biti cijeli tip, za nizove ce biti tip elementa niza, a za funkcije
      * ce biti povratni tip.
      */
     private Type nType;
+    private int brElem = -1;
 
     public SemanticNode(int depth, String line) {
         this.depth = depth;
@@ -219,5 +218,28 @@ public class SemanticNode {
 
     public Type getNType() {
         return nType;
+    }
+
+    public List<Type> getTypes() {
+        if (types == null) {
+            return Collections.singletonList(type);
+        }
+        return types;
+    }
+
+    public int getBrElem() {
+        return brElem;
+    }
+
+    public void setBrElem(int brElem) {
+        this.brElem = brElem;
+    }
+
+    public void setTypes(List<Type> types) {
+        this.types = types;
+
+        if (types.size() == 1) {
+            this.type = types.get(0);
+        }
     }
 }

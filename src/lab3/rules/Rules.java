@@ -1,9 +1,6 @@
 package lab3.rules;
 
-import lab3.rules.deklaracijedefinicije.DefinicijaFunkcije;
-import lab3.rules.deklaracijedefinicije.Deklaracija;
-import lab3.rules.deklaracijedefinicije.ListaDeklaracija;
-import lab3.rules.deklaracijedefinicije.ListaInitDeklaratora;
+import lab3.rules.deklaracijedefinicije.*;
 import lab3.rules.izrazi.*;
 import lab3.rules.naredbe.*;
 
@@ -53,7 +50,7 @@ public enum Rules {
     LISTA_DEKLARACIJA(new ListaDeklaracija()),
     DEKLARACIJA(new Deklaracija()),
     LISTA_INIT_DEKLARATORA(new ListaInitDeklaratora()),
-//    INIT_DEKLARATOR(new InitDeklarator()),
+    INIT_DEKLARATOR(new InitDeklarator()),
 //    IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
 //    INICIJALIZATOR(new Inicijalizator()),
 //    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja()),
