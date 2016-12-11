@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * Since <bin_
  */
 public abstract class BoilerplateIzraz extends Rule {
-    private Predicate<SemanticNode> production1Predicate;
+    protected Predicate<SemanticNode> production1Predicate;
 
     protected BoilerplateIzraz(String symbol, String production1Symbol) {
         this(
@@ -46,10 +46,10 @@ public abstract class BoilerplateIzraz extends Rule {
     protected void check1(Scope scope, SemanticNode node) {
         SemanticNode yIzraz = node.getChildAt(0);
 
+        yIzraz.check(scope);
+
         node.setType(yIzraz.getType());
         node.setLValue(yIzraz.isLValue());
-
-        yIzraz.check(scope);
     }
 
     /**

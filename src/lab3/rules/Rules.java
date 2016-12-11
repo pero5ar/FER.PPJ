@@ -3,6 +3,7 @@ package lab3.rules;
 import lab3.rules.deklaracijedefinicije.DefinicijaFunkcije;
 import lab3.rules.deklaracijedefinicije.Deklaracija;
 import lab3.rules.deklaracijedefinicije.ListaDeklaracija;
+import lab3.rules.deklaracijedefinicije.ListaInitDeklaratora;
 import lab3.rules.izrazi.*;
 import lab3.rules.naredbe.*;
 
@@ -15,8 +16,8 @@ import java.util.Map;
 public enum Rules {
     // 4.4.4 izrazi
     PRIMARNI_IZRAZ(new PrimarniIzraz()),
-    POSTFIX_IZRAZ(new PostfixIzraz()),
-    LISTA_ARGUMENATA(new ListaArgumenata()),
+    POSTFIKS_IZRAZ(new PostfiksIzraz()),
+//    LISTA_ARGUMENATA(new ListaArgumenata()),
     UNARNI_IZRAZ(new UnarniIzraz()),
     UNARNI_OPERATOR(new UnarniOperator()),
     CAST_IZRAZ(new CastIzraz()),
@@ -38,24 +39,25 @@ public enum Rules {
     SLOZENA_NAREDBA(new SlozenaNaredba()),
     LISTA_NAREDBI(new ListaNaredbi()),
     NAREDBA(new Naredba()),
-    IZRAZ_NAREDBA(new IzrazNaredba()),
-    NAREDBA_GRANANJA(new NaredbaGrananja()),
-    NAREDBA_PETLJE(new NaredbaPetlje()),
+//    IZRAZ_NAREDBA(new IzrazNaredba()),
+//    NAREDBA_GRANANJA(new NaredbaGrananja()),
+//    NAREDBA_PETLJE(new NaredbaPetlje()),
     NAREDBA_SKOKA(new NaredbaSkoka()),
     PRIJEVODNA_JEDINICA(new PrijevodnaJedinica()),
     VANJSKA_DEKLARACIJA(new VanjskaDeklaracija()),
 
     // 4.4.6 deklaracije i definicije
     DEFINICIJA_FUNKCIJA(new DefinicijaFunkcije()),
-    LISTA_PARAMETARA(new ListaParametara()),
-    DEKLARACIJA_PARAMETARA(new DeklaracijaParametara()),
+//    LISTA_PARAMETARA(new ListaParametara()),
+//    DEKLARACIJA_PARAMETARA(new DeklaracijaParametara()),
     LISTA_DEKLARACIJA(new ListaDeklaracija()),
     DEKLARACIJA(new Deklaracija()),
     LISTA_INIT_DEKLARATORA(new ListaInitDeklaratora()),
-    INIT_DEKLARATOR(new InitDeklarator()),
-    IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
-    INICIJALIZATOR(new Inicijalizator()),
-    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja());
+//    INIT_DEKLARATOR(new InitDeklarator()),
+//    IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
+//    INICIJALIZATOR(new Inicijalizator()),
+//    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja()),
+    ;
 
     private Rule rule;
     public final String symbol;
@@ -65,7 +67,7 @@ public enum Rules {
         this.symbol = rule.symbol;
 
         if (RulesMap.map.containsKey(symbol)) {
-            throw new RuntimeException("Double symbol : " + symbol);
+            throw new RuntimeException("Double symbol : " + symbol + " => " + rule.getClass());
         }
         RulesMap.map.put(symbol, this);
     }

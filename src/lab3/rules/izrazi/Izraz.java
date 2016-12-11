@@ -6,9 +6,12 @@ import lab3.rules.Rules;
 
 public class Izraz extends BoilerplateIzraz {
     public Izraz() {
-        super("<primarni_izraz>", Rules.IZRAZ_PRIDRUZIVANJA.symbol);
+        super("<izraz>", Rules.IZRAZ_PRIDRUZIVANJA.symbol);
     }
 
+    protected void check1(Scope scope, SemanticNode node) {
+        super.check1(scope, node);
+    }
     /**
      * <izraz> ::= <izraz> ZAREZ <izraz_pridruzivanja>
      *

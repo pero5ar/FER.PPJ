@@ -72,6 +72,8 @@ public class SemanticNode {
     }
 
     public SemanticNode getChildAt(int i){
+        // This may very well throw IndexOutOfBoundsException. If it does,
+        // we should wrap it in SemanticException... To be seen.
         return children.get(i);
     }
 
@@ -213,5 +215,9 @@ public class SemanticNode {
 
     public void setNType(Type nType) {
         this.nType = nType;
+    }
+
+    public Type getNType() {
+        return nType;
     }
 }

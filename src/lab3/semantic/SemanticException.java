@@ -11,6 +11,6 @@ public class SemanticException extends RuntimeException {
     }
 
     public SemanticException(String output){
-        this("", output);
+        this(output, "");
     }
 }
