@@ -1,15 +1,9 @@
 package lab3.rules.deklaracijedefinicije;
 
 import lab3.models.Scope;
-import lab3.models.ScopeElement;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
-import lab3.semantic.SemanticException;
-import lab3.types.ConstType;
-import lab3.types.FunctionType;
-
-import java.util.ArrayList;
 
 /**
  * vidi: 4.4.6 (str. 68)

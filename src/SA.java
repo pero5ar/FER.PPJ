@@ -1,6 +1,5 @@
 // TODO before submission, move to analizator directory
 
-import lab2.models.Node;
 import lab2.models.*;
 import lab2.storage.ProductionRulesStorage;
 import lab2.storage.SynchronizationSymbolsStorage;

@@ -2,8 +2,6 @@ package lab3.rules;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by jj on 11.12.16..
  */

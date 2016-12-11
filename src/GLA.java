@@ -5,11 +5,6 @@ import lab1.storage.RulesStorage;
 import lab1.storage.StateStorage;
 import lab1.storage.TokenStorage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 public class GLA {
 
 	private static final String OUT_PATH = "analizator/storage.bin";

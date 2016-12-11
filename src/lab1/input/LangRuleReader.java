@@ -1,7 +1,10 @@
 package lab1.input;
 
 import common.InlineDataStorage;
-import lab1.storage.*;
+import lab1.storage.RegexStorage;
+import lab1.storage.RulesStorage;
+import lab1.storage.StateStorage;
+import lab1.storage.TokenStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;

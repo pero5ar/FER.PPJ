@@ -1,16 +1,16 @@
 package lab2.tests;
 
 import common.InlineDataStorage;
-import lab2.automaton.Automaton;
 import lab2.automaton.DKA;
 import lab2.automaton.EpsilonNKA;
-import lab2.automaton.NKA;
 import lab2.input.InputReader;
-import lab2.models.AnalizerInput;
 import lab2.models.AnalizerTables;
 import lab2.models.DoubleMap;
 import lab2.models.StateSet;
-import lab2.storage.*;
+import lab2.storage.NonterminalSymbolsStorage;
+import lab2.storage.ProductionRulesStorage;
+import lab2.storage.SynchronizationSymbolsStorage;
+import lab2.storage.TerminalSymbolsStorage;
 import lab2.transform.AutomataGenerator;
 import lab2.transform.ProductionStarts;
 

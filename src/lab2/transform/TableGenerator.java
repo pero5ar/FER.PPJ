@@ -6,7 +6,6 @@ import lab2.models.Production;
 import lab2.models.StateSet;
 import lab2.storage.ProductionRulesStorage;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 

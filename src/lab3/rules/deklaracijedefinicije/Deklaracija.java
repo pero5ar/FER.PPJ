@@ -3,7 +3,6 @@ package lab3.rules.deklaracijedefinicije;
 import lab3.models.Scope;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
-import lab3.rules.Rules;
 
 /**
  * vidi: 4.4.6 (str. 68)

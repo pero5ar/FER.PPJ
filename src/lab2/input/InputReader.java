@@ -1,7 +1,9 @@
 package lab2.input;
 
-import common.InlineDataStorage;
-import lab2.storage.*;
+import lab2.storage.NonterminalSymbolsStorage;
+import lab2.storage.ProductionRulesStorage;
+import lab2.storage.SynchronizationSymbolsStorage;
+import lab2.storage.TerminalSymbolsStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
