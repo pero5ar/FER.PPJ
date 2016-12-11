@@ -1,15 +1,13 @@
 // TODO before submission, move to analizator directory
 
+import lab2.models.Node;
 import lab2.models.*;
 import lab2.storage.ProductionRulesStorage;
 import lab2.storage.SynchronizationSymbolsStorage;
 
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class SA {
 	public static final String EPSILON = ProductionRulesStorage.EPSILON;
