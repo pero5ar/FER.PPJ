@@ -51,8 +51,8 @@ public enum Rules {
     DEKLARACIJA(new Deklaracija()),
     LISTA_INIT_DEKLARATORA(new ListaInitDeklaratora()),
     INIT_DEKLARATOR(new InitDeklarator()),
-//    IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
-//    INICIJALIZATOR(new Inicijalizator()),
+    IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
+    INICIJALIZATOR(new Inicijalizator()),
 //    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja()),
     ;
 

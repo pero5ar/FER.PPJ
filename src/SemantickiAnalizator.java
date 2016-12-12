@@ -63,11 +63,12 @@ public class SemantickiAnalizator {
         } catch(SemanticException e) {
             System.out.println(e.output);
             System.err.println(e.getMessage());
+            // e.printStackTrace();
         }
     }
 
     private void checkMain() {
-        ScopeElement main = globalScope.getElement("main");
+        ScopeElement main = globalScope.getElement("main", false);
 
         if (main == null) {
             throw new SemanticException("main", "Main must be declared.");
@@ -99,7 +100,7 @@ public class SemantickiAnalizator {
             }
 
             // globalna funkcija (deklaracija funkcije)
-            ScopeElement globalFunction = globalScope.getElement(name);
+            ScopeElement globalFunction = globalScope.getElement(name, false);
 
             // globalna funkcija (odnosno deklaracija funkcije) mora postojati, /*biti definirana*/
             // i istog tipa kao i definicija funkcije

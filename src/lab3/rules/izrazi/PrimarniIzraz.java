@@ -49,13 +49,14 @@ public class PrimarniIzraz extends Rule {
     private void checkIdentifier(Scope scope, SemanticNode node) {
         SemanticNode child = node.getChildAt(0);
 
-        ScopeElement element = scope.getElement(child.getValue());
-        if (element == null) {
-            throw new SemanticException(node.errorOutput());
+        ScopeElement element = scope.getElement(child.getValue(), true);
+        if (!scope.isDeclared(child.getValue(), true)) {
+            throw new SemanticException(node.errorOutput(),
+                    "Rule broken: 1. IDN.ime je deklarirano");
         }
 
-        child.setType(element.getType());
-        child.setLValue(element.getType() instanceof NumberType);
+        node.setType(element.getType());
+        node.setLValue(element.getType() instanceof NumberType);
     }
 
     /**
@@ -67,7 +68,7 @@ public class PrimarniIzraz extends Rule {
      * 1. vrijednost je u rasponu tipa int
      */
     private void checkInt(SemanticNode node) {
-        node.getChildAt(0).setType(IntType.INSTANCE);
+        node.setType(IntType.INSTANCE);
         node.setLValue(false);
 
         if (!IntType.INSTANCE.validRange(node.getChildAt(0).getValue())) {

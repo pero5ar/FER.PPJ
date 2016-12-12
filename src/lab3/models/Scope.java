@@ -33,34 +33,47 @@ public class Scope {
     }
 
     /**
-     * Checks whether the element with given name is declared in this or any of the parent scopes.
+     * Checks whether the element with given name is declared in this scope.
      * @param name Element name
      * @return true if the element is declared, false otherwise
      */
     public boolean isDeclared(String name) {
+        return isDeclared(name, false);
+    }
+
+    /**
+     * Checks whether the element with given name is declared in this or, optionally any of the parent scopes.
+     * @param name Element name
+     * @param global If true, will check also all parents for declaration
+     * @return true if the element is declared, false otherwise
+     */
+    public boolean isDeclared(String name, boolean global) {
         return (elementTable.containsKey(name) ||
                 (
-                    parent != null && parent.isDeclared(name)
+                        global &&
+                        parent != null && parent.isDeclared(name)
                 )
         );
     }
 
     /**
-     * Gets a declared element from the scope, or any of the parent scopes.
+     * Gets a declared element from the scope, and optionally from any
+     * of the parent scopes.
      * @param name Element name
+     * @param global If true, will look for the element in all the parent scopes
      * @return The declared element with given name. Null if element is not declared.
      */
-    public ScopeElement getElement(String name) {
+    public ScopeElement getElement(String name, boolean global) {
         ScopeElement element = elementTable.get(name);
         if (element != null) {
             return element;
         }
 
-        if (parent == null) {
+        if (!global || parent == null) {
             return null;
         }
 
-        return parent.getElement(name);
+        return parent.getElement(name, true);
     }
 
     public void addElement(String name, ScopeElement element) {
@@ -70,10 +83,11 @@ public class Scope {
     /**
      * Checks whether an element is both declared <b>and defined</b>.
      * @param name Element name
+     * @param global If true, will look for definition in all the parent scopes.
      * @return true if the element is defined, false otherwise
      */
-    public boolean isDefined(String name) {
-        ScopeElement element = getElement(name);
+    public boolean isDefined(String name, boolean global) {
+        ScopeElement element = getElement(name, global);
         return element != null && element.defined;
     }
 

@@ -50,14 +50,14 @@ public class DefinicijaFunkcije extends Rule {
         // 3. ne postoji prije definirana funkcija imena IDN.ime
         SemanticNode identifier = node.getChildAt(1);
         String functionName = identifier.getValue();
-        if (scope.isDefined(identifier.getValue())) {
+        if (scope.isDefined(identifier.getValue(), true)) {
             throw new SemanticException(node.errorOutput(),
                     "Rule broken: ne postoji prije definirana funkcija imena IDN.ime");
         }
 
         // 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)
         FunctionType functionType = new FunctionType(typeNode.getType(), new ArrayList<>());
-        if (scope.isDeclared(functionName) && !scope.getElement(functionName).getType().equals(functionType)) {
+        if (scope.isDeclared(functionName) && !scope.getElement(functionName, true).getType().equals(functionType)) {
             throw new SemanticException(node.errorOutput(),
                     "Rule broken: ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)");
         }

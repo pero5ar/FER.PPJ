@@ -21,6 +21,7 @@ public class Inicijalizator extends Rule {
     public void check(Scope scope, SemanticNode node) {
         if (node.childSymbolEqual(0, Rules.IZRAZ_PRIDRUZIVANJA.symbol)) {
             check1(scope, node);
+            return;
         }
         check2(scope, node);
     }
