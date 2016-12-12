@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CharType extends NumberType {
+    private static final long serialVersionUID = -8862265770296971547L;
+
     public static final CharType INSTANCE = new CharType();
 
     static final Set<Character> ALLOWED_ESCAPES = new HashSet<>(Arrays.asList(
@@ -39,11 +41,11 @@ public class CharType extends NumberType {
     @Override
     public boolean canImplicitCast(Type target) {
         // vidi 4.3.1 (str. 41)
-        return target instanceof IntType || super.canImplicitCast(target);
+        return this.equals(target) || target instanceof IntType;
     }
 
     @Override
     public boolean equals(Type o) {
-        return o == this;
+        return o instanceof CharType;
     }
 }

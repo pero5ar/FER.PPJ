@@ -6,6 +6,7 @@ import lab3.rules.naredbe.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * @author JJ
@@ -74,12 +75,11 @@ public enum Rules {
     }
 
     public static Rule getRule(String symbol) {
-        Rules entry = RulesMap.map.get(symbol);
-        if (entry == null) {
-            return null;
+        if (!RulesMap.map.containsKey(symbol)) {
+            throw new NoSuchElementException("No rule for " + symbol);
         }
 
-        return entry.rule;
+        return RulesMap.map.get(symbol).rule;
     }
 
     private static final class RulesMap {

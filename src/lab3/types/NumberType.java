@@ -1,6 +1,8 @@
 package lab3.types;
 
 public abstract class NumberType extends PrimitiveType {
+    private static final long serialVersionUID = 5446320898597838475L;
+
     /**
      * Inclusive min value
      */
@@ -29,32 +31,24 @@ public abstract class NumberType extends PrimitiveType {
     @Override
     public boolean canImplicitCast(Type target) {
         // vidi 4.3.1 (str. 41)
-        if (target instanceof ConstType) {
-            ConstType constType = (ConstType) target;
-            return constType.getType() == this;
+        if (!(target instanceof ConstType)) {
+            return this.equals(target);
         }
 
-        return super.canImplicitCast(target);
+        return this == ((ConstType)target).getType();
     }
 
     @Override
     public boolean canExplicitCast(Type target) {
-        if (canImplicitCast(target)) {
-            return true;
-        }
-
         // vidi 4.3.1 (str. 41)
-        if (target instanceof NumberType) {
+
+        if (target instanceof NumberType || canImplicitCast(target)) {
             return true;
+        } else if (!(target instanceof ConstType)) {
+            return false;
         }
 
-        if (target instanceof ConstType) {
-            ConstType constType = (ConstType) target;
-            if (constType.getType() instanceof NumberType) {
-                return true;
-            }
-        }
-
-        return false;
+        ConstType constType = (ConstType) target;
+        return (constType.getType() instanceof NumberType);
     }
 }

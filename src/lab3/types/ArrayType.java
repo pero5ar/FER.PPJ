@@ -4,14 +4,22 @@ package lab3.types;
  * @author JJ
  */
 public class ArrayType extends Type {
-    private final PrimitiveType elementType;
+    private static final long serialVersionUID = 4003871070080564848L;
+
+    public final PrimitiveType elementType;
 
     public ArrayType(PrimitiveType type) {
         this.elementType = type;
     }
 
-    public PrimitiveType getElementType() {
-        return elementType;
+    @Override
+    public boolean equals(Type o) {
+        if (!(o instanceof ArrayType)) {
+            return false;
+        }
+
+        ArrayType otherArray = (ArrayType) o;
+        return this.elementType.equals(otherArray.elementType);
     }
 
     @Override
@@ -30,23 +38,12 @@ public class ArrayType extends Type {
             return false;
         }
 
-        // voodoo magic by experiment
-        ConstType targetConst = (ConstType) targetArray.elementType;
         if (this.elementType instanceof ConstType) {
+            ConstType targetConst = (ConstType) targetArray.elementType;
             return this.elementType.canImplicitCast(targetConst.getType());
         } else {
             return this.elementType.canImplicitCast(targetArray.elementType);
         }
-    }
-
-    @Override
-    public boolean equals(Type o) {
-        if (!(o instanceof ArrayType)) {
-            return false;
-        }
-
-        ArrayType oArray = (ArrayType) o;
-        return elementType.equals(oArray.elementType);
     }
 
     public static boolean validString(String value) {

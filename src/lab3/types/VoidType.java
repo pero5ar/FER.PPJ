@@ -6,7 +6,12 @@ public class VoidType extends Type {
     private VoidType() {}
 
     @Override
+    public boolean canImplicitCast(Type target) {
+        return this.equals(target);
+    }
+
+    @Override
     public boolean equals(Type o) {
-        return o == this;
+        return o instanceof VoidType;
     }
 }

@@ -75,7 +75,7 @@ public class PostfiksIzraz extends Rule {
 
         // tip ← X && l-izraz ← X != const(T)
         ArrayType arrayType = (ArrayType) postfiksIzraz.getType();
-        Type typeX = arrayType.getElementType();
+        Type typeX = arrayType.elementType;
 
         node.setType(typeX);
         node.setLValue(!(typeX instanceof ConstType));

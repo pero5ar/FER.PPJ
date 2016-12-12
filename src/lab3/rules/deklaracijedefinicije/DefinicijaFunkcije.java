@@ -5,6 +5,7 @@ import lab3.models.ScopeElement;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.ConstType;
 import lab3.types.FunctionType;
 
@@ -37,34 +38,32 @@ public class DefinicijaFunkcije extends Rule {
      * 6. provjeri(<slozena_naredba>)
      */
     private void check1(Scope scope, SemanticNode node) {
+        SemanticNode imeTipa = node.getChildAt(0);
+        String functionName = node.getChildAt(1).getValue();
+        FunctionType functionType = new FunctionType(imeTipa.getType(), new ArrayList<>());
+
         // 1. provjeri(<ime_tipa>)
-        SemanticNode typeNode = node.getChildAt(0);
-        typeNode.check(scope);
+        imeTipa.check(scope);
 
         // 2. <ime_tipa>.tip != const(T)
-        if (typeNode.getType() instanceof ConstType) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: <ime_tipa>.tip != const(T)");
-        }
-
         // 3. ne postoji prije definirana funkcija imena IDN.ime
-        SemanticNode identifier = node.getChildAt(1);
-        String functionName = identifier.getValue();
-        if (scope.isDefined(identifier.getValue(), true)) {
+        if (imeTipa.getType() instanceof ConstType
+                || scope.isDefined(functionName, true)) {
             throw new SemanticException(node.errorOutput(),
-                    "Rule broken: ne postoji prije definirana funkcija imena IDN.ime");
+                    "Definicija funkcije");
         }
 
         // 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)
-        FunctionType functionType = new FunctionType(typeNode.getType(), new ArrayList<>());
-        if (scope.isDeclared(functionName) && !scope.getElement(functionName, true).getType().equals(functionType)) {
+        if (scope.isDeclared(functionName)
+                && !scope.getElement(functionName, true).getType().equals(functionType)) {
             throw new SemanticException(node.errorOutput(),
-                    "Rule broken: ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)");
+                    "Definicija funkcije");
         }
 
         // 5. zabiljezi definiciju i deklaraciju funkcije
-        scope.addElement(functionName, new ScopeElement(functionType, true));
         node.setType(functionType);
+        SemanticHelper.addDefinedFunction(functionName);
+        scope.addElement(functionName, new ScopeElement(functionType, true));
 
         // 6. provjeri(<slozena_naredba>)
         Scope subScope = new Scope(scope);

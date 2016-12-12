@@ -1,11 +1,9 @@
 
 import lab3.models.Scope;
-import lab3.models.ScopeElement;
 import lab3.models.SemanticNode;
 import lab3.semantic.InputParser;
 import lab3.semantic.SemanticException;
-import lab3.types.FunctionType;
-import lab3.types.IntType;
+import lab3.semantic.SemanticHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,60 +56,13 @@ public class SemantickiAnalizator {
             treeRoot.check(globalScope);
 
             // vidi: 4.4.7 (str. 72)
-            checkMain();
-            checkFunctionDeclarations(globalScope);
+            SemanticHelper.postTreeWalk();
         } catch(SemanticException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
             System.err.println();
             System.out.println(e.output);
         }
-    }
-
-    private void checkMain() {
-        ScopeElement main = globalScope.getElement("main", false);
-
-        if (main == null) {
-            throw new SemanticException("main", "Main must be declared.");
-        }
-
-        if (!main.defined) {
-            throw new SemanticException("main", "Main must be defined.");
-        }
-        if (!(main.getType() instanceof FunctionType)) {
-            throw new SemanticException("main", "Main must be a function.");
-        }
-
-        FunctionType mainType = (FunctionType) main.getType();
-        if (!mainType.returnType.equals(IntType.INSTANCE)) {
-            throw new SemanticException("main", "Main's return type must be int.");
-        }
-        if (!mainType.parameters.isEmpty()) {
-            throw new SemanticException("main", "Main must accept no arguments (void).");
-        }
-
-        throw new SemanticException("main");
-    }
-
-    private void checkFunctionDeclarations(Scope scope) {
-        scope.getElementTable().forEach((name, element) -> {
-            if (!(element.getType() instanceof FunctionType)){
-                // element nije funkcija; idi dalje
-                return;
-            }
-
-            // globalna funkcija (deklaracija funkcije)
-            ScopeElement globalFunction = globalScope.getElement(name, false);
-
-            // globalna funkcija (odnosno deklaracija funkcije) mora postojati, /*biti definirana*/
-            // i istog tipa kao i definicija funkcije
-            if ( globalFunction == null /*|| !globalFunction.defined*/ || !element.getType().equals(globalFunction.getType()) ) {
-                throw new SemanticException("funkcija", "Function declaration (" + name + ") error.");
-            }
-        });
-
-        // napravi provjeru za sve djelokruge
-        globalScope.forEachChild(this::checkFunctionDeclarations);
     }
 
 }

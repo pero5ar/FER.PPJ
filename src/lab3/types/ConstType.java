@@ -28,6 +28,11 @@ public class ConstType extends PrimitiveType {
 
     @Override
     public boolean equals(Type o) {
-        return o instanceof ConstType && wrappedType.equals(((ConstType) o).wrappedType);
+        if (!(o instanceof ConstType)) {
+            return false;
+        }
+
+        ConstType otherConst = (ConstType) o;
+        return this.wrappedType.equals(otherConst.wrappedType);
     }
 }

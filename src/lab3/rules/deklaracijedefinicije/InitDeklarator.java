@@ -49,7 +49,7 @@ public class InitDeklarator extends Rule {
         }
         if (izravniDeklarator.getType() instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) izravniDeklarator.getType();
-            if (arrayType.getElementType() instanceof ConstType) {
+            if (arrayType.elementType instanceof ConstType) {
                 throw new SemanticException(node.errorOutput(),
                         "Rule broken: 2. <izravni_deklarator>.tip != niz(const(T))");
             }
@@ -98,7 +98,7 @@ public class InitDeklarator extends Rule {
                         "Rule broken: 3. (init_deklarator produkcija 2)");
             }
         } else if (type instanceof ArrayType) {
-            type = ((ArrayType) type).getElementType();
+            type = ((ArrayType) type).elementType;
             targetType = (type instanceof ConstType) ? ((ConstType) type).getType()
                     : type;
 

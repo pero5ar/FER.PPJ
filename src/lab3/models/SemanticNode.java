@@ -1,31 +1,31 @@
 package lab3.models;
 
-import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.types.Type;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * @author JJ
  */
 public class SemanticNode {
-    private List<SemanticNode> children = new ArrayList<>();
-
-    private int depth;
+    public final int depth;
     private String line;
-
     private String symbol;
+
     /**
      * Set to true if the symbol is terminal, false if symbol is nonterminal
      */
     private boolean terminalSymbol;
     private int lineNumber;
     private String value;
+    private List<Type> types = null;
+    private Type type = null;
     private SemanticNode parent;
-    private Type type;
-    private List<Type> types;
+    private List<SemanticNode> children = new ArrayList<>();
     private Scope scope;
     private boolean isLValue = false;
     /**
@@ -54,10 +54,6 @@ public class SemanticNode {
         children.add(node);
     }
 
-    public int getDepth() {
-        return depth;
-    }
-
     /**
      * Gets the view of the children list.
      * @return The view of children
@@ -77,22 +73,13 @@ public class SemanticNode {
     }
 
     /**
-     * Gets the symbol of the child at i-th index.
-     * @param i index of the child
-     * @return Child's symbol
-     */
-    public String getChildSymbol(int i) {
-        return getChildAt(i).symbol;
-    }
-
-    /**
      * Checks if the symbol of the child at i-th index is equal to given <code>compareTo</code>.
      * @param i index of the child
      * @param compareTo the symbol to compare the child's symbol to
      * @return true if the child's symbol is equal to given symbol, false otherwise
      */
     public boolean childSymbolEqual(int i, String compareTo) {
-        return getChildSymbol(i).equals(compareTo);
+        return getChildAt(i).symbol.equals(compareTo);
     }
 
     public String fullTreeString() {
@@ -139,27 +126,46 @@ public class SemanticNode {
         }
     }
 
-    private void setSymbol(String symbol, boolean isTerminal) {
-        this.symbol = symbol;
-        this.terminalSymbol = isTerminal;
-    }
-
     /**
      * Performs rule check on this node in the given scope.
      *
      * @param scope The scope in which the rule validation should be performed
      */
     public void check(Scope scope) {
-        Rule rule = Rules.getRule(symbol);
-
-        if (rule == null) {
-            throw new NoSuchElementException("No rule for " + symbol);
-        }
-        rule.apply(scope, this);
+        Rules.getRule(symbol).apply(scope, this);
     }
 
     public void setScope(Scope scope) {
         this.scope = scope;
+    }
+
+    private void setSymbol(String symbol, boolean isTerminal) {
+        this.symbol = symbol;
+        this.terminalSymbol = isTerminal;
+    }
+
+    public void setLValue(boolean LValue) {
+        isLValue = LValue;
+    }
+
+    public void setBrElem(int brElem) {
+        this.brElem = brElem;
+    }
+
+    public void setTypes(List<Type> types) {
+        this.types = types;
+
+        if (types.size() == 1) {
+            this.type = types.get(0);
+        }
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setNType(Type nType) {
+        this.nType = nType;
     }
 
     public Type getType() {
@@ -176,6 +182,10 @@ public class SemanticNode {
 
     private String getErrorLine() {
         return symbol + "(" + lineNumber + "," + value + ")";
+    }
+
+    public SemanticNode getParent() {
+        return parent;
     }
 
     public String errorOutput() {
@@ -196,24 +206,8 @@ public class SemanticNode {
         return message.toString().trim();
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public SemanticNode getParent() {
-        return parent;
-    }
-
     public boolean isLValue() {
         return isLValue;
-    }
-
-    public void setLValue(boolean LValue) {
-        isLValue = LValue;
-    }
-
-    public void setNType(Type nType) {
-        this.nType = nType;
     }
 
     public Type getNType() {
@@ -229,17 +223,5 @@ public class SemanticNode {
 
     public int getBrElem() {
         return brElem;
-    }
-
-    public void setBrElem(int brElem) {
-        this.brElem = brElem;
-    }
-
-    public void setTypes(List<Type> types) {
-        this.types = types;
-
-        if (types.size() == 1) {
-            this.type = types.get(0);
-        }
     }
 }

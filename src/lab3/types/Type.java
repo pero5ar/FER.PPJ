@@ -8,13 +8,11 @@ public abstract class Type {
         return this.getClass().getSimpleName();
     }
 
-    public boolean canImplicitCast(Type target) {
-        return this == target;
-    }
-
     public boolean canExplicitCast(Type target) {
         return canImplicitCast(target);
     }
+
+    public abstract boolean canImplicitCast(Type target);
 
     public abstract boolean equals(Type o);
 }

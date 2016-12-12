@@ -8,22 +8,37 @@ import java.util.function.Consumer;
  * @author JJ
  */
 public class Scope {
-    private Scope parent;
+    public static Scope globalScope;
+    public final boolean isGlobal;
     private Set<Scope> children = new HashSet<>(); // TODO maybe linked set? is ordering important?
+    private Scope parent;
 
     /**
      * tablica znakova
      */
     private Map<String, ScopeElement> elementTable = new HashMap<>();
 
-    public Scope() {
-    }
-
     public Scope(Scope parent) {
-        Objects.requireNonNull(parent);
+        if (parent == null) {
+            isGlobal = true;
+            return;
+        }
 
         this.parent = parent;
         parent.addChild(this);
+        isGlobal = false;
+    }
+
+    /**
+     * global scope
+     */
+    public Scope() {
+        if (globalScope != null) {
+            throw new IllegalStateException("Global state already set.");
+        }
+
+        isGlobal = true;
+        globalScope = this;
     }
 
     private void addChild(Scope child) {

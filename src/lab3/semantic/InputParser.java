@@ -40,8 +40,8 @@ public class InputParser {
         for(String line : inputLines) {
             SemanticNode node = new SemanticNode(line);
 
-            if (!stack.empty() && node.getDepth() <= stack.peek().getDepth()) {
-                collapseStackTop(node.getDepth());
+            if (!stack.empty() && node.depth <= stack.peek().depth) {
+                collapseStackTop(node.depth);
             }
             stack.push(node);
         }
@@ -63,7 +63,7 @@ public class InputParser {
         if (stack.size() <= 1) {
             return;
         }
-        if (stack.peek().getDepth() < minDepth) {
+        if (stack.peek().depth < minDepth) {
             return;
         }
 

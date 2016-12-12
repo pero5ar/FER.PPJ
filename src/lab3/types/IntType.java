@@ -1,6 +1,8 @@
 package lab3.types;
 
 public class IntType extends NumberType {
+    private static final long serialVersionUID = -6272626724896289583L;
+
     public static final IntType INSTANCE = new IntType();
 
     private IntType() {
@@ -9,6 +11,6 @@ public class IntType extends NumberType {
 
     @Override
     public boolean equals(Type o) {
-        return o == this;
+        return o instanceof IntType;
     }
 }

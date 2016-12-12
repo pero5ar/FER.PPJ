@@ -35,20 +35,12 @@ public class IzravniDeklarator extends Rule {
      * 3. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom
      */
     public void check1(Scope scope, SemanticNode node) {
-        // 1. ntip != void
-        if (node.getNType().equals(VoidType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 1. ntip != void");
-        }
-
-        // 2. IDN.ime nije deklarirano u lokalnom djelokrugu
         SemanticNode identifier = node.getChildAt(0);
-        if (scope.isDeclared(identifier.getValue())) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 2. IDN.ime nije deklarirano u lokalnom djelokrugu");
+
+        if (scope.isDeclared(identifier.getValue()) || node.getNType().equals(VoidType.INSTANCE)) {
+            throw new SemanticException(node.errorOutput());
         }
 
-        // 3. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom
         scope.addElement(
                 identifier.getValue(),
                 new ScopeElement(node.getNType(), true)
