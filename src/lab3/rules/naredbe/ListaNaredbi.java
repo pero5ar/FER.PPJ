@@ -20,7 +20,7 @@ public class ListaNaredbi extends Rule {
         if (node.childSymbolEqual(0, Rules.NAREDBA.symbol)) {
             check1(scope, node);
         } else if (node.childSymbolEqual(0, Rules.LISTA_NAREDBI.symbol) &&
-                node.childSymbolEqual(2, Rules.NAREDBA.symbol)) {
+                node.childSymbolEqual(1, Rules.NAREDBA.symbol)) {
             check2(scope, node);
         }
     }

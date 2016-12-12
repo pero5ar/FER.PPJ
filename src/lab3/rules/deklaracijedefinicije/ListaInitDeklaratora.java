@@ -47,7 +47,7 @@ public class ListaInitDeklaratora extends Rule {
      */
     private void check2(Scope scope, SemanticNode node) {
         SemanticNode listaInitDeklaratora = node.getChildAt(0);
-        SemanticNode initDeklarator = node.getChildAt(1);
+        SemanticNode initDeklarator = node.getChildAt(2);
 
         listaInitDeklaratora.setNType(node.getNType());
         initDeklarator.setNType(node.getNType());

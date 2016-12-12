@@ -21,8 +21,9 @@ public class SemanticNode {
      */
     private boolean terminalSymbol;
     private int lineNumber;
-    private String value;
     private List<Type> types = null;
+    private List<String> values = null;
+    private String value;
     private Type type = null;
     private SemanticNode parent;
     private List<SemanticNode> children = new ArrayList<>();
@@ -69,6 +70,9 @@ public class SemanticNode {
     public SemanticNode getChildAt(int i){
         // This may very well throw IndexOutOfBoundsException. If it does,
         // we should wrap it in SemanticException... To be seen.
+        if (i >= children.size()) {
+            System.out.println("wtf");
+        }
         return children.get(i);
     }
 
@@ -160,6 +164,14 @@ public class SemanticNode {
         }
     }
 
+    public void setValues(List<String> values) {
+        this.values = values;
+
+        if (values.size() == 1) {
+            this.value = values.get(0);
+        }
+    }
+
     public void setType(Type type) {
         this.type = type;
     }
@@ -170,6 +182,10 @@ public class SemanticNode {
 
     public Type getType() {
         return type;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getSymbol() {
@@ -219,6 +235,13 @@ public class SemanticNode {
             return Collections.singletonList(type);
         }
         return types;
+    }
+
+    public List<String> getValues() {
+        if (values == null) {
+            return Collections.singletonList(value);
+        }
+        return values;
     }
 
     public int getBrElem() {

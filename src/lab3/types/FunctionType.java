@@ -9,6 +9,10 @@ public class FunctionType extends Type {
 
     public FunctionType(Type returnType, List<Type> parameters) {
         this.returnType = returnType;
+
+        if (parameters != null && parameters.isEmpty()) {
+            parameters = null;
+        }
         this.parameters = parameters;
     }
 

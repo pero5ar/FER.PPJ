@@ -5,10 +5,10 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
-import lab3.types.ArrayType;
-import lab3.types.ConstType;
-import lab3.types.IntType;
-import lab3.types.Type;
+import lab3.types.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class PostfiksIzraz extends Rule {
     public PostfiksIzraz() {
@@ -27,7 +27,20 @@ public class PostfiksIzraz extends Rule {
             return;
         }
 
-        // TODO Ostale produkcije
+        if (node.childSymbolEqual(1, "L_ZAGRADA")
+                && node.childSymbolEqual(2, "D_ZAGRADA")) {
+            check3(scope, node);
+            return;
+        }
+
+        if (node.childSymbolEqual(1, "L_ZAGRADA")
+                && node.childSymbolEqual(2, Rules.LISTA_ARGUMENATA.symbol)
+                && node.childSymbolEqual(3, "D_ZAGRADA")) {
+            check4(scope, node);
+            return;
+        }
+
+        check5(scope, node);
     }
 
     /**
@@ -89,6 +102,106 @@ public class PostfiksIzraz extends Rule {
                     "Rule broken: 4. <izraz>.tip ∼ int");
         }
 
+    }
+
+    /**
+     * <postfiks_izraz> ::= <postfiks_izraz> L_ZAGRADA D_ZAGRADA
+     *
+     * tip ← pov
+     * l-izraz ← 0
+     *
+     * 1. provjeri(<postfiks_izraz>)
+     * 2. <postfiks_izraz>.tip = funkcija(void → pov)
+     */
+    private void check3(Scope scope, SemanticNode node) {
+        SemanticNode postfiksIzraz = node.getChildAt(0);
+        postfiksIzraz.check(scope);
+
+        FunctionType f;
+        try{
+            f = (FunctionType) postfiksIzraz.getType();
+        } catch(ClassCastException e) {
+            throw new SemanticException(node.errorOutput(),
+                    "Rule broken: 2. <postfiks_izraz>.tip = funkcija(void → pov)");
+        }
+
+        if (f.parameters != null) {
+            throw new SemanticException(node.errorOutput(),
+                    "Rule broken: 2. <postfiks_izraz>.tip = funkcija(void → pov)");
+        }
+
+        node.setType(f.returnType);
+        node.setLValue(false);
+    }
+
+    /**
+     * <postfiks_izraz> ::= <postfiks_izraz> L_ZAGRADA <lista_argumenata> D_ZAGRADA
+     *
+     * tip ← pov
+     * l-izraz ← 0
+     *
+     * 1. provjeri(<postfiks_izraz>)
+     * 2. provjeri(<lista_argumenata>)
+     * 3. <postfiks_izraz>.tip = funkcija(params → pov) i redom po elementima
+     *      arg-tip iz <lista_argumenata>.tipovi i param-tip iz params vrijedi
+     *      arg-tip ∼ param-tip
+     */
+    private void check4(Scope scope, SemanticNode node) {
+        // 1.
+        SemanticNode postfiksIzraz = node.getChildAt(0);
+        postfiksIzraz.check(scope);
+
+        // 2.
+        SemanticNode listaArgumenata = node.getChildAt(2);
+        listaArgumenata.check(scope);
+
+        FunctionType f;
+        try{
+            f = (FunctionType) postfiksIzraz.getType();
+        } catch(ClassCastException e) {
+            throw new SemanticException(node.errorOutput(),
+                    "Rule broken: 3. <postfiks_izraz>");
+        }
+
+        List<Type> arguments = listaArgumenata.getTypes();
+        Iterator<Type> paramIterator = f.parameters.iterator();
+
+        arguments.forEach(type -> {
+            if (!paramIterator.hasNext()) {
+                throw new SemanticException(node.errorOutput(),
+                        "Param count does not match argument count");
+            }
+            if (!type.canImplicitCast(paramIterator.next())) {
+                throw new SemanticException(node.errorOutput(),
+                        "Invalid argument type");
+            }
+        });
+
+        node.setType(f.returnType);
+        node.setLValue(false);
+    }
+
+
+    /**
+     * <postfiks_izraz> ::= <postfiks_izraz> (OP_INC | OP_DEC)
+     *
+     * tip ← int
+     * l-izraz ← 0
+     *
+     * 1. provjeri(<postfiks_izraz>)
+     * 2. <postfiks_izraz>.l-izraz = 1 i <postfiks_izraz>.tip ∼ int
+     */
+    private void check5(Scope scope, SemanticNode node) {
+        SemanticNode postfiksIzraz = node.getChildAt(0);
+        postfiksIzraz.check(scope);
+
+        if (!postfiksIzraz.isLValue() || !IntType.INSTANCE.equals(postfiksIzraz.getType())) {
+            throw new SemanticException(node.errorOutput());
+        }
+
+        // set type && l-izraz
+        node.setType(IntType.INSTANCE);
+        node.setLValue(false);
     }
 
 }

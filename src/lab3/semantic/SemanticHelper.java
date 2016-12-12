@@ -42,9 +42,9 @@ public class SemanticHelper {
         }
 
         FunctionType mainType = (FunctionType) main.getType();
-        return !(!(mainType.returnType.equals(IntType.INSTANCE)) || mainType.parameters.isEmpty());
-
-//        throw new SemanticException("main");
+        return
+                mainType.returnType.equals(IntType.INSTANCE) &&
+                        (mainType.parameters == null || mainType.parameters.isEmpty());
     }
 
     private static void checkFunctionDeclarations(Scope scope) {

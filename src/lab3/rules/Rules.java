@@ -15,7 +15,7 @@ public enum Rules {
     // 4.4.4 izrazi
     PRIMARNI_IZRAZ(new PrimarniIzraz()),
     POSTFIKS_IZRAZ(new PostfiksIzraz()),
-//    LISTA_ARGUMENATA(new ListaArgumenata()),
+    LISTA_ARGUMENATA(new ListaArgumenata()),
     UNARNI_IZRAZ(new UnarniIzraz()),
     UNARNI_OPERATOR(new UnarniOperator()),
     CAST_IZRAZ(new CastIzraz()),
@@ -46,8 +46,8 @@ public enum Rules {
 
     // 4.4.6 deklaracije i definicije
     DEFINICIJA_FUNKCIJA(new DefinicijaFunkcije()),
-//    LISTA_PARAMETARA(new ListaParametara()),
-//    DEKLARACIJA_PARAMETARA(new DeklaracijaParametara()),
+    LISTA_PARAMETARA(new ListaParametara()),
+    DEKLARACIJA_PARAMETRA(new DeklaracijaParametra()),
     LISTA_DEKLARACIJA(new ListaDeklaracija()),
     DEKLARACIJA(new Deklaracija()),
     LISTA_INIT_DEKLARATORA(new ListaInitDeklaratora()),
