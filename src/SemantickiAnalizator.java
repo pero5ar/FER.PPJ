@@ -61,9 +61,10 @@ public class SemantickiAnalizator {
             checkMain();
             checkFunctionDeclarations(globalScope);
         } catch(SemanticException e) {
-            System.out.println(e.output);
+            e.printStackTrace();
             System.err.println(e.getMessage());
-            // e.printStackTrace();
+            System.err.println();
+            System.out.println(e.output);
         }
     }
 
