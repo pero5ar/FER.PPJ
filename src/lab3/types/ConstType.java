@@ -4,14 +4,10 @@ public class ConstType extends PrimitiveType {
     public static final ConstType CONST_INT = new ConstType(IntType.INSTANCE);
     public static final ConstType CONST_CHAR = new ConstType(CharType.INSTANCE);
 
-    private final NumberType wrappedType;
+    public final NumberType wrappedType;
 
     private ConstType(NumberType type) {
         this.wrappedType = type;
-    }
-
-    public PrimitiveType getType() {
-        return wrappedType;
     }
 
     @Override

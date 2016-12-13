@@ -4,6 +4,7 @@ import lab3.models.Scope;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.IntType;
 
 import java.util.function.Predicate;
@@ -79,18 +80,18 @@ public abstract class BoilerplateIzraz extends Rule {
         xIzraz.check(scope);
 
         // 2. <x_izraz>.tip ∼ int
-        if (!xIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "<x_izraz>.tip ∼ int");
-        }
+        SemanticHelper.assertTrue(
+                xIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "<x_izraz>.tip ∼ int")
+        );
 
         // 3. provjeri(<y_izraz>)
         yIzraz.check(scope);
 
         // 4. <y_izraz>.tip ∼ int
-        if (!yIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 4. <y_izraz>.tip ∼ int");
-        }
+        SemanticHelper.assertTrue(
+                yIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "<y_izraz>.tip ∼ int")
+        );
     }
 }

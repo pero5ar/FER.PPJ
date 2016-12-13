@@ -5,6 +5,7 @@ import lab3.models.ScopeElement;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.*;
 
 public class PrimarniIzraz extends Rule {
@@ -19,19 +20,19 @@ public class PrimarniIzraz extends Rule {
         switch(child.getSymbol()) {
             case "IDN":
                 checkIdentifier(scope, node);
-                break;
+                return;
             case "BROJ":
                 checkInt(node);
-                break;
+                return;
             case "ZNAK":
                 checkChar(node);
-                break;
+                return;
             case "NIZ_ZNAKOVA":
                 checkCharArray(node);
-                break;
+                return;
             case "L_ZAGRADA":
                 checkIzraz(scope, node);
-                break;
+                return;
         }
     }
 
@@ -47,10 +48,10 @@ public class PrimarniIzraz extends Rule {
         SemanticNode child = node.getChildAt(0);
 
         ScopeElement element = scope.getElement(child.getValue(), true);
-        if (!scope.isDeclared(child.getValue(), true)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 1. IDN.ime je deklarirano");
-        }
+        SemanticHelper.assertTrue(
+                scope.isDeclared(child.getValue(), true),
+                new SemanticException(node.errorOutput(), "Rule broken: 1. IDN.ime je deklarirano")
+        );
 
         node.setType(element.getType());
         node.setLValue(element.getType() instanceof NumberType);
@@ -68,9 +69,10 @@ public class PrimarniIzraz extends Rule {
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
 
-        if (!IntType.INSTANCE.validRange(node.getChildAt(0).getValue())) {
-            throw new SemanticException(node.errorOutput());
-        }
+        SemanticHelper.assertTrue(
+                IntType.INSTANCE.validRange(node.getChildAt(0).getValue()),
+                new SemanticException(node.errorOutput())
+        );
     }
 
     /**
@@ -85,9 +87,10 @@ public class PrimarniIzraz extends Rule {
         node.setType(CharType.INSTANCE);
         node.setLValue(false);
 
-        if (!CharType.INSTANCE.validRange(node.getChildAt(0).getValue())) {
-            throw new SemanticException(node.errorOutput());
-        }
+        SemanticHelper.assertTrue(
+                CharType.INSTANCE.validRange(node.getChildAt(0).getValue()),
+                new SemanticException(node.errorOutput())
+        );
     }
 
     /**
@@ -102,9 +105,10 @@ public class PrimarniIzraz extends Rule {
         node.setType(new ArrayType(ConstType.CONST_CHAR));
         node.setLValue(false);
 
-        if (!ArrayType.validString(node.getChildAt(0).getValue())) {
-            throw new SemanticException(node.errorOutput());
-        }
+        SemanticHelper.assertTrue(
+                ArrayType.validString(node.getChildAt(0).getValue()),
+                new SemanticException(node.errorOutput())
+        );
     }
 
     /**

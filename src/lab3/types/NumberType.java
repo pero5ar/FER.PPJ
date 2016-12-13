@@ -35,7 +35,7 @@ public abstract class NumberType extends PrimitiveType {
             return this.equals(target);
         }
 
-        return this == ((ConstType)target).getType();
+        return this == ((ConstType)target).wrappedType;
     }
 
     @Override
@@ -49,6 +49,6 @@ public abstract class NumberType extends PrimitiveType {
         }
 
         ConstType constType = (ConstType) target;
-        return (constType.getType() instanceof NumberType);
+        return (constType.wrappedType != null);
     }
 }

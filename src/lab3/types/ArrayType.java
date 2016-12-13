@@ -40,7 +40,7 @@ public class ArrayType extends Type {
 
         if (this.elementType instanceof ConstType) {
             ConstType targetConst = (ConstType) targetArray.elementType;
-            return this.elementType.canImplicitCast(targetConst.getType());
+            return this.elementType.canImplicitCast(targetConst.wrappedType);
         } else {
             return this.elementType.canImplicitCast(targetArray.elementType);
         }

@@ -5,6 +5,7 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.FunctionType;
 import lab3.types.Type;
 import lab3.types.VoidType;
@@ -52,10 +53,10 @@ public class NaredbaSkoka extends Rule {
             currentNode = currentNode.getParent();
         }
 
-        if (!inLoop) {
-            throw new SemanticException(node.errorOutput(),
-                    "Must be inside of loop.");
-        }
+        SemanticHelper.assertTrue(
+                inLoop,
+                new SemanticException(node.errorOutput(), "Must be inside of loop.")
+        );
     }
 
     /**
@@ -65,10 +66,10 @@ public class NaredbaSkoka extends Rule {
      */
     private void check2(Scope scope, SemanticNode node) {
         FunctionType functionType = getFunctionType(node);
-        if (functionType == null || !functionType.returnType.equals(VoidType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params → void)");
-        }
+        SemanticHelper.assertTrue(
+                functionType != null && VoidType.INSTANCE.equals(functionType.returnType),
+                new SemanticException(node.errorOutput(), "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params → void)")
+        );
     }
 
     /**
@@ -86,18 +87,19 @@ public class NaredbaSkoka extends Rule {
         // 2. naredba se nalazi unutar funkcije tipa funkcija(params → pov) i vrijedi
         // <izraz>.tip ∼ pov
         FunctionType functionType = getFunctionType(node);
-        if (functionType == null || !izraz.getType().canImplicitCast(functionType.returnType)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Return type mismatch");
-        }
+        SemanticHelper.assertTrue(
+                functionType != null && izraz.getType().canImplicitCast(functionType.returnType),
+                new SemanticException(node.errorOutput(), "Return type mismatch")
+        );
     }
 
     private FunctionType getFunctionType(SemanticNode node) {
         if (node.getSymbol().equals(Rules.DEFINICIJA_FUNKCIJA.symbol)) {
             Type type = node.getType();
-            if (!(type instanceof FunctionType)) {
-                throw new IllegalStateException("Type should be FunctionType (actually " + type.getClass() + "). Something wrong happened.");
-            }
+            SemanticHelper.assertTrue(
+                    type instanceof FunctionType,
+                    new IllegalStateException("Type should be FunctionType (actually " + type.getClass() + "). Something wrong happened.")
+            );
 
             return (FunctionType) type;
         }

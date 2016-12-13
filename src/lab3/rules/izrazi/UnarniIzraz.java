@@ -4,6 +4,7 @@ import lab3.models.Scope;
 import lab3.models.SemanticNode;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.IntType;
 
 public class UnarniIzraz extends BoilerplateIzraz {
@@ -44,10 +45,10 @@ public class UnarniIzraz extends BoilerplateIzraz {
         unarniIzraz.check(scope);
 
         // 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int
-        if (!unarniIzraz.isLValue() || !unarniIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Ruke broken: 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int");
-        }
+        SemanticHelper.assertTrue(
+                unarniIzraz.isLValue() && unarniIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int")
+        );
     }
 
     /**
@@ -69,9 +70,9 @@ public class UnarniIzraz extends BoilerplateIzraz {
         castIzraz.check(scope);
 
         // 2. <cast_izraz>.tip ∼ int
-        if (!castIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Ruke broken: 2. <cast_izraz>.tip ∼ int");
-        }
+        SemanticHelper.assertTrue(
+                castIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <cast_izraz>.tip ∼ int")
+        );
     }
 }

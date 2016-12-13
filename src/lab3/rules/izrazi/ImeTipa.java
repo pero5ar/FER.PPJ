@@ -5,6 +5,7 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.ConstType;
 import lab3.types.IntType;
 import lab3.types.VoidType;
@@ -19,12 +20,9 @@ public class ImeTipa extends Rule {
         //dvije produkcije
         if (node.childSymbolEqual(0, Rules.SPECIFIKATOR_TIPA.symbol)) {
             check1(scope, node);
-        } else if (
-                node.childSymbolEqual(0, "KR_CONST") &&
-                node.childSymbolEqual(1, Rules.SPECIFIKATOR_TIPA.symbol)
-        ) {
-            check2(scope, node);
+            return;
         }
+        check2(scope, node);
     }
 
     /**
@@ -57,10 +55,10 @@ public class ImeTipa extends Rule {
         specifikatorTipa.check(scope);
 
         // 2. <specifikator_tipa>.tip != void
-        if (specifikatorTipa.getType() instanceof VoidType) {
-            throw new SemanticException(node.errorOutput(),
-                    "const void not allowed.");
-        }
+        SemanticHelper.assertTrue(
+                !VoidType.INSTANCE.equals(specifikatorTipa.getType()),
+                new SemanticException(node.errorOutput(), "const void not allowed.")
+        );
 
         // spremi tip
         node.setType(

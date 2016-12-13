@@ -47,11 +47,10 @@ public class DefinicijaFunkcije extends Rule {
         FunctionType functionType = new FunctionType(node.getChildAt(0).getType(), null);
 
         // 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)
-        if (scope.isDeclared(functionName, true)
-                && !scope.getElement(functionName, true).getType().equals(functionType)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Definicija funkcije");
-        }
+        SemanticHelper.assertTrue(
+                !scope.isDeclared(functionName, false) || scope.getElement(functionName, true).getType().equals(functionType),
+                new SemanticException(node.errorOutput(), "Definicija funkcije")
+        );
 
         // 5. zabiljezi definiciju i deklaraciju funkcije
         node.setType(functionType);
@@ -86,11 +85,10 @@ public class DefinicijaFunkcije extends Rule {
         String functionName = node.getChildAt(1).getValue();
         FunctionType functionType = new FunctionType(node.getChildAt(0).getType(), listaParametara.getTypes());
 
-        if (scope.isDeclared(functionName, true)
-                && !scope.getElement(functionName, true).getType().equals(functionType)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Definicija funkcije, produkcija 2 - krivi tip");
-        }
+        SemanticHelper.assertTrue(
+                !scope.isDeclared(functionName, true) || scope.getElement(functionName, true).getType().equals(functionType),
+                new SemanticException(node.errorOutput(), "Definicija funkcije, produkcija 2 - krivi tip")
+        );
 
         // 6. zabiljezi definiciju i deklaraciju funkcije
         node.setType(functionType);
@@ -129,10 +127,9 @@ public class DefinicijaFunkcije extends Rule {
 
         // 2. <ime_tipa>.tip != const(T)
         // 3. ne postoji prije definirana funkcija imena IDN.ime
-        if (returnType.getType() instanceof ConstType
-                || scope.isDefined(functionName, true)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Definicija funkcije");
-        }
+        SemanticHelper.assertTrue(
+                !(returnType.getType() instanceof ConstType) && !scope.isDefined(functionName, true),
+                new SemanticException(node.errorOutput(), "Definicija funkcije")
+        );
     }
 }

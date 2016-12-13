@@ -5,6 +5,7 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.*;
 
 import java.util.Iterator;
@@ -81,10 +82,10 @@ public class PostfiksIzraz extends Rule {
         postfiksIzraz.check(scope);
 
         // 2. <postfiks_izraz>.tip = niz(X)
-        if (!(postfiksIzraz.getType() instanceof ArrayType)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 2. <postfiks_izraz>.tip = niz(X)");
-        }
+        SemanticHelper.assertTrue(
+                postfiksIzraz.getType() instanceof ArrayType,
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <postfiks_izraz>.tip = niz(X)")
+        );
 
         // tip ← X && l-izraz ← X != const(T)
         ArrayType arrayType = (ArrayType) postfiksIzraz.getType();
@@ -97,10 +98,10 @@ public class PostfiksIzraz extends Rule {
         izraz.check(scope);
 
         // 4. <izraz>.tip ∼ int
-        if (!izraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 4. <izraz>.tip ∼ int");
-        }
+        SemanticHelper.assertTrue(
+                izraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "Rule broken: 4. <izraz>.tip ∼ int")
+        );
 
     }
 
@@ -125,10 +126,10 @@ public class PostfiksIzraz extends Rule {
                     "Rule broken: 2. <postfiks_izraz>.tip = funkcija(void → pov)");
         }
 
-        if (f.parameters != null) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 2. <postfiks_izraz>.tip = funkcija(void → pov)");
-        }
+        SemanticHelper.assertTrue(
+                f.parameters == null,
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <postfiks_izraz>.tip = funkcija(void → pov)")
+        );
 
         node.setType(f.returnType);
         node.setLValue(false);
@@ -166,16 +167,10 @@ public class PostfiksIzraz extends Rule {
         List<Type> arguments = listaArgumenata.getTypes();
         Iterator<Type> paramIterator = f.parameters.iterator();
 
-        arguments.forEach(type -> {
-            if (!paramIterator.hasNext()) {
-                throw new SemanticException(node.errorOutput(),
-                        "Param count does not match argument count");
-            }
-            if (!type.canImplicitCast(paramIterator.next())) {
-                throw new SemanticException(node.errorOutput(),
-                        "Invalid argument type");
-            }
-        });
+        arguments.forEach(type -> SemanticHelper.assertTrue(
+                paramIterator.hasNext() && type.canImplicitCast(paramIterator.next()),
+                new SemanticException(node.errorOutput(), "Invalid argument type")
+        ));
 
         node.setType(f.returnType);
         node.setLValue(false);
@@ -195,9 +190,11 @@ public class PostfiksIzraz extends Rule {
         SemanticNode postfiksIzraz = node.getChildAt(0);
         postfiksIzraz.check(scope);
 
-        if (!postfiksIzraz.isLValue() || !IntType.INSTANCE.equals(postfiksIzraz.getType())) {
-            throw new SemanticException(node.errorOutput());
-        }
+        // 2.
+        SemanticHelper.assertTrue(
+                postfiksIzraz.isLValue() && IntType.INSTANCE.equals(postfiksIzraz.getType()),
+                new SemanticException(node.errorOutput())
+        );
 
         // set type && l-izraz
         node.setType(IntType.INSTANCE);

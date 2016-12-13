@@ -44,11 +44,10 @@ public class Inicijalizator extends Rule {
         izrazPridruzivanja.check(scope);
 
         SemanticNode array = izrazPridruzivanja;
-        while (array.getChildren() != null && array.getChildren().size() == 1) {
+        do {
             array = array.getChildAt(0);
-        }
+        } while (array.getChildren() != null && array.getChildren().size() == 1);
 
-//        if (array.getType().equals(new ArrayType(ConstType.CONST_CHAR))) {
         if (array.getSymbol().equals("NIZ_ZNAKOVA")) {
             String text = array.getValue();
 

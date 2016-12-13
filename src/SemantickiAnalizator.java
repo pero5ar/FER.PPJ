@@ -8,13 +8,17 @@ import lab3.semantic.SemanticHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author JJ
  */
 public class SemantickiAnalizator {
+
+    public SemantickiAnalizator(SemanticNode treeRoot) {
+        this.treeRoot = treeRoot;
+
+        globalScope = new Scope();
+    }
 
     /**
      * Program main entry point.
@@ -22,19 +26,15 @@ public class SemantickiAnalizator {
      * @param args Command line arguments
      */
     public static void main(String[] args) throws IOException {
-        List<String> inputLines = new ArrayList<>();
         String lines;
 
+        InputParser inputParser = new InputParser();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            while((lines = reader.readLine())!=null ) {
-                if (lines.isEmpty()){
-                    break;
-                }
-                inputLines.add(lines);
+            while ((lines = reader.readLine()) != null) {
+                inputParser.add(lines);
             }
         }
 
-        InputParser inputParser = new InputParser(inputLines);
         SemanticNode generativeTree = inputParser.parseTree();
 
         SemantickiAnalizator semantic = new SemantickiAnalizator(generativeTree);
@@ -44,12 +44,6 @@ public class SemantickiAnalizator {
     private SemanticNode treeRoot;
 
     private Scope globalScope;
-
-    public SemantickiAnalizator(SemanticNode treeRoot) {
-        this.treeRoot = treeRoot;
-
-        globalScope = new Scope();
-    }
 
     public void analyze(){
         try {

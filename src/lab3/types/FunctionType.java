@@ -1,5 +1,6 @@
 package lab3.types;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class FunctionType extends Type {
@@ -24,8 +25,12 @@ public class FunctionType extends Type {
 
         FunctionType function = (FunctionType) target;
 
-        for(int i = 0; i < parameters.size(); i++) {
-            if (!parameters.get(i).canImplicitCast(function.parameters.get(i))) {
+        Iterator<Type> functionIter = function.parameters.iterator();
+        for(Type param : parameters) {
+            if (!functionIter.hasNext()) {
+                throw new IllegalStateException("Non matching count");
+            }
+            if (!param.canImplicitCast(functionIter.next())) {
                 return false;
             }
         }

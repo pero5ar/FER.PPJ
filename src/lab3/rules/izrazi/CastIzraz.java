@@ -4,6 +4,7 @@ import lab3.models.Scope;
 import lab3.models.SemanticNode;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 
 public class CastIzraz extends BoilerplateIzraz {
     public CastIzraz() {
@@ -42,9 +43,9 @@ public class CastIzraz extends BoilerplateIzraz {
         castIzraz.check(scope);
 
         // 3. <cast_izraz>.tip se moze pretvoriti u <ime_tipa>.tip po poglavlju 4.3.1
-        if (!castIzraz.getType().canExplicitCast(imeTipa.getType())) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 3. <cast_izraz>.tip se moze pretvoriti u <ime_tipa>.tip po poglavlju 4.3.1");
-        }
+        SemanticHelper.assertTrue(
+                castIzraz.getType().canExplicitCast(imeTipa.getType()),
+                new SemanticException(node.errorOutput(), "Rule broken: 3. <cast_izraz>.tip se moze pretvoriti u <ime_tipa>.tip po poglavlju 4.3.1")
+        );
     }
 }

@@ -10,6 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SemanticHelper {
+    /**
+     * Throws exception if the expression is false
+     */
+    public static void assertTrue(boolean expression, RuntimeException exception) {
+        if (exception == null) {
+            throw new IllegalArgumentException("Exception mustn't be null.");
+        }
+
+        if (!expression) {
+            throw exception;
+        }
+    }
+
     private static List<DeclaredFunction> declaredFunctions = new ArrayList<>();
     private static List<DeclaredFunction> definedFunctions = new ArrayList<>();
 
@@ -43,15 +56,15 @@ public class SemanticHelper {
         }
 
         FunctionType mainType = (FunctionType) main.getType();
-        return
-                mainType.returnType.equals(IntType.INSTANCE) &&
-                        (mainType.parameters == null || mainType.parameters.isEmpty());
+        return mainType.returnType.equals(IntType.INSTANCE) &&
+                (mainType.parameters == null || mainType.parameters.isEmpty());
     }
 
     private static void checkFunctionDeclarations(Scope scope) {
-        if (!definedFunctions.containsAll(declaredFunctions)) {
-            throw new SemanticException("funkcija");
-        }
+        assertTrue(
+                definedFunctions.containsAll(declaredFunctions),
+                new SemanticException("funkcija")
+        );
     }
 
     private static class DeclaredFunction{
@@ -70,8 +83,7 @@ public class SemanticHelper {
 
             DeclaredFunction that = (DeclaredFunction) o;
 
-            if (name != null ? !name.equals(that.name) : that.name != null) return false;
-            return type != null ? type.equals(that.type) : that.type == null;
+            return (name != null ? name.equals(that.name) : that.name == null) && (type != null ? type.equals(that.type) : that.type == null);
         }
 
         @Override
