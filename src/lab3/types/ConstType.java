@@ -2,7 +2,7 @@ package lab3.types;
 
 public class ConstType extends PrimitiveType {
     public static final ConstType CONST_INT = new ConstType(IntType.INSTANCE);
-    public static final ConstType CONST_CHAR = null;//new ConstType(CharType.INSTANCE); TODO
+    public static final ConstType CONST_CHAR = new ConstType(CharType.INSTANCE);
 
     private final NumberType wrappedType;
 
