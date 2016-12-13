@@ -105,10 +105,13 @@ public class IzravniDeklarator extends Rule {
                     "type must be primitive.");
         }
 
+        Type type = new ArrayType((PrimitiveType)nTip);
+        node.setType(type);
         scope.addElement(name, new ScopeElement(
-                new ArrayType((PrimitiveType)nTip),
+                type,
                 false
         ));
+        node.setBrElem(brojVrijednost);
     }
 
 
@@ -137,7 +140,7 @@ public class IzravniDeklarator extends Rule {
                     "Izravni deklarator.");
         } else {
             scope.addElement(name, new ScopeElement(type, false));
-            SemanticHelper.addDeclaredFunction(name);
+            SemanticHelper.addDeclaredFunction(name, type);
         }
 
         node.setType(type);
@@ -172,7 +175,7 @@ public class IzravniDeklarator extends Rule {
                     "Izravni deklarator.");
         } else {
             scope.addElement(name, new ScopeElement(type, false));
-            SemanticHelper.addDeclaredFunction(name);
+            SemanticHelper.addDeclaredFunction(name, type);
         }
 
         node.setType(type);

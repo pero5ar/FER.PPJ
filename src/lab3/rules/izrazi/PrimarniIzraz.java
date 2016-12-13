@@ -30,10 +30,7 @@ public class PrimarniIzraz extends Rule {
                 checkCharArray(node);
                 break;
             case "L_ZAGRADA":
-//                if (node.childSymbolEqual(1, Rules.IZRAZ.symbol) &&
-//                        node.childSymbolEqual(2, "D_ZAGRADA")) {
-                    checkIzraz(scope, node.getChildAt(1));
-//                }
+                checkIzraz(scope, node);
                 break;
         }
     }
@@ -119,9 +116,12 @@ public class PrimarniIzraz extends Rule {
      * 1. provjeri(<izraz>)
      */
     private void checkIzraz(Scope scope, SemanticNode node) {
-        node.check(scope);
+        SemanticNode izraz = node.getChildAt(1);
 
-        node.setType(node.getType());
-        node.setLValue(node.isLValue());
+        // 1.
+        izraz.check(scope);
+
+        node.setType(izraz.getType());
+        node.setLValue(izraz.isLValue());
     }
 }

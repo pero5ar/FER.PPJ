@@ -10,6 +10,11 @@ public class IzrazPridruzivanja extends BoilerplateIzraz {
         super("<izraz_pridruzivanja>", Rules.LOG_ILI_IZRAZ.symbol);
     }
 
+    @Override
+    public void check(Scope scope, SemanticNode node) {
+        super.check(scope, node);
+    }
+
     /**
      * <izraz_pridruzivanja> ::= <postfiks_izraz> OP_PRIDRUZI <izraz_pridruzivanja>
      *
@@ -30,7 +35,10 @@ public class IzrazPridruzivanja extends BoilerplateIzraz {
         postfiksIzraz.check(scope);
 
         // 2. <postfiks_izraz>.l-izraz = 1
-        postfiksIzraz.setLValue(true);
+        if (!postfiksIzraz.isLValue()) {
+            throw new SemanticException(node.errorOutput(),
+                    "Must be l-value");
+        }
 
         // 3. provjeri(<izraz_pridruzivanja>)
         izrazPridruzivanja.check(scope);

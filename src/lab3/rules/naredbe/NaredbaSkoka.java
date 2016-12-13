@@ -40,10 +40,22 @@ public class NaredbaSkoka extends Rule {
      * 1. naredba se nalazi unutar petlje ili unutar bloka koji je ugnijezden u petlji
      */
     private void check1(Scope scope, SemanticNode node) {
-        // TODO
-//        if (!checkLoop(node)) {
-//            throw new SemanticException(node.errorOutput(), "Must be inside of loop to use break / continue.");
-//        }
+        // 1.
+        SemanticNode currentNode = node;
+        boolean inLoop = false;
+        while(currentNode != null) {
+            if (currentNode.getSymbol().equals(Rules.NAREDBA_PETLJE.symbol)) {
+                inLoop = true;
+                break;
+            }
+
+            currentNode = currentNode.getParent();
+        }
+
+        if (!inLoop) {
+            throw new SemanticException(node.errorOutput(),
+                    "Must be inside of loop.");
+        }
     }
 
     /**
@@ -79,12 +91,6 @@ public class NaredbaSkoka extends Rule {
                     "Return type mismatch");
         }
     }
-
-    // TODO
-//    private boolean checkLoop(SemanticNode node) {
-//        return node.getSymbol().equals(Rules.NAREDBA_PETLJE.symbol)
-//                || node.getParent() != null && checkLoop(node.getParent());
-//    }
 
     private FunctionType getFunctionType(SemanticNode node) {
         if (node.getSymbol().equals(Rules.DEFINICIJA_FUNKCIJA.symbol)) {

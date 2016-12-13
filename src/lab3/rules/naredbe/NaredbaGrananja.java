@@ -3,6 +3,7 @@ package lab3.rules.naredbe;
 import lab3.models.Scope;
 import lab3.models.SemanticNode;
 import lab3.rules.Rule;
+import lab3.semantic.SemanticException;
 import lab3.types.IntType;
 
 /**
@@ -19,9 +20,9 @@ public class NaredbaGrananja extends Rule {
     public void check(Scope scope, SemanticNode node) {
         if(node.getChildren().size()==5){
             check1(scope, node);
-        } else{
-            check2(scope, node);
+            return;
         }
+        check2(scope, node);
     }
 
     /**
@@ -38,10 +39,11 @@ public class NaredbaGrananja extends Rule {
         //1
         izraz.check(scope);
         //2
-        izraz.getType().canImplicitCast(IntType.INSTANCE);
+        if (!izraz.getType().canImplicitCast(IntType.INSTANCE)) {
+            throw new SemanticException(node.errorOutput());
+        }
         //3
         naredba.check(new Scope(scope));
-
     }
     /**
      * <naredba_grananja> ::= KR_IF L_ZAGRADA <izraz> D_ZAGRADA <naredba>1
@@ -60,7 +62,9 @@ public class NaredbaGrananja extends Rule {
         //1
         izraz.check(scope);
         //2
-        izraz.getType().canImplicitCast(IntType.INSTANCE);
+        if (!izraz.getType().canImplicitCast(IntType.INSTANCE)) {
+            throw new SemanticException(node.errorOutput());
+        }
         //3
         naredba1.check(new Scope(scope));
         //4

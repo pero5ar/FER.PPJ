@@ -4,13 +4,14 @@ import lab3.models.Scope;
 import lab3.models.ScopeElement;
 import lab3.types.FunctionType;
 import lab3.types.IntType;
+import lab3.types.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SemanticHelper {
-    private static List<String> declaredFunctions = new ArrayList<>();
-    private static List<String> definedFunctions = new ArrayList<>();
+    private static List<DeclaredFunction> declaredFunctions = new ArrayList<>();
+    private static List<DeclaredFunction> definedFunctions = new ArrayList<>();
 
     /**
      * Vidi: 4.4.7 (str. 72)
@@ -23,12 +24,12 @@ public class SemanticHelper {
         checkFunctionDeclarations(Scope.globalScope);
     }
 
-    public static void addDeclaredFunction(String name) {
-        declaredFunctions.add(name);
+    public static void addDeclaredFunction(String name, Type type) {
+        declaredFunctions.add(new DeclaredFunction(name, type));
     }
 
-    public static void addDefinedFunction(String name) {
-        definedFunctions.add(name);
+    public static void addDefinedFunction(String name, Type type) {
+        definedFunctions.add(new DeclaredFunction(name, type));
     }
 
     private static boolean validateMain() {
@@ -48,28 +49,36 @@ public class SemanticHelper {
     }
 
     private static void checkFunctionDeclarations(Scope scope) {
-//        scope.getElementTable().forEach((name, element) -> {
-//            if (!(element.getType() instanceof FunctionType)){
-//                // element nije funkcija; idi dalje
-//                return;
-//            }
-//
-//            ScopeElement declaration = Scope.globalScope.getElement(name, false);
-//
-//            // globalna funkcija (odnosno deklaracija funkcije) mora postojati, /*biti definirana*/
-//            // i istog tipa kao i definicija funkcije
-//            if ( declaration == null
-//                    /*|| !globalFunction.defined*/
-//                    || !declaration.getType().equals(element.getType())
-//                ) {
-//                throw new SemanticException("funkcija");
-//            }
-//        });
-//
-//        // napravi provjeru za sve djelokruge
-//        Scope.globalScope.forEachChild(SemanticHelper::checkFunctionDeclarations);
         if (!definedFunctions.containsAll(declaredFunctions)) {
             throw new SemanticException("funkcija");
+        }
+    }
+
+    private static class DeclaredFunction{
+        private String name;
+        private Type type;
+
+        private DeclaredFunction(String name, Type type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof DeclaredFunction)) return false;
+
+            DeclaredFunction that = (DeclaredFunction) o;
+
+            if (name != null ? !name.equals(that.name) : that.name != null) return false;
+            return type != null ? type.equals(that.type) : that.type == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + (type != null ? type.hashCode() : 0);
+            return result;
         }
     }
 

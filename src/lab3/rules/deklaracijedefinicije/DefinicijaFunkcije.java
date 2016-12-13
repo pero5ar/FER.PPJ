@@ -55,7 +55,7 @@ public class DefinicijaFunkcije extends Rule {
 
         // 5. zabiljezi definiciju i deklaraciju funkcije
         node.setType(functionType);
-        SemanticHelper.addDefinedFunction(functionName);
+        SemanticHelper.addDefinedFunction(functionName, functionType);
         scope.addElement(functionName, new ScopeElement(functionType, true));
 
         // 6. provjeri(<slozena_naredba>)
@@ -94,7 +94,7 @@ public class DefinicijaFunkcije extends Rule {
 
         // 6. zabiljezi definiciju i deklaraciju funkcije
         node.setType(functionType);
-        SemanticHelper.addDefinedFunction(functionName);
+        SemanticHelper.addDefinedFunction(functionName, functionType);
         scope.addElement(functionName, new ScopeElement(functionType, true));
 
         // 7. provjeri(<slozena_naredba>) uz parametre funkcije koristeci <lista_parametara>.tipovi i <lista_parametara>.imena.
