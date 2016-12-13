@@ -54,7 +54,7 @@ public enum Rules {
     INIT_DEKLARATOR(new InitDeklarator()),
     IZRAVNI_DEKLARATOR(new IzravniDeklarator()),
     INICIJALIZATOR(new Inicijalizator()),
-//    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja()),
+    LISTA_IZRAZA_PRIDRUZIVANJA(new ListaIzrazaPridruzivanja()),
     ;
 
     private Rule rule;

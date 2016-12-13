@@ -30,8 +30,7 @@ public class DefinicijaFunkcije extends Rule {
     }
 
     /**
-     * <definicija_funkcije> ::= <ime_tipa> IDN L_ZAGRADA KR_VOID D_ZAGRADA
-     * <slozena_naredba>
+     * <definicija_funkcije> ::= <ime_tipa> IDN L_ZAGRADA KR_VOID D_ZAGRADA <slozena_naredba>
      *
      * 1. provjeri(<ime_tipa>)
      * 2. <ime_tipa>.tip != const(T)
