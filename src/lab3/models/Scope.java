@@ -66,7 +66,7 @@ public class Scope {
         return (elementTable.containsKey(name) ||
                 (
                         global &&
-                        parent != null && parent.isDeclared(name)
+                        parent != null && parent.isDeclared(name, true)
                 )
         );
     }
