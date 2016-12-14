@@ -5,9 +5,6 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.types.IntType;
 
-/**
- * Služi samo za postavljanje tipa; ne može doći do semantičke pogreške.
- */
 public class IzrazNaredba extends Rule {
     public IzrazNaredba() {
         super("<izraz_naredba>");

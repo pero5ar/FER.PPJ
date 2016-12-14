@@ -28,7 +28,7 @@ public class ImeTipa extends Rule {
     /**
      * <ime_tipa> ::= <specifikator_tipa>
      *
-     * tip ← <specifikator_tipa>.tip
+     * tip <- <specifikator_tipa>.tip
      *
      * 1. provjeri(<specifikator_tipa>)
      */
@@ -44,7 +44,7 @@ public class ImeTipa extends Rule {
     /**
      * <ime_tipa> ::= KR_CONST <specifikator_tipa>
      *
-     * tip ← const(<specifikator_tipa>.tip)
+     * tip <- const(<specifikator_tipa>.tip)
      *
      * 1. provjeri(<specifikator_tipa>)
      * 2. <specifikator_tipa>.tip != void

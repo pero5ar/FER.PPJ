@@ -62,13 +62,13 @@ public class NaredbaSkoka extends Rule {
     /**
      * <naredba_skoka> ::= KR_RETURN TOCKAZAREZ
      *
-     * 1. naredba se nalazi unutar funkcije tipa funkcija(params → void)
+     * 1. naredba se nalazi unutar funkcije tipa funkcija(params -> void)
      */
     private void check2(Scope scope, SemanticNode node) {
         FunctionType functionType = getFunctionType(node);
         SemanticHelper.assertTrue(
                 functionType != null && VoidType.INSTANCE.equals(functionType.returnType),
-                new SemanticException(node.errorOutput(), "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params → void)")
+                new SemanticException(node.errorOutput(), "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params -> void)")
         );
     }
 
@@ -76,16 +76,16 @@ public class NaredbaSkoka extends Rule {
      * <naredba_skoka> ::= KR_RETURN <izraz> TOCKAZAREZ
      *
      * 1. provjeri(<izraz>)
-     * 2. naredba se nalazi unutar funkcije tipa funkcija(params → pov) i vrijedi
-     * <izraz>.tip ∼ pov
+     * 2. naredba se nalazi unutar funkcije tipa funkcija(params -> pov) i vrijedi
+     * <izraz>.tip ~ pov
      */
     private void check3(Scope scope, SemanticNode node) {
         // 1. provjeri(<izraz>)
         SemanticNode izraz = node.getChildAt(1);
         izraz.check(scope);
 
-        // 2. naredba se nalazi unutar funkcije tipa funkcija(params → pov) i vrijedi
-        // <izraz>.tip ∼ pov
+        // 2. naredba se nalazi unutar funkcije tipa funkcija(params -> pov) i vrijedi
+        // <izraz>.tip ~ pov
         FunctionType functionType = getFunctionType(node);
         SemanticHelper.assertTrue(
                 functionType != null && izraz.getType().canImplicitCast(functionType.returnType),

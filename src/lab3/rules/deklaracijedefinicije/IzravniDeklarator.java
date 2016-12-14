@@ -40,7 +40,7 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN
      *
-     * tip ← ntip
+     * tip <- ntip
      *
      * 1. ntip != void
      * 2. IDN.ime nije deklarirano u lokalnom djelokrugu
@@ -65,8 +65,8 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN L_UGL_ZAGRADA BROJ D_UGL_ZAGRADA
      *
-     * tip ← niz(ntip)
-     * br-elem ← BROJ.vrijednost
+     * tip <- niz(ntip)
+     * br-elem <- BROJ.vrijednost
      *
      * 1. ntip != void
      * 2. IDN.ime nije deklarirano u lokalnom djelokrugu
@@ -116,10 +116,10 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN L_ZAGRADA KR_VOID D_ZAGRADA
      *
-     * tip ← funkcija(void → ntip)
+     * tip <- funkcija(void -> ntip)
      *
      * 1. ako je IDN.ime deklarirano u lokalnom djelokrugu, tip prethodne deklaracije
-     *  je jednak funkcija(void → ntip)
+     *  je jednak funkcija(void -> ntip)
      * 2. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom ako ista funkcija vec nije
      *  deklarirana u lokalnom djelokrugu
      */
@@ -145,11 +145,11 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN L_ZAGRADA <lista_parametara> D_ZAGRADA
      *
-     * tip ← funkcija(<lista_parametara>.tipovi → ntip)
+     * tip <- funkcija(<lista_parametara>.tipovi -> ntip)
      *
      * 1. provjeri(<lista_parametara>)
      * 2. ako je IDN.ime deklarirano u lokalnom djelokrugu, tip prethodne deklaracije
-     *  je jednak funkcija(<lista_parametara>.tipovi → ntip)
+     *  je jednak funkcija(<lista_parametara>.tipovi -> ntip)
      * 3. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom ako ista funkcija vec nije
      *  deklarirana u lokalnom djelokrugu
      */

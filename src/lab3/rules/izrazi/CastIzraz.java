@@ -20,8 +20,8 @@ public class CastIzraz extends BoilerplateIzraz {
     /**
      * <cast_izraz> ::= L_ZAGRADA <ime_tipa> D_ZAGRADA <cast_izraz>
      *
-     * tip ← <ime_tipa>.tip
-     * l-izraz ← 0
+     * tip <- <ime_tipa>.tip
+     * l-izraz <- 0
      *
      * 1. provjeri(<ime_tipa>)
      * 2. provjeri(<cast_izraz>)
@@ -35,7 +35,7 @@ public class CastIzraz extends BoilerplateIzraz {
         // 1. provjeri(<ime_tipa>)
         imeTipa.check(scope);
 
-        // tip ← <ime_tipa>.tip && l-izraz ← 0
+        // tip <- <ime_tipa>.tip && l-izraz <- 0
         node.setType(imeTipa.getType());
         node.setLValue(false);
 

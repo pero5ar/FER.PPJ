@@ -30,7 +30,7 @@ public class NaredbaGrananja extends SubscopeNaredba {
      * KR_ELSE <naredba>2
      *
      * 1. provjeri(<izraz>)
-     * 2. <izraz>.tip ∼ int
+     * 2. <izraz>.tip ~ int
      * 3. provjeri(<naredba>1)
      * 4. provjeri(<naredba>2)
      */

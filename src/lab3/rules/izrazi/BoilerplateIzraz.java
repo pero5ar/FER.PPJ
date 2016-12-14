@@ -39,8 +39,8 @@ public abstract class BoilerplateIzraz extends Rule {
     /**
      * <boilerplate_izraz> ::= <y_izraz>
      *
-     * tip ← <y_izraz>.tip
-     * l-izraz ← <y_izraz>.l-izraz
+     * tip <- <y_izraz>.tip
+     * l-izraz <- <y_izraz>.l-izraz
      *
      * 1. provjeri(<y_izraz>)
      */
@@ -60,38 +60,38 @@ public abstract class BoilerplateIzraz extends Rule {
      *
      * <boilerplate_izraz> ::= <x_izraz> (OP) <y_izraz>
      *
-     * tip ← int
-     * l-izraz ← 0
+     * tip <- int
+     * l-izraz <- 0
      *
      * 1. provjeri(<x_izraz>)
-     * 2. <x_izraz>.tip ∼ int
+     * 2. <x_izraz>.tip ~ int
      * 3. provjeri(<y_izraz>)
-     * 4. <y_izraz>.tip ∼ int
+     * 4. <y_izraz>.tip ~ int
      */
     protected void check2(Scope scope, SemanticNode node) {
         SemanticNode xIzraz = node.getChildAt(0);
         SemanticNode yIzraz = node.getChildAt(2);
 
-        // tip ← int && l-izraz ← 0
+        // tip <- int && l-izraz <- 0
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
 
         // 1. provjeri(<x_izraz>)
         xIzraz.check(scope);
 
-        // 2. <x_izraz>.tip ∼ int
+        // 2. <x_izraz>.tip ~ int
         SemanticHelper.assertTrue(
                 xIzraz.getType().canImplicitCast(IntType.INSTANCE),
-                new SemanticException(node.errorOutput(), "<x_izraz>.tip ∼ int")
+                new SemanticException(node.errorOutput(), "<x_izraz>.tip ~ int")
         );
 
         // 3. provjeri(<y_izraz>)
         yIzraz.check(scope);
 
-        // 4. <y_izraz>.tip ∼ int
+        // 4. <y_izraz>.tip ~ int
         SemanticHelper.assertTrue(
                 yIzraz.getType().canImplicitCast(IntType.INSTANCE),
-                new SemanticException(node.errorOutput(), "<y_izraz>.tip ∼ int")
+                new SemanticException(node.errorOutput(), "<y_izraz>.tip ~ int")
         );
     }
 }

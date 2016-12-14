@@ -30,10 +30,10 @@ public class Inicijalizator extends Rule {
      * <inicijalizator> ::= <izraz_pridruzivanja>
      *
      * ako je <izraz_pridruzivanja> => NIZ_ZNAKOVA
-     *      br-elem ← duljina niza znakova + 1
-     *      tipovi ← lista duljine br-elem, svi elementi su char
+     *      br-elem <- duljina niza znakova + 1
+     *      tipovi <- lista duljine br-elem, svi elementi su char
      * inace
-     *      tip ← <izraz_pridruzivanja>.tip
+     *      tip <- <izraz_pridruzivanja>.tip
      *
      * 1. provjeri(<izraz_pridruzivanja>)
      */
@@ -62,8 +62,8 @@ public class Inicijalizator extends Rule {
     /**
      * <inicijalizator> ::= L_VIT_ZAGRADA <lista_izraza_pridruzivanja> D_VIT_ZAGRADA
      *
-     * br-elem ← <lista_izraza_pridruzivanja>.br-elem
-     * tipovi ← <lista_izraza_pridruzivanja>.tipovi
+     * br-elem <- <lista_izraza_pridruzivanja>.br-elem
+     * tipovi <- <lista_izraza_pridruzivanja>.tipovi
      *
      * 1. provjeri(<lista_izraza_pridruzivanja>)
      */
@@ -73,8 +73,8 @@ public class Inicijalizator extends Rule {
         // 1. provjeri(<lista_izraza_pridruzivanja>)
         listaIzrazaPridruzivanja.check(scope);
 
-        // br-elem ← <lista_izraza_pridruzivanja>.br-elem &&
-        // tipovi ← <lista_izraza_pridruzivanja>.tipovi
+        // br-elem <- <lista_izraza_pridruzivanja>.br-elem &&
+        // tipovi <- <lista_izraza_pridruzivanja>.tipovi
         node.setBrElem(listaIzrazaPridruzivanja.getBrElem());
         node.setTypes(listaIzrazaPridruzivanja.getTypes());
     }

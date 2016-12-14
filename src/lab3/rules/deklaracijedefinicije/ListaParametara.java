@@ -31,8 +31,8 @@ public class ListaParametara extends Rule {
     /**
      * <lista_parametara> ::= <deklaracija_parametra>
      *
-     * tipovi ← [ <deklaracija_parametra>.tip ]
-     * imena ← [ <deklaracija_parametra>.ime ]
+     * tipovi <- [ <deklaracija_parametra>.tip ]
+     * imena <- [ <deklaracija_parametra>.ime ]
      *
      * 1. provjeri(<deklaracija_parametra>)
      */
@@ -49,8 +49,8 @@ public class ListaParametara extends Rule {
     /**
      * <lista_parametara> ::= <lista_parametara> ZAREZ <deklaracija_parametra>
      *
-     * tipovi ← <lista_parametara>.tipovi + [ <deklaracija_parametra>.tip ]
-     * imena ← <lista_parametara>.imena + [ <deklaracija_parametra>.ime ]
+     * tipovi <- <lista_parametara>.tipovi + [ <deklaracija_parametra>.tip ]
+     * imena <- <lista_parametara>.imena + [ <deklaracija_parametra>.ime ]
      *
      * 1. provjeri(<lista_parametara>)
      * 2. provjeri(<deklaracija_parametra>)

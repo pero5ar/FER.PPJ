@@ -8,7 +8,7 @@ import lab3.types.IntType;
 import lab3.types.VoidType;
 
 /**
- * Služi samo za postavljanje tipa; ne može doći do semantičke pogreške.
+ * Sluzi samo za postavljanje tipa; ne moze doci do semanticke pogreske.
  */
 public class SpecifikatorTipa extends Rule {
     public SpecifikatorTipa() {

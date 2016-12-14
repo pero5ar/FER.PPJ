@@ -30,7 +30,7 @@ public class InitDeklarator extends Rule {
     /**
      * <init_deklarator> ::= <izravni_deklarator>
      * 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-     *      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+     *      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
      * 2. <izravni_deklarator>.tip != const(T) i
      *    <izravni_deklarator>.tip != niz(const(T))
      */
@@ -57,13 +57,13 @@ public class InitDeklarator extends Rule {
      * <init_deklarator> ::= <izravni_deklarator> OP_PRIDRUZI <inicijalizator>
      *
      * 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-     *      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+     *      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
      * 2. provjeri(<incijalizator>)
      * 3. ako je <izravni_deklarator>.tip T ili const(T)
-     *      <inicijalizator>.tip ∼ T
+     *      <inicijalizator>.tip ~ T
      *    inace ako je <izravni_deklarator>.tip niz(T) ili niz(const(T))
      *      <inicijalizator>.br-elem <= <izravni_deklarator>.br-elem
-     *      za svaki U iz <inicijalizator>.tipovi vrijedi U ∼ T
+     *      za svaki U iz <inicijalizator>.tipovi vrijedi U ~ T
      *    inace greska
      */
     private void check2(Scope scope, SemanticNode node) {
@@ -71,7 +71,7 @@ public class InitDeklarator extends Rule {
         SemanticNode inicijalizator = node.getChildAt(2);
 
         // 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-        //      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+        //      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
         izravniDeklarator.setNType(node.getNType());
         izravniDeklarator.check(scope);
 
@@ -79,10 +79,10 @@ public class InitDeklarator extends Rule {
         inicijalizator.check(scope);
 
         // 3. ako je <izravni_deklarator>.tip T ili const(T)
-        //      (a) <inicijalizator>.tip ∼ T
+        //      (a) <inicijalizator>.tip ~ T
         //    inace ako je <izravni_deklarator>.tip niz(T) ili niz(const(T))
         //      <inicijalizator>.br-elem <= <izravni_deklarator>.br-elem
-        //      za svaki U iz <inicijalizator>.tipovi vrijedi U ∼ T
+        //      za svaki U iz <inicijalizator>.tipovi vrijedi U ~ T
         //    inace greska
         Type type = izravniDeklarator.getType();
         Type targetType;

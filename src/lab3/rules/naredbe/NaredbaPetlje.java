@@ -33,7 +33,7 @@ public class NaredbaPetlje extends SubscopeNaredba {
      *
      * 1. provjeri(<izraz_naredba>1)
      * 2. provjeri(<izraz_naredba>2)
-     * 3. <izraz_naredba>2.tip ∼ int
+     * 3. <izraz_naredba>2.tip ~ int
      * 4. provjeri(<naredba>)
      */
     private void check2(Scope scope, SemanticNode node) {
@@ -52,7 +52,7 @@ public class NaredbaPetlje extends SubscopeNaredba {
      *
      * 1. provjeri(<izraz_naredba>1)
      * 2. provjeri(<izraz_naredba>2)
-     * 3. <izraz_naredba>2.tip ∼ int
+     * 3. <izraz_naredba>2.tip ~ int
      * 4. provjeri(<izraz>)
      * 5. provjeri(<naredba>)
      */
@@ -73,7 +73,7 @@ public class NaredbaPetlje extends SubscopeNaredba {
     /**
      * 1. provjeri(<izraz_naredba>1)
      * 2. provjeri(<izraz_naredba>2)
-     * 3. <izraz_naredba>2.tip ∼ int
+     * 3. <izraz_naredba>2.tip ~ int
      */
     private void checkFirstThree(Scope scope, SemanticNode node) {
         SemanticNode izrazNaredba1 = node.getChildAt(2);

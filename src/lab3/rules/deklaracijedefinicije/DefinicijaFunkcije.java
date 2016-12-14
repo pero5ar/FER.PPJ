@@ -36,7 +36,7 @@ public class DefinicijaFunkcije extends Rule {
      * 2. <ime_tipa>.tip != const(T)
      * 3. ne postoji prije definirana funkcija imena IDN.ime
      *
-     * 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)
+     * 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void -> <ime_tipa>.tip)
      * 5. zabiljezi definiciju i deklaraciju funkcije
      * 6. provjeri(<slozena_naredba>)
      */
@@ -46,7 +46,7 @@ public class DefinicijaFunkcije extends Rule {
         String functionName = node.getChildAt(1).getValue();
         FunctionType functionType = new FunctionType(node.getChildAt(0).getType(), null);
 
-        // 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void → <ime_tipa>.tip)
+        // 4. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(void -> <ime_tipa>.tip)
         SemanticHelper.assertTrue(
                 !scope.isDeclared(functionName, false) || scope.getElement(functionName, true).getType().equals(functionType),
                 new SemanticException(node.errorOutput(), "Definicija funkcije")
@@ -70,7 +70,7 @@ public class DefinicijaFunkcije extends Rule {
      * 3. ne postoji prije definirana funkcija imena IDN.ime
      *
      * 4. provjeri(<lista_parametara>)
-     * 5. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(<lista_parametara>.tipovi → <ime_tipa>.tip)
+     * 5. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(<lista_parametara>.tipovi -> <ime_tipa>.tip)
      * 6. zabiljezi definiciju i deklaraciju funkcije
      * 7. provjeri(<slozena_naredba>) uz parametre funkcije koristeci <lista_parametara>.tipovi
      *  i <lista_parametara>.imena.
@@ -81,7 +81,7 @@ public class DefinicijaFunkcije extends Rule {
         SemanticNode listaParametara = node.getChildAt(3);
         listaParametara.check(scope);
 
-        // 5. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(<lista_parametara>.tipovi → <ime_tipa>.tip)
+        // 5. ako postoji deklaracija imena IDN.ime u globalnom djelokrugu onda je pripadni tip te deklaracije funkcija(<lista_parametara>.tipovi -> <ime_tipa>.tip)
         String functionName = node.getChildAt(1).getValue();
         FunctionType functionType = new FunctionType(node.getChildAt(0).getType(), listaParametara.getTypes());
 

@@ -39,8 +39,8 @@ public class PrimarniIzraz extends Rule {
     /**
      * <primarni_izraz> ::= IDN
      *
-     * tip ← IDN.tip
-     * l-izraz ← IDN.l-izraz
+     * tip <- IDN.tip
+     * l-izraz <- IDN.l-izraz
      *
      * 1. IDN.ime je deklarirano
      */
@@ -60,8 +60,8 @@ public class PrimarniIzraz extends Rule {
     /**
      * <primarni_izraz> ::= BROJ
      *
-     * tip ← int
-     * l-izraz ← 0
+     * tip <- int
+     * l-izraz <- 0
      *
      * 1. vrijednost je u rasponu tipa int
      */
@@ -78,8 +78,8 @@ public class PrimarniIzraz extends Rule {
     /**
      * <primarni_izraz> ::= ZNAK
      *
-     * tip ← char
-     * l-izraz ← 0
+     * tip <- char
+     * l-izraz <- 0
      *
      * 1. znak je ispravan po 4.3.2
      */
@@ -96,8 +96,8 @@ public class PrimarniIzraz extends Rule {
     /**
      * <primarni_izraz> ::= NIZ_ZNAKOVA
      *
-     * tip ← niz(const(char))
-     * l-izraz ← 0
+     * tip <- niz(const(char))
+     * l-izraz <- 0
      *
      * 1. konstantni niz znakova je ispravan po 4.3.2
      */
@@ -114,8 +114,8 @@ public class PrimarniIzraz extends Rule {
     /**
      * <primarni_izraz> ::= L_ZAGRADA <izraz> D_ZAGRADA
      *
-     * tip ← <izraz>.tip
-     * l-izraz ← <izraz>.l-izraz
+     * tip <- <izraz>.tip
+     * l-izraz <- <izraz>.l-izraz
      *
      * 1. provjeri(<izraz>)
      */

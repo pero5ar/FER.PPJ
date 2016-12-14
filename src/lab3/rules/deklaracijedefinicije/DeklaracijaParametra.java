@@ -29,8 +29,8 @@ public class DeklaracijaParametra extends Rule {
     /**
      * <deklaracija_parametra> ::= <ime_tipa> IDN
      *
-     * tip ← <ime_tipa>.tip
-     * ime ← IDN.ime
+     * tip <- <ime_tipa>.tip
+     * ime <- IDN.ime
      *
      * 1. provjeri(<ime_tipa>)
      * 2. <ime_tipa>.tip != void
@@ -54,8 +54,8 @@ public class DeklaracijaParametra extends Rule {
     /**
      * <deklaracija_parametra> ::= <ime_tipa> IDN L_UGL_ZAGRADA D_UGL_ZAGRADA
      *
-     * tip ← niz(<ime_tipa>.tip)
-     * ime ← IDN.ime
+     * tip <- niz(<ime_tipa>.tip)
+     * ime <- IDN.ime
      *
      * 1. provjeri(<ime_tipa>)
      * 2. <ime_tipa>.tip != void

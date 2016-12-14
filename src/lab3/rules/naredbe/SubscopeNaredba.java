@@ -21,7 +21,7 @@ public abstract class SubscopeNaredba extends Rule {
      * <naredba_grananja> ::= KR_IF L_ZAGRADA <izraz> D_ZAGRADA <naredba>
      *
      * 1. provjeri(<izraz>)
-     * 2. <izraz>.tip ∼ int
+     * 2. <izraz>.tip ~ int
      * 3. provjeri(<naredba>)
      */
     protected void check1(Scope scope, SemanticNode node) {
