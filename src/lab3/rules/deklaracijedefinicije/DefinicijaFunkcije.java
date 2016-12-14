@@ -97,7 +97,6 @@ public class DefinicijaFunkcije extends Rule {
 
         // 7. provjeri(<slozena_naredba>) uz parametre funkcije koristeci <lista_parametara>.tipovi i <lista_parametara>.imena.
         Scope subScope = new Scope(scope);
-        subScope.addElement(functionName, new ScopeElement(functionType, true));
         loadSubscopeVariables(subScope, listaParametara);
 
         node.getChildAt(5).check(subScope);

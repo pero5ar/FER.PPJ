@@ -31,6 +31,9 @@ public class SemantickiAnalizator {
         InputParser inputParser = new InputParser();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while ((lines = reader.readLine()) != null) {
+                if (lines.isEmpty()) {
+                    break;
+                }
                 inputParser.add(lines);
             }
         }

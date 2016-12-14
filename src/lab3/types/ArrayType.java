@@ -47,6 +47,9 @@ public class ArrayType extends Type {
     }
 
     public static boolean validString(String value) {
+        if (value.length() < 2 || value.charAt(0) != '"' || !value.endsWith("\"")) {
+            return false;
+        }
         value = value.substring(1, value.length()-1);
 
         boolean escaping = false;
@@ -56,10 +59,15 @@ public class ArrayType extends Type {
                     return false;
                 }
                 escaping = false;
+                continue;
             }
 
             if (c == '\\') {
                 escaping = true;
+                continue;
+            }
+            if (c == '"') {
+                return false;
             }
         }
 

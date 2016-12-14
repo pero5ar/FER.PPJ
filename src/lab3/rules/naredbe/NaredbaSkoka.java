@@ -23,7 +23,7 @@ public class NaredbaSkoka extends Rule {
     @Override
     public void check(Scope scope, SemanticNode node) {
         if (node.childSymbolEqual(0, "KR_CONTINUE")
-                || node.childSymbolEqual(1, "KR_BREAK")) {
+                || node.childSymbolEqual(0, "KR_BREAK")) {
             check1(scope, node);
         } else if (node.childSymbolEqual(0, "KR_RETURN")) {
             if (node.childSymbolEqual(1, "TOCKAZAREZ")) {

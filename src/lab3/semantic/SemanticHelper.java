@@ -76,6 +76,10 @@ public class SemanticHelper {
             this.type = type;
         }
 
+        public String toString() {
+            return name;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -83,7 +87,8 @@ public class SemanticHelper {
 
             DeclaredFunction that = (DeclaredFunction) o;
 
-            return (name != null ? name.equals(that.name) : that.name == null) && (type != null ? type.equals(that.type) : that.type == null);
+            return (name != null ? name.equals(that.name) : that.name == null)
+                    && (type != null ? type.equals(that.type) : that.type == null);
         }
 
         @Override

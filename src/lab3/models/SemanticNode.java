@@ -112,7 +112,7 @@ public class SemanticNode {
      * Builds the tree, recursively filling all the non-settable fields with calculated values.
      */
     public void build() {
-        String[] lineSplit = line.split(" ");
+        String[] lineSplit = line.split(" ", 3);
 
         if (children.isEmpty() /* ekvivalentno provjeri je li prvi znak '<' */) {
             setSymbol(lineSplit[0], true);
@@ -151,18 +151,10 @@ public class SemanticNode {
 
     public void setTypes(List<Type> types) {
         this.types = types;
-
-        if (types.size() == 1) {
-            this.type = types.get(0);
-        }
     }
 
     public void setValues(List<String> values) {
         this.values = values;
-
-        if (values.size() == 1) {
-            this.value = values.get(0);
-        }
     }
 
     public void setType(Type type) {

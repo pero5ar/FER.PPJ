@@ -165,6 +165,11 @@ public class PostfiksIzraz extends Rule {
         }
 
         List<Type> arguments = listaArgumenata.getTypes();
+        SemanticHelper.assertTrue(
+                f.parameters != null && arguments.size() == f.parameters.size(),
+                new SemanticException(node.errorOutput())
+        );
+
         Iterator<Type> paramIterator = f.parameters.iterator();
 
         arguments.forEach(type -> SemanticHelper.assertTrue(
@@ -192,7 +197,7 @@ public class PostfiksIzraz extends Rule {
 
         // 2.
         SemanticHelper.assertTrue(
-                postfiksIzraz.isLValue() && IntType.INSTANCE.equals(postfiksIzraz.getType()),
+                postfiksIzraz.isLValue() && postfiksIzraz.getType().canImplicitCast(IntType.INSTANCE),
                 new SemanticException(node.errorOutput())
         );
 

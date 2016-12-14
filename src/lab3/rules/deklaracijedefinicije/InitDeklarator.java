@@ -92,7 +92,7 @@ public class InitDeklarator extends Rule {
 
             // (a)
             SemanticHelper.assertTrue(
-                    inicijalizator.getType().canImplicitCast(targetType),
+                    inicijalizator.getType() != null && inicijalizator.getType().canImplicitCast(targetType),
                     new SemanticException(node.errorOutput(), "Rule broken: 3. (init_deklarator produkcija 2)")
             );
         } else if (type instanceof ArrayType) {
