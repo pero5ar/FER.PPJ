@@ -38,4 +38,5 @@
 - _valjda_ nećemo ovo past
 
 ## LAB3
-- Ne znam točno što se dogodilo, ali LA je imao obrnuto učitavanje iz storage.bin. Riješio.
+- JJ: "Ne znam točno što se dogodilo, ali LA je imao obrnuto učitavanje iz storage.bin. Riješio."
+- JJ praktički solo napravio cili labos 6 dana prije roka, častimo ga pivom u novoj godini
