@@ -9,17 +9,17 @@ import lab4.frisc.models.Variable;
 public class InstructionGenerator {
 
     //int x;
-    public static void deklaracijaaVarijable(String type, String cName, Scope scope){
+    public static void deklaracijaaVarijable( String cName, Scope scope){
 
-        Variable var = new Variable(scope, cName, type, "0");
-        String insturkcija="DW %D 0";
-        CodeGenerator.getInstance().getVariableManager().createVariable(var, insturkcija);
+        Variable var = new Variable(scope, cName);
+        String instrukcija="DW %D 0";
+        CodeGenerator.getInstance().getVariableManager().createVariable(var, instrukcija);
     }
 
     //int x = 3 ;
-    public static void deklaracijaIDefinicijaVarijable(String type, String cName, Scope scope, String value){
+    public static void deklaracijaIDefinicijaVarijable( String cName, Scope scope, String value){
 
-        Variable var = new Variable(scope, cName, type, value);
+        Variable var = new Variable(scope, cName);
         String insturkcija="DW %D "+value;
         CodeGenerator.getInstance().getVariableManager().createVariable(var, insturkcija);
     }
@@ -27,9 +27,9 @@ public class InstructionGenerator {
     //x = 3;
     public static void definicijaVarijable(String cName, String value, Scope scope){
 
-        //gettat varijablu
-        //promjenit variajblu
-        //spremi promjene
+        Variable var = new Variable(scope, cName);
+        String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+
 
 
     }
