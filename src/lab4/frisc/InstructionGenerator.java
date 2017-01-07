@@ -1,9 +1,13 @@
 package lab4.frisc;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import lab3.models.Scope;
 import lab4.frisc.models.Line;
 import lab4.frisc.models.Variable;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,8 +42,31 @@ public class InstructionGenerator {
     }
 
     //int f(int x, int y,...){
-    public static void definicijaIntFunkcije(String cName, List<String> args){
+    public static void definicijaIntFunkcije(String cName, ArrayList<String> args, Scope scope){
 
+
+        int i = args.size();
+        String funtionLabel = CodeGenerator.getInstance().getSubroutineManager().createSubrutine(cName);
+        if(i==0){
+             String instruction = "ADD R0, 0, R0";
+             CodeGenerator.getInstance().getLines().add(new Line(funtionLabel, instruction));
+        }
+        else{
+            for(int n=i; n>0;n--){
+                if(n==i){
+                    //prva inst5rukcija, ukljucit labelu
+                    //i-n+1
+                    Variable var = new Variable(scope, args.get(i-n));
+                    String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+                    int broj=4*n;
+
+                }
+                else{
+                    //ostale instrukcije
+                }
+            }
+
+        }
 
 
     }
