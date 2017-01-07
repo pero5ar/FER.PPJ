@@ -44,12 +44,17 @@ public class InstructionGenerator {
     //int f(int x, int y,...){
     public static void definicijaIntFunkcije(String cName, ArrayList<String> args, Scope scope){
 
-
         int i = args.size();
-        String funtionLabel = CodeGenerator.getInstance().getSubroutineManager().createSubrutine(cName);
+        String functionLabel;
+        if(cName.equals("main")){
+            functionLabel = "F_MAIN";
+        }
+        else {
+            functionLabel = CodeGenerator.getInstance().getSubroutineManager().createSubrutine(cName);
+        }
         if(i==0){
              String instruction = "ADD R0, 0, R0";
-             CodeGenerator.getInstance().getLines().add(new Line(funtionLabel, instruction));
+             CodeGenerator.getInstance().getLines().add(new Line(functionLabel, instruction));
         }
         else{
             for(int n=i; n>0;n--){
@@ -59,18 +64,42 @@ public class InstructionGenerator {
                     Variable var = new Variable(scope, args.get(i-n));
                     String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
                     int broj=4*n;
-
+                    String instuction = "LOAD R0, (R7 + "+Integer.toHexString(broj)+")";
+                    CodeGenerator.getInstance().getLines().add(new Line(functionLabel, instuction));
+                    instuction = "MOVE R0, (" +label+")";
+                    CodeGenerator.getInstance().getLines().add(new Line( instuction));
                 }
                 else{
+                    Variable var = new Variable(scope, args.get(i-n));
+                    String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+                    int broj=4*n;
+                    String instuction = "LOAD R0, (R7 + "+Integer.toHexString(broj)+")";
+                    CodeGenerator.getInstance().getLines().add(new Line( instuction));
+                    instuction = "MOVE R0, (" +label+")";
+                    CodeGenerator.getInstance().getLines().add(new Line( instuction));
                     //ostale instrukcije
                 }
             }
-
         }
-
-
     }
 
+    //return 42;
+    public static void returnConst(Scope scope, int c){
 
+        String instuction = "MOVE %D "+Integer.valueOf(c)+", R6";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="RET";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+    }
 
+    //return x;
+    public static void returnVar(Scope scope, String cName){
+
+        Variable var = new Variable(scope, cName);
+        String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+        String instuction = "LOAD R6, ("+label+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="RET";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+    }
 }
