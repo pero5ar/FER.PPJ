@@ -1,7 +1,10 @@
 package lab4.frisc;
 
 import lab3.models.Scope;
+import lab4.frisc.models.Line;
 import lab4.frisc.models.Variable;
+
+import java.util.List;
 
 /**
  * Created by Nicky on 7.1.2017..
@@ -29,6 +32,13 @@ public class InstructionGenerator {
 
         Variable var = new Variable(scope, cName);
         String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+        String instrukcija ="MOVE "+value+", "+label;
+        CodeGenerator.getInstance().getLines().add(new Line(instrukcija));
+
+    }
+
+    //int f(int x, int y,...){
+    public static void definicijaIntFunkcije(String cName, List<String> args){
 
 
 
