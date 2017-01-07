@@ -22,6 +22,11 @@ public class Variable {
         this.value = value;
     }
 
+    public Variable(Scope scope, String name) {
+        this.scope = scope;
+        this.name = name;
+    }
+
     public Scope getScope() {
         return scope;
     }
