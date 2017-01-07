@@ -12,11 +12,12 @@ public class Izraz extends BoilerplateIzraz {
     protected void check1(Scope scope, SemanticNode node) {
         super.check1(scope, node);
     }
+
     /**
      * <izraz> ::= <izraz> ZAREZ <izraz_pridruzivanja>
      *
-     * tip ← <izraz_pridruzivanja>.tip
-     * l-izraz ← 0
+     * tip <- <izraz_pridruzivanja>.tip
+     * l-izraz <- 0
      *
      * 1. provjeri(<izraz>)
      * 2. provjeri(<izraz_pridruzivanja>)

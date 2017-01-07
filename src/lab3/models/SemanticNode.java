@@ -27,8 +27,8 @@ public class SemanticNode {
     private Type type = null;
     private SemanticNode parent;
     private List<SemanticNode> children = new ArrayList<>();
-    private Scope scope;
     private boolean isLValue = false;
+
     /**
      * Svojstvo ntip sluzi za prijenos jednog dijela informacije o tipu u sve deklaratore. Za varijable
      * brojevnog tipa ntip ce biti cijeli tip, za nizove ce biti tip elementa niza, a za funkcije
@@ -70,9 +70,6 @@ public class SemanticNode {
     public SemanticNode getChildAt(int i){
         // This may very well throw IndexOutOfBoundsException. If it does,
         // we should wrap it in SemanticException... To be seen.
-        if (i >= children.size()) {
-            System.out.println("wtf");
-        }
         return children.get(i);
     }
 
@@ -115,7 +112,7 @@ public class SemanticNode {
      * Builds the tree, recursively filling all the non-settable fields with calculated values.
      */
     public void build() {
-        String[] lineSplit = line.split(" ");
+        String[] lineSplit = line.split(" ", 3);
 
         if (children.isEmpty() /* ekvivalentno provjeri je li prvi znak '<' */) {
             setSymbol(lineSplit[0], true);
@@ -136,11 +133,7 @@ public class SemanticNode {
      * @param scope The scope in which the rule validation should be performed
      */
     public void check(Scope scope) {
-        Rules.getRule(symbol).apply(scope, this);
-    }
-
-    public void setScope(Scope scope) {
-        this.scope = scope;
+        Rules.getRule(symbol).check(scope, this);
     }
 
     private void setSymbol(String symbol, boolean isTerminal) {
@@ -158,18 +151,10 @@ public class SemanticNode {
 
     public void setTypes(List<Type> types) {
         this.types = types;
-
-        if (types.size() == 1) {
-            this.type = types.get(0);
-        }
     }
 
     public void setValues(List<String> values) {
         this.values = values;
-
-        if (values.size() == 1) {
-            this.value = values.get(0);
-        }
     }
 
     public void setType(Type type) {
@@ -196,12 +181,12 @@ public class SemanticNode {
         return value;
     }
 
-    private String getErrorLine() {
-        return symbol + "(" + lineNumber + "," + value + ")";
-    }
-
     public SemanticNode getParent() {
         return parent;
+    }
+
+    private String getErrorLine() {
+        return symbol + "(" + lineNumber + "," + value + ")";
     }
 
     public String errorOutput() {

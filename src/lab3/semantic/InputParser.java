@@ -2,6 +2,7 @@ package lab3.semantic;
 
 import lab3.models.SemanticNode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -15,9 +16,13 @@ public class InputParser {
 
     private SemanticNode root;
 
-    public InputParser(List <String> inputLines) {
+    public InputParser() {
         this.stack = new Stack<>();
-        this.inputLines = inputLines;
+        this.inputLines = new ArrayList<>();
+    }
+
+    public void add(String line) {
+        inputLines.add(line);
     }
 
     /**

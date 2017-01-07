@@ -40,7 +40,7 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN
      *
-     * tip ← ntip
+     * tip <- ntip
      *
      * 1. ntip != void
      * 2. IDN.ime nije deklarirano u lokalnom djelokrugu
@@ -49,23 +49,24 @@ public class IzravniDeklarator extends Rule {
     private void check1(Scope scope, SemanticNode node) {
         String name = node.getChildAt(0).getValue();
 
-        if (scope.isDeclared(name) || node.getNType().equals(VoidType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput());
-        }
-
-        scope.addElement(
-                name,
-                new ScopeElement(node.getNType(), true)
+        Type nTip = node.getNType();
+        SemanticHelper.assertTrue(
+                !VoidType.INSTANCE.equals(nTip) && !scope.isDeclared(name),
+                new SemanticException(node.errorOutput())
         );
 
-        node.setType(node.getNType());
+        node.setType(nTip);
+        scope.addElement(
+                name,
+                new ScopeElement(nTip, true)
+        );
     }
 
     /**
      * <izravni_deklarator> ::= IDN L_UGL_ZAGRADA BROJ D_UGL_ZAGRADA
      *
-     * tip ← niz(ntip)
-     * br-elem ← BROJ.vrijednost
+     * tip <- niz(ntip)
+     * br-elem <- BROJ.vrijednost
      *
      * 1. ntip != void
      * 2. IDN.ime nije deklarirano u lokalnom djelokrugu
@@ -75,16 +76,12 @@ public class IzravniDeklarator extends Rule {
     private void check2(Scope scope, SemanticNode node) {
         String name = node.getChildAt(0).getValue();
 
+        // 1. && 2.
         Type nTip = node.getNType();
-        if (VoidType.INSTANCE.equals(nTip)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: ntip != void");
-        }
-
-        if (scope.isDeclared(name, false)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: IDN.ime nije deklarirano u lokalnom djelokrugu");
-        }
+        SemanticHelper.assertTrue(
+                !VoidType.INSTANCE.equals(nTip) && !scope.isDeclared(name, false),
+                new SemanticException(node.errorOutput())
+        );
 
         SemanticNode broj = node.getChildAt(2);
         int brojVrijednost;
@@ -94,10 +91,10 @@ public class IzravniDeklarator extends Rule {
             throw new SemanticException(node.errorOutput(),
                     "Int error");
         }
-        if (brojVrijednost <= 0 || brojVrijednost > 1024) {
-            throw new SemanticException(node.errorOutput(),
-                    "Index error");
-        }
+        SemanticHelper.assertTrue(
+                brojVrijednost > 0 && brojVrijednost <= 1024,
+                new SemanticException(node.errorOutput(), "Index error")
+        );
 
         if (!(nTip instanceof PrimitiveType)) {
             // probably should not occur
@@ -105,10 +102,13 @@ public class IzravniDeklarator extends Rule {
                     "type must be primitive.");
         }
 
+        Type type = new ArrayType((PrimitiveType)nTip);
+        node.setType(type);
         scope.addElement(name, new ScopeElement(
-                new ArrayType((PrimitiveType)nTip),
+                type,
                 false
         ));
+        node.setBrElem(brojVrijednost);
     }
 
 
@@ -116,10 +116,10 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN L_ZAGRADA KR_VOID D_ZAGRADA
      *
-     * tip ← funkcija(void → ntip)
+     * tip <- funkcija(void -> ntip)
      *
      * 1. ako je IDN.ime deklarirano u lokalnom djelokrugu, tip prethodne deklaracije
-     *  je jednak funkcija(void → ntip)
+     *  je jednak funkcija(void -> ntip)
      * 2. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom ako ista funkcija vec nije
      *  deklarirana u lokalnom djelokrugu
      */
@@ -130,15 +130,14 @@ public class IzravniDeklarator extends Rule {
         ScopeElement previousDeclaration = scope.getElement(name, false);
 
         Type type = new FunctionType(nTip, null);
-        if (previousDeclaration != null &&
-                !previousDeclaration.getType().equals(type)) {
-            // ako debugiras ovo, moguce da se FunctionType void ne sprema kao null. (pogledaj u varijablu type)
-            throw new SemanticException(node.errorOutput(),
-                    "Izravni deklarator.");
-        } else {
-            scope.addElement(name, new ScopeElement(type, false));
-            SemanticHelper.addDeclaredFunction(name);
-        }
+        SemanticHelper.assertTrue(
+                // ako debugiras ovo, moguce da se FunctionType void ne sprema kao null. (pogledaj u varijablu type)
+                previousDeclaration == null || previousDeclaration.getType().equals(type),
+                new SemanticException(node.errorOutput(), "Izravni deklarator.")
+        );
+
+        scope.addElement(name, new ScopeElement(type, false));
+        SemanticHelper.addDeclaredFunction(name, type);
 
         node.setType(type);
     }
@@ -146,11 +145,11 @@ public class IzravniDeklarator extends Rule {
     /**
      * <izravni_deklarator> ::= IDN L_ZAGRADA <lista_parametara> D_ZAGRADA
      *
-     * tip ← funkcija(<lista_parametara>.tipovi → ntip)
+     * tip <- funkcija(<lista_parametara>.tipovi -> ntip)
      *
      * 1. provjeri(<lista_parametara>)
      * 2. ako je IDN.ime deklarirano u lokalnom djelokrugu, tip prethodne deklaracije
-     *  je jednak funkcija(<lista_parametara>.tipovi → ntip)
+     *  je jednak funkcija(<lista_parametara>.tipovi -> ntip)
      * 3. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom ako ista funkcija vec nije
      *  deklarirana u lokalnom djelokrugu
      */
@@ -166,14 +165,13 @@ public class IzravniDeklarator extends Rule {
         ScopeElement previousDeclaration = scope.getElement(name, false);
 
         Type type = new FunctionType(nTip, listaParametara.getTypes());
-        if (previousDeclaration != null &&
-                !previousDeclaration.getType().equals(type)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Izravni deklarator.");
-        } else {
-            scope.addElement(name, new ScopeElement(type, false));
-            SemanticHelper.addDeclaredFunction(name);
-        }
+        SemanticHelper.assertTrue(
+                previousDeclaration == null || previousDeclaration.getType().equals(type),
+                new SemanticException(node.errorOutput(), "Izravni deklarator.")
+        );
+
+        scope.addElement(name, new ScopeElement(type, false));
+        SemanticHelper.addDeclaredFunction(name, type);
 
         node.setType(type);
     }

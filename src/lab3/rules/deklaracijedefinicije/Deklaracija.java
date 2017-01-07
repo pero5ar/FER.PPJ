@@ -21,7 +21,7 @@ public class Deklaracija extends Rule {
         imeTipa.check(scope);
 
         // 2. provjeri(<lista_init_deklaratora>) uz nasljedno svojstvo
-        //      <lista_init_deklaratora>.ntip ← <ime_tipa>.tip
+        //      <lista_init_deklaratora>.ntip <- <ime_tipa>.tip
         SemanticNode listaInitDeklaratora = node.getChildAt(1);
         listaInitDeklaratora.setNType(imeTipa.getType());
         listaInitDeklaratora.check(scope);

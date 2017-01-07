@@ -40,13 +40,16 @@ public class ArrayType extends Type {
 
         if (this.elementType instanceof ConstType) {
             ConstType targetConst = (ConstType) targetArray.elementType;
-            return this.elementType.canImplicitCast(targetConst.getType());
+            return this.elementType.canImplicitCast(targetConst.wrappedType);
         } else {
             return this.elementType.canImplicitCast(targetArray.elementType);
         }
     }
 
     public static boolean validString(String value) {
+        if (value.length() < 2 || value.charAt(0) != '"' || !value.endsWith("\"")) {
+            return false;
+        }
         value = value.substring(1, value.length()-1);
 
         boolean escaping = false;
@@ -56,10 +59,15 @@ public class ArrayType extends Type {
                     return false;
                 }
                 escaping = false;
+                continue;
             }
 
             if (c == '\\') {
                 escaping = true;
+                continue;
+            }
+            if (c == '"') {
+                return false;
             }
         }
 

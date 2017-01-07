@@ -14,7 +14,10 @@ public class SemantickiAnalizatorTest {
         List<String> inputList = new ArrayList<>();
         Collections.addAll(inputList, input.split("\n"));
 
-        InputParser ip = new InputParser(inputList);
+        InputParser ip = new InputParser();
+
+        inputList.forEach(ip::add);
+
         SemanticNode node = ip.parseTree();
 
         return node.fullTreeString();

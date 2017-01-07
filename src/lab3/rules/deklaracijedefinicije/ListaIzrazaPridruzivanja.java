@@ -29,8 +29,8 @@ public class ListaIzrazaPridruzivanja extends Rule {
     /**
      * <lista_izraza_pridruzivanja> ::= <izraz_pridruzivanja>
      *
-     * tipovi ← [ <izraz_pridruzivanja>.tip ]
-     * br-elem ← 1
+     * tipovi <- [ <izraz_pridruzivanja>.tip ]
+     * br-elem <- 1
      *
      * 1. provjeri (<izraz_pridruzivanja>)
      */
@@ -47,8 +47,8 @@ public class ListaIzrazaPridruzivanja extends Rule {
     /**
      * <lista_izraza_pridruzivanja> ::= <lista_izraza_pridruzivanja> ZAREZ <izraz_pridruzivanja>
      *
-     * tipovi ← <lista_izraza_pridruzivanja>.tipovi + [ <izraz_pridruzivanja>.tip ]
-     * br-elem ← <lista_izraza_pridruzivanja>.br-elem+ 1
+     * tipovi <- <lista_izraza_pridruzivanja>.tipovi + [ <izraz_pridruzivanja>.tip ]
+     * br-elem <- <lista_izraza_pridruzivanja>.br-elem+ 1
      *
      * 1. provjeri (<lista_izraza_pridruzivanja>)
      * 2. provjeri (<izraz_pridruzivanja>)

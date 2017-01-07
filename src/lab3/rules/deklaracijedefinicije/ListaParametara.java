@@ -5,6 +5,7 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.rules.Rules;
 import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
 import lab3.types.Type;
 
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class ListaParametara extends Rule {
     /**
      * <lista_parametara> ::= <deklaracija_parametra>
      *
-     * tipovi ← [ <deklaracija_parametra>.tip ]
-     * imena ← [ <deklaracija_parametra>.ime ]
+     * tipovi <- [ <deklaracija_parametra>.tip ]
+     * imena <- [ <deklaracija_parametra>.ime ]
      *
      * 1. provjeri(<deklaracija_parametra>)
      */
@@ -48,8 +49,8 @@ public class ListaParametara extends Rule {
     /**
      * <lista_parametara> ::= <lista_parametara> ZAREZ <deklaracija_parametra>
      *
-     * tipovi ← <lista_parametara>.tipovi + [ <deklaracija_parametra>.tip ]
-     * imena ← <lista_parametara>.imena + [ <deklaracija_parametra>.ime ]
+     * tipovi <- <lista_parametara>.tipovi + [ <deklaracija_parametra>.tip ]
+     * imena <- <lista_parametara>.imena + [ <deklaracija_parametra>.ime ]
      *
      * 1. provjeri(<lista_parametara>)
      * 2. provjeri(<deklaracija_parametra>)
@@ -63,10 +64,10 @@ public class ListaParametara extends Rule {
         deklaracijaParametra.check(scope);
 
         // 3.
-        if (listaParametara.getValues().contains(deklaracijaParametra.getValue())) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 3. <deklaracija_parametra>.ime ne postoji u <lista_parametara>.imena");
-        }
+        SemanticHelper.assertTrue(
+                !listaParametara.getValues().contains(deklaracijaParametra.getValue()),
+                new SemanticException(node.errorOutput(), "Rule broken: 3. <deklaracija_parametra>.ime ne postoji u <lista_parametara>.imena")
+        );
 
         // set tipovi
         List<Type> types = new ArrayList<>(listaParametara.getTypes());

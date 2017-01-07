@@ -29,7 +29,7 @@ public class ListaArgumenata extends Rule {
     /**
      * <lista_argumenata> ::= <izraz_pridruzivanja>
      *
-     * tipovi ← [ <izraz_pridruzivanja>.tip ]
+     * tipovi <- [ <izraz_pridruzivanja>.tip ]
      *
      * 1. provjeri(<izraz_pridruzivanja>)
      */
@@ -44,7 +44,7 @@ public class ListaArgumenata extends Rule {
     /**
      * <lista_argumenata> ::= <lista_argumenata> ZAREZ <izraz_pridruzivanja>
      *
-     * tipovi ← <lista_argumenata>.tipovi + [ <izraz_pridruzivanja>.tip ]
+     * tipovi <- <lista_argumenata>.tipovi + [ <izraz_pridruzivanja>.tip ]
      *
      * 1. provjeri(<lista_argumenata>)
      * 2. provjeri(<izraz_pridruzivanja>)
