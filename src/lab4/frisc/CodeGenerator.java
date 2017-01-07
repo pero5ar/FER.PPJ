@@ -22,6 +22,7 @@ public class CodeGenerator {
     private CodeGenerator() {
         subroutineManager = new SubroutineManager();
         variableManager = new VariableManager();
+        startLines();
     }
 
     public static CodeGenerator getInstance() {
@@ -46,6 +47,13 @@ public class CodeGenerator {
         lines.add(new Line("MOVE 40000, R7"));
         lines.add(new Line("CALL F_MAIN"));
         lines.add(new Line("HALT"));
+    }
+
+    public List<String> generateCode() {
+        List<String> code = new ArrayList<>();
+        lines.forEach(line -> code.add(line.toString()));
+        variableManager.getAllLines().forEach(line -> code.add(line.toString()));
+        return code;
     }
 
 }
