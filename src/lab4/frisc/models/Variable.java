@@ -12,16 +12,6 @@ public class Variable {
     private Scope scope;
     private String name;
 
-    private String type;
-    private String value;
-
-    public Variable(Scope scope, String name, String type, String value) {
-        this.scope = scope;
-        this.name = name;
-        this.type = type;
-        this.value = value;
-    }
-
     public Variable(Scope scope, String name) {
         this.scope = scope;
         this.name = name;
@@ -33,14 +23,6 @@ public class Variable {
 
     public String getName() {
         return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     @Override
