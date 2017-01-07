@@ -11,14 +11,20 @@ import java.util.Map;
 public class SubroutineManager {
 
     private static int funcId = 0;
-    private Map<String, Line> functions;
+    private Map<String, String> functions;  // ppjC function name => FRISC subroutine label
 
     public SubroutineManager() {
         functions = new HashMap<>();
     }
 
-    public void createSubrutine(String name, String instruction) {
+    public String createSubrutine(String name) {
         funcId++;
-        String label
+        String label = "func" + Integer.toString(funcId);
+        functions.put(name, label);
+        return label;
+    }
+
+    public String getSubrutineLabel(String name) {
+        return functions.get(name);
     }
 }
