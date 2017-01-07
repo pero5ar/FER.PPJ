@@ -3,15 +3,16 @@ import lab3.semantic.SemanticException;
 import lab3.semantic.SemanticHelper;
 import lab3.models.Scope;
 import lab3.models.SemanticNode;
+import lab4.frisc.CodeGenerator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Created by pero5ar on 7.1.2017..
  */
 public class GeneratorKoda {
+
+    private static final String OUT_PATH = "a.frisc";
 
     public GeneratorKoda(SemanticNode treeRoot) {
         this.treeRoot = treeRoot;
@@ -26,7 +27,6 @@ public class GeneratorKoda {
      */
     public static void main(String[] args) throws IOException {
         String lines;
-        int i;
         InputParser inputParser = new InputParser();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while ((lines = reader.readLine()) != null) {
@@ -36,8 +36,22 @@ public class GeneratorKoda {
 
         SemanticNode generativeTree = inputParser.parseTree();
 
-        SemantickiAnalizator semantic = new SemantickiAnalizator(generativeTree);
+        GeneratorKoda semantic = new GeneratorKoda(generativeTree);
         semantic.analyze();
+
+        print();
+    }
+
+    private static void print() {
+        try {
+            File file = new File(OUT_PATH);
+            file.createNewFile();
+            PrintWriter writer = new PrintWriter(file);
+            CodeGenerator.getInstance().generateCode().forEach(line -> writer.println(line));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private SemanticNode treeRoot;
@@ -48,7 +62,6 @@ public class GeneratorKoda {
         try {
             treeRoot.check(globalScope);
 
-            int i;
             // vidi: 4.4.7 (str. 72)
             SemanticHelper.postTreeWalk();
         } catch(SemanticException e) {
