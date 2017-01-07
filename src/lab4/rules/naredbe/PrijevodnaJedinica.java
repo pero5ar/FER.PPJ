@@ -1,7 +1,7 @@
 package lab4.rules.naredbe;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
 import lab4.rules.Rule;
 
 public class PrijevodnaJedinica extends Rule {

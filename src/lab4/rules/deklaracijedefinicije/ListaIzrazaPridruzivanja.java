@@ -1,10 +1,10 @@
 package lab4.rules.deklaracijedefinicije;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.types.Type;
 import lab4.rules.Rule;
 import lab4.rules.Rules;
-import lab4.types.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class ListaIzrazaPridruzivanja extends Rule {
     /**
      * <lista_izraza_pridruzivanja> ::= <izraz_pridruzivanja>
      *
-     * tipovi ← [ <izraz_pridruzivanja>.tip ]
-     * br-elem ← 1
+     * tipovi <- [ <izraz_pridruzivanja>.tip ]
+     * br-elem <- 1
      *
      * 1. provjeri (<izraz_pridruzivanja>)
      */
@@ -47,8 +47,8 @@ public class ListaIzrazaPridruzivanja extends Rule {
     /**
      * <lista_izraza_pridruzivanja> ::= <lista_izraza_pridruzivanja> ZAREZ <izraz_pridruzivanja>
      *
-     * tipovi ← <lista_izraza_pridruzivanja>.tipovi + [ <izraz_pridruzivanja>.tip ]
-     * br-elem ← <lista_izraza_pridruzivanja>.br-elem+ 1
+     * tipovi <- <lista_izraza_pridruzivanja>.tipovi + [ <izraz_pridruzivanja>.tip ]
+     * br-elem <- <lista_izraza_pridruzivanja>.br-elem+ 1
      *
      * 1. provjeri (<lista_izraza_pridruzivanja>)
      * 2. provjeri (<izraz_pridruzivanja>)

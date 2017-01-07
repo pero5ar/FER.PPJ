@@ -1,26 +1,22 @@
 package lab4.rules.naredbe;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.types.IntType;
 import lab4.rules.Rule;
-import lab4.types.IntType;
 
-/**
- * Služi samo za postavljanje tipa; ne može doći do semantičke pogreške.
- */
 public class IzrazNaredba extends Rule {
     public IzrazNaredba() {
-        super("<specifikator_tipa>");
+        super("<izraz_naredba>");
     }
-
 
     @Override
     public void check(Scope scope, SemanticNode node) {
         if (node.childSymbolEqual(0, "TOCKAZAREZ")) {
             check1(scope, node);
-        } else {
-            check2(scope, node);
+            return;
         }
+        check2(scope, node);
     }
 
     /**

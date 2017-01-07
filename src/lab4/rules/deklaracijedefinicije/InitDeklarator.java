@@ -1,13 +1,14 @@
 package lab4.rules.deklaracijedefinicije;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
+import lab3.types.ArrayType;
+import lab3.types.ConstType;
+import lab3.types.PrimitiveType;
+import lab3.types.Type;
 import lab4.rules.Rule;
-import lab4.semantic.SemanticException;
-import lab4.types.ArrayType;
-import lab4.types.ConstType;
-import lab4.types.PrimitiveType;
-import lab4.types.Type;
 
 /**
  * vidi: 4.4.6 (str. 69)
@@ -29,44 +30,40 @@ public class InitDeklarator extends Rule {
     /**
      * <init_deklarator> ::= <izravni_deklarator>
      * 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-     *      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+     *      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
      * 2. <izravni_deklarator>.tip != const(T) i
      *    <izravni_deklarator>.tip != niz(const(T))
      */
     private void check1(Scope scope, SemanticNode node) {
         SemanticNode izravniDeklarator = node.getChildAt(0);
 
-        // 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-        //      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+        // 1.
         izravniDeklarator.setNType(node.getNType());
         izravniDeklarator.check(scope);
 
-        //2. <izravni_deklarator>.tip != const(T) i
-        //   <izravni_deklarator>.tip != niz(const(T))
-        if (izravniDeklarator.getType() instanceof ConstType) {
-            throw new SemanticException(node.errorOutput(),
-                    "Rule broken: 2. <izravni_deklarator>.tip != const(T)");
-        }
-        if (izravniDeklarator.getType() instanceof ArrayType) {
-            ArrayType arrayType = (ArrayType) izravniDeklarator.getType();
-            if (arrayType.elementType instanceof ConstType) {
-                throw new SemanticException(node.errorOutput(),
-                        "Rule broken: 2. <izravni_deklarator>.tip != niz(const(T))");
-            }
-        }
+        // 2.
+        Type type = izravniDeklarator.getType();
+        SemanticHelper.assertTrue(
+                !(type instanceof ConstType) &&
+                !(
+                    type instanceof ArrayType &&
+                    ((ArrayType) type).elementType instanceof ConstType
+                ),
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <izravni_deklarator>.tip")
+        );
     }
 
     /**
      * <init_deklarator> ::= <izravni_deklarator> OP_PRIDRUZI <inicijalizator>
      *
      * 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-     *      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+     *      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
      * 2. provjeri(<incijalizator>)
      * 3. ako je <izravni_deklarator>.tip T ili const(T)
-     *      <inicijalizator>.tip ∼ T
+     *      <inicijalizator>.tip ~ T
      *    inace ako je <izravni_deklarator>.tip niz(T) ili niz(const(T))
      *      <inicijalizator>.br-elem <= <izravni_deklarator>.br-elem
-     *      za svaki U iz <inicijalizator>.tipovi vrijedi U ∼ T
+     *      za svaki U iz <inicijalizator>.tipovi vrijedi U ~ T
      *    inace greska
      */
     private void check2(Scope scope, SemanticNode node) {
@@ -74,7 +71,7 @@ public class InitDeklarator extends Rule {
         SemanticNode inicijalizator = node.getChildAt(2);
 
         // 1. provjeri(<izravni_deklarator>) uz nasljedno svojstvo
-        //      <izravni_deklarator>.ntip ← <init_deklarator>.ntip
+        //      <izravni_deklarator>.ntip <- <init_deklarator>.ntip
         izravniDeklarator.setNType(node.getNType());
         izravniDeklarator.check(scope);
 
@@ -82,41 +79,39 @@ public class InitDeklarator extends Rule {
         inicijalizator.check(scope);
 
         // 3. ako je <izravni_deklarator>.tip T ili const(T)
-        //      <inicijalizator>.tip ∼ T
+        //      (a) <inicijalizator>.tip ~ T
         //    inace ako je <izravni_deklarator>.tip niz(T) ili niz(const(T))
         //      <inicijalizator>.br-elem <= <izravni_deklarator>.br-elem
-        //      za svaki U iz <inicijalizator>.tipovi vrijedi U ∼ T
+        //      za svaki U iz <inicijalizator>.tipovi vrijedi U ~ T
         //    inace greska
         Type type = izravniDeklarator.getType();
         Type targetType;
         if (type instanceof PrimitiveType) {
-            targetType = (type instanceof ConstType) ? ((ConstType) type).getType()
+            targetType = (type instanceof ConstType) ? ((ConstType) type).wrappedType
                     : type;
 
-            if (!inicijalizator.getType().canImplicitCast(targetType)) {
-                throw new SemanticException(node.errorOutput(),
-                        "Rule broken: 3. (init_deklarator produkcija 2)");
-            }
+            // (a)
+            SemanticHelper.assertTrue(
+                    inicijalizator.getType() != null && inicijalizator.getType().canImplicitCast(targetType),
+                    new SemanticException(node.errorOutput(), "Rule broken: 3. (init_deklarator produkcija 2)")
+            );
         } else if (type instanceof ArrayType) {
             type = ((ArrayType) type).elementType;
-            targetType = (type instanceof ConstType) ? ((ConstType) type).getType()
+            targetType = (type instanceof ConstType) ? ((ConstType) type).wrappedType
                     : type;
 
-            if (inicijalizator.getBrElem() == -1 || izravniDeklarator.getBrElem() == -1
-                    || inicijalizator.getBrElem() > izravniDeklarator.getBrElem()) {
-                throw new SemanticException(node.errorOutput(),
-                        "Rule broken: 3. (init_deklarator produkcija 2)");
-            }
+            SemanticHelper.assertTrue(
+                    inicijalizator.getBrElem() >= 0 && inicijalizator.getBrElem() >= 0 &&
+                            inicijalizator.getBrElem() <= izravniDeklarator.getBrElem(),
+                    new SemanticException(node.errorOutput(), "Rule broken: 3. (init_deklarator produkcija 2)")
+            );
 
-            inicijalizator.getTypes().forEach(sourceType -> {
-                if (!sourceType.canImplicitCast(targetType)) {
-                    throw new SemanticException(node.errorOutput(),
-                            "Rule broken: 3. (init_deklarator produkcija 2)");
-                }
-            });
+            inicijalizator.getTypes().forEach(sourceType -> SemanticHelper.assertTrue(
+                    sourceType.canImplicitCast(targetType),
+                    new SemanticException(node.errorOutput(), "Rule broken: 3. (init_deklarator produkcija 2)")
+            ));
         } else {
-            throw new SemanticException(node.errorOutput(),
-                    "Invalid type");
+            throw new SemanticException(node.errorOutput(), "Invalid type");
         }
     }
 }

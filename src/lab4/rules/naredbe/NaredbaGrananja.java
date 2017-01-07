@@ -1,16 +1,17 @@
 package lab4.rules.naredbe;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
-import lab4.rules.Rule;
-import lab4.types.IntType;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
+import lab3.types.IntType;
 
 /**
  * vidi: 4.4.5 (str. 62)
  *
  * @author JJ
  */
-public class NaredbaGrananja extends Rule {
+public class NaredbaGrananja extends SubscopeNaredba {
     public NaredbaGrananja() {
         super("<naredba_grananja>");
     }
@@ -19,36 +20,17 @@ public class NaredbaGrananja extends Rule {
     public void check(Scope scope, SemanticNode node) {
         if(node.getChildren().size()==5){
             check1(scope, node);
-        } else{
-            check2(scope, node);
+            return;
         }
+        check2(scope, node);
     }
 
-    /**
-     * <naredba_grananja> ::= KR_IF L_ZAGRADA <izraz> D_ZAGRADA <naredba>
-     *
-     * 1. provjeri(<izraz>)
-     * 2. <izraz>.tip ∼ int
-     * 3. provjeri(<naredba>)
-     */
-    private void check1(Scope scope, SemanticNode node) {
-        SemanticNode izraz = node.getChildAt(2);
-        SemanticNode naredba = node.getChildAt(4);
-
-        //1
-        izraz.check(scope);
-        //2
-        izraz.getType().canImplicitCast(IntType.INSTANCE);
-        //3
-        naredba.check(new Scope(scope));
-
-    }
     /**
      * <naredba_grananja> ::= KR_IF L_ZAGRADA <izraz> D_ZAGRADA <naredba>1
      * KR_ELSE <naredba>2
      *
      * 1. provjeri(<izraz>)
-     * 2. <izraz>.tip ∼ int
+     * 2. <izraz>.tip ~ int
      * 3. provjeri(<naredba>1)
      * 4. provjeri(<naredba>2)
      */
@@ -60,7 +42,10 @@ public class NaredbaGrananja extends Rule {
         //1
         izraz.check(scope);
         //2
-        izraz.getType().canImplicitCast(IntType.INSTANCE);
+        SemanticHelper.assertTrue(
+                izraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput())
+        );
         //3
         naredba1.check(new Scope(scope));
         //4

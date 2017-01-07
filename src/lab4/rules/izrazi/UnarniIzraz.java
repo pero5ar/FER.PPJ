@@ -1,10 +1,11 @@
 package lab4.rules.izrazi;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.semantic.SemanticException;
+import lab3.semantic.SemanticHelper;
+import lab3.types.IntType;
 import lab4.rules.Rules;
-import lab4.semantic.SemanticException;
-import lab4.types.IntType;
 
 public class UnarniIzraz extends BoilerplateIzraz {
     public UnarniIzraz() {
@@ -28,14 +29,14 @@ public class UnarniIzraz extends BoilerplateIzraz {
     /**
      * <unarni_izraz> ::= (OP_INC | OP_DEC) <unarni_izraz>
      *
-     * tip ← int
-     * l-izraz ← 0
+     * tip <- int
+     * l-izraz <- 0
      *
      * 1. provjeri(<unarni_izraz>)
-     * 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int
+     * 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ~ int
      */
     private void check2_2(Scope scope, SemanticNode node) {
-        // tip ← int && l-izraz ← 0
+        // tip <- int && l-izraz <- 0
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
 
@@ -43,24 +44,24 @@ public class UnarniIzraz extends BoilerplateIzraz {
         // 1. provjeri(<unarni_izraz>)
         unarniIzraz.check(scope);
 
-        // 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int
-        if (!unarniIzraz.isLValue() || !unarniIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Ruke broken: 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ∼ int");
-        }
+        // 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ~ int
+        SemanticHelper.assertTrue(
+                unarniIzraz.isLValue() && unarniIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ~ int")
+        );
     }
 
     /**
      * <unarni_izraz> ::= <unarni_operator> <cast_izraz>
      *
-     * tip ← int
-     * l-izraz ← 0
+     * tip <- int
+     * l-izraz <- 0
      *
      * 1. provjeri(<cast_izraz>)
-     * 2. <cast_izraz>.tip ∼ int
+     * 2. <cast_izraz>.tip ~ int
      */
     private void check2_3(Scope scope, SemanticNode node) {
-        // tip ← int && l-izraz ← 0
+        // tip <- int && l-izraz <- 0
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
 
@@ -68,10 +69,10 @@ public class UnarniIzraz extends BoilerplateIzraz {
         // 1. provjeri(<cast_izraz>)
         castIzraz.check(scope);
 
-        // 2. <cast_izraz>.tip ∼ int
-        if (!castIzraz.getType().canImplicitCast(IntType.INSTANCE)) {
-            throw new SemanticException(node.errorOutput(),
-                    "Ruke broken: 2. <cast_izraz>.tip ∼ int");
-        }
+        // 2. <cast_izraz>.tip ~ int
+        SemanticHelper.assertTrue(
+                castIzraz.getType().canImplicitCast(IntType.INSTANCE),
+                new SemanticException(node.errorOutput(), "Rule broken: 2. <cast_izraz>.tip ~ int")
+        );
     }
 }

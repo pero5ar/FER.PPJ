@@ -1,7 +1,7 @@
 package lab4.rules.izrazi;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
 import lab4.rules.Rules;
 
 public class Izraz extends BoilerplateIzraz {
@@ -12,11 +12,12 @@ public class Izraz extends BoilerplateIzraz {
     protected void check1(Scope scope, SemanticNode node) {
         super.check1(scope, node);
     }
+
     /**
      * <izraz> ::= <izraz> ZAREZ <izraz_pridruzivanja>
      *
-     * tip ← <izraz_pridruzivanja>.tip
-     * l-izraz ← 0
+     * tip <- <izraz_pridruzivanja>.tip
+     * l-izraz <- 0
      *
      * 1. provjeri(<izraz>)
      * 2. provjeri(<izraz_pridruzivanja>)

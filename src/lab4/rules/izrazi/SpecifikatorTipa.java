@@ -1,14 +1,14 @@
 package lab4.rules.izrazi;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.types.CharType;
+import lab3.types.IntType;
+import lab3.types.VoidType;
 import lab4.rules.Rule;
-import lab4.types.CharType;
-import lab4.types.IntType;
-import lab4.types.VoidType;
 
 /**
- * Služi samo za postavljanje tipa; ne može doći do semantičke pogreške.
+ * Sluzi samo za postavljanje tipa; ne moze doci do semanticke pogreske.
  */
 public class SpecifikatorTipa extends Rule {
     public SpecifikatorTipa() {

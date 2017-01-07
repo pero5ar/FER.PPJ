@@ -1,10 +1,10 @@
 package lab4.rules.deklaracijedefinicije;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.types.Type;
 import lab4.rules.Rule;
 import lab4.rules.Rules;
-import lab4.types.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ListaArgumenata extends Rule {
     /**
      * <lista_argumenata> ::= <izraz_pridruzivanja>
      *
-     * tipovi ← [ <izraz_pridruzivanja>.tip ]
+     * tipovi <- [ <izraz_pridruzivanja>.tip ]
      *
      * 1. provjeri(<izraz_pridruzivanja>)
      */
@@ -44,7 +44,7 @@ public class ListaArgumenata extends Rule {
     /**
      * <lista_argumenata> ::= <lista_argumenata> ZAREZ <izraz_pridruzivanja>
      *
-     * tipovi ← <lista_argumenata>.tipovi + [ <izraz_pridruzivanja>.tip ]
+     * tipovi <- <lista_argumenata>.tipovi + [ <izraz_pridruzivanja>.tip ]
      *
      * 1. provjeri(<lista_argumenata>)
      * 2. provjeri(<izraz_pridruzivanja>)

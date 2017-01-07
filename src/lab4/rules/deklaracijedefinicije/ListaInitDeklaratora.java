@@ -1,7 +1,7 @@
 package lab4.rules.deklaracijedefinicije;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
 import lab4.rules.Rule;
 import lab4.rules.Rules;
 
@@ -26,13 +26,13 @@ public class ListaInitDeklaratora extends Rule {
      * <lista_init_deklaratora> ::= <init_deklarator>
      *
      * 1. provjeri(<init_deklarator>) uz nasljedno svojstvo
-     *      <init_deklarator>.ntip ← <lista_init_deklaratora>.ntip
+     *      <init_deklarator>.ntip <- <lista_init_deklaratora>.ntip
      */
     private void check1(Scope scope, SemanticNode node) {
         SemanticNode initDeklarator = node.getChildAt(0);
 
         // 1. provjeri(<init_deklarator>) uz nasljedno svojstvo
-        //      <init_deklarator>.ntip ← <lista_init_deklaratora>.ntip
+        //      <init_deklarator>.ntip <- <lista_init_deklaratora>.ntip
         initDeklarator.setNType(node.getNType());
         initDeklarator.check(scope);
     }
@@ -41,9 +41,9 @@ public class ListaInitDeklaratora extends Rule {
      * <lista_init_deklaratora>1 ::= <lista_init_deklaratora>2 ZAREZ <init_deklarator>
      *
      * 1. provjeri(<lista_init_deklaratora>2) uz nasljedno svojstvo
-     *      <lista_init_deklaratora>2.ntip ← <lista_init_deklaratora>1.ntip
+     *      <lista_init_deklaratora>2.ntip <- <lista_init_deklaratora>1.ntip
      * 2. provjeri(<init_deklarator>) uz nasljedno svojstvo
-     *      <init_deklarator>.ntip ← <lista_init_deklaratora>1.ntip
+     *      <init_deklarator>.ntip <- <lista_init_deklaratora>1.ntip
      */
     private void check2(Scope scope, SemanticNode node) {
         SemanticNode listaInitDeklaratora = node.getChildAt(0);

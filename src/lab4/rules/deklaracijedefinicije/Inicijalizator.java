@@ -1,11 +1,11 @@
 package lab4.rules.deklaracijedefinicije;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
+import lab3.types.ArrayType;
+import lab3.types.CharType;
 import lab4.rules.Rule;
 import lab4.rules.Rules;
-import lab4.types.ArrayType;
-import lab4.types.CharType;
 
 import java.util.Collections;
 
@@ -30,10 +30,10 @@ public class Inicijalizator extends Rule {
      * <inicijalizator> ::= <izraz_pridruzivanja>
      *
      * ako je <izraz_pridruzivanja> => NIZ_ZNAKOVA
-     *      br-elem ← duljina niza znakova + 1
-     *      tipovi ← lista duljine br-elem, svi elementi su char
+     *      br-elem <- duljina niza znakova + 1
+     *      tipovi <- lista duljine br-elem, svi elementi su char
      * inace
-     *      tip ← <izraz_pridruzivanja>.tip
+     *      tip <- <izraz_pridruzivanja>.tip
      *
      * 1. provjeri(<izraz_pridruzivanja>)
      */
@@ -44,11 +44,10 @@ public class Inicijalizator extends Rule {
         izrazPridruzivanja.check(scope);
 
         SemanticNode array = izrazPridruzivanja;
-        while (array.getChildren() != null && array.getChildren().size() == 1) {
+        do {
             array = array.getChildAt(0);
-        }
+        } while (array.getChildren() != null && array.getChildren().size() == 1);
 
-//        if (array.getType().equals(new ArrayType(ConstType.CONST_CHAR))) {
         if (array.getSymbol().equals("NIZ_ZNAKOVA")) {
             String text = array.getValue();
 
@@ -63,8 +62,8 @@ public class Inicijalizator extends Rule {
     /**
      * <inicijalizator> ::= L_VIT_ZAGRADA <lista_izraza_pridruzivanja> D_VIT_ZAGRADA
      *
-     * br-elem ← <lista_izraza_pridruzivanja>.br-elem
-     * tipovi ← <lista_izraza_pridruzivanja>.tipovi
+     * br-elem <- <lista_izraza_pridruzivanja>.br-elem
+     * tipovi <- <lista_izraza_pridruzivanja>.tipovi
      *
      * 1. provjeri(<lista_izraza_pridruzivanja>)
      */
@@ -74,8 +73,8 @@ public class Inicijalizator extends Rule {
         // 1. provjeri(<lista_izraza_pridruzivanja>)
         listaIzrazaPridruzivanja.check(scope);
 
-        // br-elem ← <lista_izraza_pridruzivanja>.br-elem &&
-        // tipovi ← <lista_izraza_pridruzivanja>.tipovi
+        // br-elem <- <lista_izraza_pridruzivanja>.br-elem &&
+        // tipovi <- <lista_izraza_pridruzivanja>.tipovi
         node.setBrElem(listaIzrazaPridruzivanja.getBrElem());
         node.setTypes(listaIzrazaPridruzivanja.getTypes());
     }

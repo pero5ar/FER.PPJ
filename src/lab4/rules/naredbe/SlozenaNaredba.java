@@ -1,7 +1,7 @@
 package lab4.rules.naredbe;
 
-import lab4.models.Scope;
-import lab4.models.SemanticNode;
+import lab3.models.Scope;
+import lab3.models.SemanticNode;
 import lab4.rules.Rule;
 import lab4.rules.Rules;
 
@@ -24,11 +24,9 @@ public class SlozenaNaredba extends Rule {
         if (node.childSymbolEqual(1, Rules.LISTA_NAREDBI.symbol) &&
                 node.childSymbolEqual(2, "D_VIT_ZAGRADA")) {
             check1(scope, node);
-        } else if (node.childSymbolEqual(1, Rules.LISTA_DEKLARACIJA.symbol) &&
-                node.childSymbolEqual(2, Rules.LISTA_NAREDBI.symbol) &&
-                node.childSymbolEqual(3, "D_VIT_ZAGRADA")) {
-            check2(scope, node);
+            return;
         }
+        check2(scope, node);
     }
 
     /**
