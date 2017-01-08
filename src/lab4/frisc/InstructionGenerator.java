@@ -1,14 +1,10 @@
 package lab4.frisc;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
-import lab3.models.Scope;
+import lab4.lab3modified.models.Scope;
 import lab4.frisc.models.Line;
 import lab4.frisc.models.Variable;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Nicky on 7.1.2017..

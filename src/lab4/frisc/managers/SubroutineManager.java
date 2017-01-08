@@ -1,7 +1,5 @@
 package lab4.frisc.managers;
 
-import lab4.frisc.models.Line;
-
 import java.util.HashMap;
 import java.util.Map;
 

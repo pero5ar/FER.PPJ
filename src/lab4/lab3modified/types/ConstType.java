@@ -1,0 +1,34 @@
+package lab4.lab3modified.types;
+
+public class ConstType extends PrimitiveType {
+    public static final ConstType CONST_INT = new ConstType(IntType.INSTANCE);
+    public static final ConstType CONST_CHAR = new ConstType(CharType.INSTANCE);
+
+    public final NumberType wrappedType;
+
+    private ConstType(NumberType type) {
+        this.wrappedType = type;
+    }
+
+    @Override
+    public boolean canImplicitCast(Type target) {
+		// vidi 4.3.1 (str. 41)
+        return this.equals(target) || wrappedType == target || wrappedType.canImplicitCast(target);
+    }
+
+    @Override
+    public boolean canExplicitCast(Type target) {
+        // vidi 4.3.1 (str. 41)
+        return canImplicitCast(target) || wrappedType.canExplicitCast(target);
+    }
+
+    @Override
+    public boolean equals(Type o) {
+        if (!(o instanceof ConstType)) {
+            return false;
+        }
+
+        ConstType otherConst = (ConstType) o;
+        return this.wrappedType.equals(otherConst.wrappedType);
+    }
+}

@@ -1,8 +1,8 @@
-import lab3.semantic.InputParser;
-import lab3.semantic.SemanticException;
-import lab3.semantic.SemanticHelper;
-import lab3.models.Scope;
-import lab3.models.SemanticNode;
+import lab4.lab3modified.semantic.InputParser;
+import lab4.lab3modified.semantic.SemanticException;
+import lab4.lab3modified.semantic.SemanticHelper;
+import lab4.lab3modified.models.Scope;
+import lab4.lab3modified.models.SemanticNode;
 import lab4.frisc.CodeGenerator;
 
 import java.io.*;

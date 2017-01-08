@@ -1,6 +1,6 @@
 package lab4.frisc.models;
 
-import lab3.models.Scope;
+import lab4.lab3modified.models.Scope;
 
 /**
  * ppjC variable
