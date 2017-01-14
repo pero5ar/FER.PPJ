@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.izrazi;
 
+import lab4.frisc.CodeGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.ScopeElement;
 import lab4.lab3modified.models.SemanticNode;
@@ -33,6 +34,18 @@ public class PrimarniIzraz extends Rule {
             case "L_ZAGRADA":
                 checkIzraz(scope, node);
                 return;
+        }
+
+        //helper za generator koda
+        if(node.getSymbol().equals("BROJ")){
+            CodeGenerator.setIsNodeBROJ(true);
+            CodeGenerator.setNodeBROJ(Integer.parseInt(node.getValue()));
+        }
+
+        //helper za generator koda
+        else if(node.getSymbol().equals("IDN")){
+            CodeGenerator.setIsNodeIDN(true);
+            CodeGenerator.setNodeIDN(node.getValue());
         }
     }
 

@@ -1,5 +1,8 @@
 package lab4.lab3modified.rules.naredbe;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
+import lab4.frisc.CodeGenerator;
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rule;
@@ -70,6 +73,21 @@ public class NaredbaSkoka extends Rule {
                 functionType != null && VoidType.INSTANCE.equals(functionType.returnType),
                 new SemanticException(node.errorOutput(), "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params -> void)")
         );
+
+        //genrator koda za return 42;
+        if(CodeGenerator.isNodeBROJ()==true){
+            InstructionGenerator.returnConst(scope, CodeGenerator.getNodeBROJ());
+            CodeGenerator.setIsNodeBROJ(false);
+            CodeGenerator.setNodeBROJ(0);
+
+        }
+
+        //generator koda za return x;
+        else if (CodeGenerator.isNodeIDN()==true){
+            InstructionGenerator.returnVar(scope, CodeGenerator.getNodeIDN());
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDN(null);
+        }
     }
 
     /**

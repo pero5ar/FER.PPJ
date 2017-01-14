@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.deklaracijedefinicije;
 
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.ScopeElement;
 import lab4.lab3modified.models.SemanticNode;
@@ -9,6 +10,7 @@ import lab4.lab3modified.semantic.SemanticHelper;
 import lab4.lab3modified.types.ConstType;
 import lab4.lab3modified.types.FunctionType;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -60,6 +62,12 @@ public class DefinicijaFunkcije extends Rule {
         // 6. provjeri(<slozena_naredba>)
         Scope subScope = new Scope(scope);
         node.getChildAt(5).check(subScope);
+
+
+        //genrator koda za int main(void){
+        if(node.getChildAt(1).getValue().equals("main")){
+            InstructionGenerator.definicijaIntFunkcije("main", new ArrayList<String>(), scope);
+        }
     }
 
     /**

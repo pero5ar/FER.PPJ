@@ -16,6 +16,12 @@ public class CodeGenerator {
 
     private SubroutineManager subroutineManager;
     private VariableManager variableManager;
+    private static boolean isNodeBROJ =false;
+    private static boolean isNodeIDN =false;
+    private static int nodeBROJ= 0;
+    private static String nodeIDN = null;
+
+
 
     private List<Line> lines;
 
@@ -55,6 +61,38 @@ public class CodeGenerator {
         variableManager.getAllVariableLines().forEach(line -> code.add(line.toString()));
         variableManager.getAllArrayLines().forEach(line -> code.add(line.toString()));
         return code;
+    }
+
+    public static boolean isNodeBROJ() {
+        return isNodeBROJ;
+    }
+
+    public static void setIsNodeBROJ(boolean isNodeBROJ) {
+        CodeGenerator.isNodeBROJ = isNodeBROJ;
+    }
+
+    public static boolean isNodeIDN() {
+        return isNodeIDN;
+    }
+
+    public static void setIsNodeIDN(boolean isNodeIDN) {
+        CodeGenerator.isNodeIDN = isNodeIDN;
+    }
+
+    public static int getNodeBROJ() {
+        return nodeBROJ;
+    }
+
+    public static void setNodeBROJ(int nodeBROJ) {
+        CodeGenerator.nodeBROJ = nodeBROJ;
+    }
+
+    public static String getNodeIDN() {
+        return nodeIDN;
+    }
+
+    public static void setNodeIDN(String nodeIDN) {
+        CodeGenerator.nodeIDN = nodeIDN;
     }
 
 }

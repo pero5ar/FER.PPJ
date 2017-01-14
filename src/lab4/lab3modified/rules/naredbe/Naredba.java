@@ -24,5 +24,6 @@ public class Naredba extends Rule {
             // <izraz_naredba>, <naredba_grananja>, <naredba_petlje> i <naredba_skoka>
             node.getChildAt(0).check(scope);
         }
+
     }
 }
