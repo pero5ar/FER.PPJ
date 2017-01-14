@@ -16,4 +16,5 @@ public abstract class Rule {
      * Verifies the node against this rule in the given scope.
      */
     public abstract void check(Scope scope, SemanticNode node);
+
 }
