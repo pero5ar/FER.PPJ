@@ -52,7 +52,8 @@ public class CodeGenerator {
     public List<String> generateCode() {
         List<String> code = new ArrayList<>();
         lines.forEach(line -> code.add(line.toString()));
-        variableManager.getAllLines().forEach(line -> code.add(line.toString()));
+        variableManager.getAllVariableLines().forEach(line -> code.add(line.toString()));
+        variableManager.getAllArrayLines().forEach(line -> code.add(line.toString()));
         return code;
     }
 
