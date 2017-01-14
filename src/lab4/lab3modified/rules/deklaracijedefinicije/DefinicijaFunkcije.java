@@ -43,6 +43,12 @@ public class DefinicijaFunkcije extends Rule {
      * 6. provjeri(<slozena_naredba>)
      */
     private void check1(Scope scope, SemanticNode node) {
+
+        //genrator koda za int main(void){
+        if(node.getChildAt(1).getValue().equals("main")){
+            InstructionGenerator.definicijaIntFunkcije("main", new ArrayList<String>(), scope);
+        }
+
         subcheckRule1to3(scope, node);
 
         String functionName = node.getChildAt(1).getValue();
@@ -64,10 +70,7 @@ public class DefinicijaFunkcije extends Rule {
         node.getChildAt(5).check(subScope);
 
 
-        //genrator koda za int main(void){
-        if(node.getChildAt(1).getValue().equals("main")){
-            InstructionGenerator.definicijaIntFunkcije("main", new ArrayList<String>(), scope);
-        }
+
     }
 
     /**

@@ -18,6 +18,18 @@ public class PrimarniIzraz extends Rule {
     public void check(Scope scope, SemanticNode node) {
         SemanticNode child = node.getChildAt(0);
 
+        //helper za generator koda
+        if(child.getSymbol().equals("BROJ")){
+            CodeGenerator.setIsNodeBROJ(true);
+            CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue()));
+        }
+
+        //helper za generator koda
+        else if(child.getSymbol().equals("IDN")){
+            CodeGenerator.setIsNodeIDN(true);
+            CodeGenerator.setNodeIDN(child.getValue());
+        }
+
         switch(child.getSymbol()) {
             case "IDN":
                 checkIdentifier(scope, node);
@@ -36,17 +48,7 @@ public class PrimarniIzraz extends Rule {
                 return;
         }
 
-        //helper za generator koda
-        if(node.getSymbol().equals("BROJ")){
-            CodeGenerator.setIsNodeBROJ(true);
-            CodeGenerator.setNodeBROJ(Integer.parseInt(node.getValue()));
-        }
 
-        //helper za generator koda
-        else if(node.getSymbol().equals("IDN")){
-            CodeGenerator.setIsNodeIDN(true);
-            CodeGenerator.setNodeIDN(node.getValue());
-        }
     }
 
     /**

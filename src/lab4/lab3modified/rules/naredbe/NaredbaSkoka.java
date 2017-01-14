@@ -74,20 +74,7 @@ public class NaredbaSkoka extends Rule {
                 new SemanticException(node.errorOutput(), "Rule broken: naredba se nalazi unutar funkcije tipa funkcija(params -> void)")
         );
 
-        //genrator koda za return 42;
-        if(CodeGenerator.isNodeBROJ()==true){
-            InstructionGenerator.returnConst(scope, CodeGenerator.getNodeBROJ());
-            CodeGenerator.setIsNodeBROJ(false);
-            CodeGenerator.setNodeBROJ(0);
 
-        }
-
-        //generator koda za return x;
-        else if (CodeGenerator.isNodeIDN()==true){
-            InstructionGenerator.returnVar(scope, CodeGenerator.getNodeIDN());
-            CodeGenerator.setIsNodeIDN(false);
-            CodeGenerator.setNodeIDN(null);
-        }
     }
 
     /**
@@ -109,6 +96,21 @@ public class NaredbaSkoka extends Rule {
                 functionType != null && izraz.getType().canImplicitCast(functionType.returnType),
                 new SemanticException(node.errorOutput(), "Return type mismatch")
         );
+
+        //genrator koda za return 42;
+        if(CodeGenerator.isNodeBROJ()==true){
+            InstructionGenerator.returnConst(scope, CodeGenerator.getNodeBROJ());
+            CodeGenerator.setIsNodeBROJ(false);
+            CodeGenerator.setNodeBROJ(0);
+
+        }
+
+        //generator koda za return x;
+        else if (CodeGenerator.isNodeIDN()==true){
+            InstructionGenerator.returnVar(scope, CodeGenerator.getNodeIDN());
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDN(null);
+        }
     }
 
     private FunctionType getFunctionType(SemanticNode node) {
