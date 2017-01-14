@@ -2,6 +2,7 @@ package lab4.frisc;
 
 import lab4.frisc.managers.SubroutineManager;
 import lab4.frisc.managers.VariableManager;
+import lab4.frisc.models.Label;
 import lab4.frisc.models.Line;
 
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class CodeGenerator {
 
 
     private List<Line> lines;
+    private List<Label> labels = new ArrayList<>();
+
+    private int labelCounter = 1;
 
     private CodeGenerator() {
         subroutineManager = new SubroutineManager();
@@ -55,11 +59,22 @@ public class CodeGenerator {
         lines.add(new Line("HALT"));
     }
 
+    public int theLabelCounter() {
+        return labelCounter++;
+    }
+
     public List<String> generateCode() {
         List<String> code = new ArrayList<>();
         lines.forEach(line -> code.add(line.toString()));
         variableManager.getAllVariableLines().forEach(line -> code.add(line.toString()));
         variableManager.getAllArrayLines().forEach(line -> code.add(line.toString()));
+
+        labels.forEach(l -> {
+            String line = l.getLabel() + "\t" + l.getBytes();
+
+            code.add(line);
+        });
+
         return code;
     }
 
@@ -95,4 +110,7 @@ public class CodeGenerator {
         CodeGenerator.nodeIDN = nodeIDN;
     }
 
+    public void addLabel(Label label) {
+        this.labels.add(label);
+    }
 }

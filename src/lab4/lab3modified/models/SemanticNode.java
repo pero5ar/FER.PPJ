@@ -1,5 +1,6 @@
 package lab4.lab3modified.models;
 
+import lab4.frisc.models.Label;
 import lab4.lab3modified.rules.Rules;
 import lab4.lab3modified.types.Type;
 
@@ -28,6 +29,8 @@ public class SemanticNode {
     private SemanticNode parent;
     private List<SemanticNode> children = new ArrayList<>();
     private boolean isLValue = false;
+
+    private Label label;
 
     /**
      * Svojstvo ntip sluzi za prijenos jednog dijela informacije o tipu u sve deklaratore. Za varijable
@@ -231,5 +234,13 @@ public class SemanticNode {
 
     public int getBrElem() {
         return brElem;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
     }
 }

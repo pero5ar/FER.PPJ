@@ -1,5 +1,6 @@
 package lab4.frisc;
 
+import lab4.frisc.models.Label;
 import lab4.lab3modified.models.Scope;
 import lab4.frisc.models.Line;
 import lab4.frisc.models.Variable;
@@ -81,8 +82,11 @@ public class InstructionGenerator {
 
     //return 42;
     public static void returnConst(Scope scope, int c){
+        Label label = new Label();
+        label.setValue(String.valueOf(c));
+        CodeGenerator.getInstance().addLabel(label);
 
-        String instuction = "MOVE %D "+Integer.valueOf(c)+", R6";
+        String instuction = "LOAD R6, (" + label.getLabel() + ")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="RET";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
