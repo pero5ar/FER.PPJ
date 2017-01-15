@@ -28,7 +28,7 @@ public class InstructionGenerator {
         if(value.matches(".*\\d+.*")){
             insturkcija ="DW %D "+value;
         } else {
-             insturkcija="DW %D "+(int)value.charAt(0);
+             insturkcija="DW %D "+(int)value.charAt(1);
         }
         CodeGenerator.getInstance().getVariableManager().createVariable(var, insturkcija);
     }
