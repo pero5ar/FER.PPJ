@@ -111,6 +111,9 @@ public class NaredbaSkoka extends Rule {
             CodeGenerator.setIsNodeIDN(false);
             CodeGenerator.setNodeIDN(null);
         }
+        else if(CodeGenerator.isNodeIzraz()==true){
+            InstructionGenerator.returnVoid();
+        }
     }
 
     private FunctionType getFunctionType(SemanticNode node) {

@@ -139,7 +139,7 @@ public class InstructionGenerator {
     }
 
     //return x+y;
-    public static void Addition(Scope scope, String cNameFirst, String cNameSecond){
+    public static void addition(Scope scope, String cNameFirst, String cNameSecond){
 
         Variable varFirst = new Variable(scope, cNameFirst);
         String labelFirst=null;
@@ -190,5 +190,9 @@ public class InstructionGenerator {
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
 
 
+    }
+    public static void returnVoid(){
+        String instruciton = "RET";
+        CodeGenerator.getInstance().getLines().add(new Line( instruciton));
     }
 }

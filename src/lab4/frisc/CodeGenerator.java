@@ -20,9 +20,7 @@ public class CodeGenerator {
     private static boolean isNodeBROJ =false;
     private static boolean isNodeUnarniMinus=false;
     private static boolean isNodeIDN =false;
-
-
-
+    private static boolean isNodeIzraz=false;
     private static boolean isNodeKR_INT=false;
     private static boolean isNodeListaInitDeklaratora=false;
     private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
@@ -153,9 +151,11 @@ public class CodeGenerator {
         CodeGenerator.isNodeUnarniMinus = isNodeUnarniMinus;
     }
 
+    public static boolean isNodeIzraz() {
+        return isNodeIzraz;
+    }
 
-
-
-
-
+    public static void setIsNodeIzraz(boolean isNodeIzraz) {
+        CodeGenerator.isNodeIzraz = isNodeIzraz;
+    }
 }
