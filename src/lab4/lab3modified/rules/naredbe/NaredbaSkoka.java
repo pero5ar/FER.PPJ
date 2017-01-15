@@ -1,6 +1,5 @@
 package lab4.lab3modified.rules.naredbe;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import lab4.frisc.CodeGenerator;
 import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
@@ -99,9 +98,9 @@ public class NaredbaSkoka extends Rule {
 
         //genrator koda za return 42;
         if(CodeGenerator.isNodeBROJ()==true){
-            InstructionGenerator.returnConst(scope, CodeGenerator.getNodeBROJ());
+            InstructionGenerator.returnConst(scope, Integer.parseInt(CodeGenerator.getNodeBROJ()));
             CodeGenerator.setIsNodeBROJ(false);
-            CodeGenerator.setNodeBROJ(0);
+            CodeGenerator.setNodeBROJ(null);
 
         }
 
