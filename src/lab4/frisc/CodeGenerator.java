@@ -18,7 +18,11 @@ public class CodeGenerator {
     private SubroutineManager subroutineManager;
     private VariableManager variableManager;
     private static boolean isNodeBROJ =false;
+    private static boolean isNodeUnarniMinus=false;
     private static boolean isNodeIDN =false;
+
+
+
     private static boolean isNodeKR_INT=false;
     private static boolean isNodeListaInitDeklaratora=false;
     private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
@@ -139,6 +143,14 @@ public class CodeGenerator {
 
     public static void setNodeListaInitDeklaratora(ArrayList<String> nodeListaInitDeklaratora) {
         CodeGenerator.nodeListaInitDeklaratora = nodeListaInitDeklaratora;
+    }
+
+    public static boolean isIsNodeUnarniMinus() {
+        return isNodeUnarniMinus;
+    }
+
+    public static void setIsNodeUnarniMinus(boolean isNodeUnarniMinus) {
+        CodeGenerator.isNodeUnarniMinus = isNodeUnarniMinus;
     }
 
 

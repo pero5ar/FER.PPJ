@@ -21,7 +21,14 @@ public class PrimarniIzraz extends Rule {
         //helper za generator koda
         if(child.getSymbol().equals("BROJ")){
             CodeGenerator.setIsNodeBROJ(true);
-            CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue()));
+            if(CodeGenerator.isIsNodeUnarniMinus()){
+                CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue())*(-1));
+                CodeGenerator.setIsNodeUnarniMinus(false);
+            }
+            else
+            {
+                CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue()));
+            }
         }
 
         //helper za generator koda

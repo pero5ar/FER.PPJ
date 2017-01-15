@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.izrazi;
 
+import lab4.frisc.CodeGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rules;
@@ -61,6 +62,11 @@ public class UnarniIzraz extends BoilerplateIzraz {
      * 2. <cast_izraz>.tip ~ int
      */
     private void check2_3(Scope scope, SemanticNode node) {
+
+        if(node.getChildAt(0).getChildAt(0).getSymbol().equals("MINUS")){
+            CodeGenerator.setIsNodeUnarniMinus(true);
+        }
+
         // tip <- int && l-izraz <- 0
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
