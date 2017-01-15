@@ -24,7 +24,12 @@ public class InstructionGenerator {
     public static void deklaracijaIDefinicijaVarijable( String cName, Scope scope, String value){
 
         Variable var = new Variable(scope, cName);
-        String insturkcija="DW %D "+value;
+        String insturkcija;
+        if(value.matches(".*\\d+.*")){
+            insturkcija ="DW %D "+value;
+        } else {
+             insturkcija="DW %D "+(int)value.charAt(0);
+        }
         CodeGenerator.getInstance().getVariableManager().createVariable(var, insturkcija);
     }
 
