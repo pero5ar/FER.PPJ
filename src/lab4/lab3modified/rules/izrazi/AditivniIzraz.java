@@ -35,9 +35,22 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         new SemanticException(node.errorOutput(), "<x_izraz>.tip ~ int")
                 );
                 if(node.getChildren().size()==3) {
-                    cNameFirst = CodeGenerator.getNodeIDN();
-                    CodeGenerator.setNodeIDN(null);
-                    CodeGenerator.setIsNodeIDN(false);
+                    if(CodeGenerator.isNodeIDN()==true) {
+                        cNameFirst = CodeGenerator.getNodeIDN();
+                        CodeGenerator.setNodeIDN(null);
+                        CodeGenerator.setIsNodeIDN(false);
+                    }
+                    else if(CodeGenerator.isNodeBROJ()==true) {
+                        cNameFirst = CodeGenerator.getNodeBROJ();
+                        CodeGenerator.setNodeBROJ(null);
+                        CodeGenerator.setIsNodeBROJ(false);
+                    }
+                    else if(CodeGenerator.isNodeZNAK()==true) {
+                        cNameFirst = CodeGenerator.getNodeZNAK();
+                        CodeGenerator.setNodeZNAK(null);
+                        CodeGenerator.setIsNodeZNAK(false);
+                    }
+                    InstructionGenerator.initalizeAdditive(scope, cNameFirst);
                 }
 
                 // 3. provjeri(<y_izraz>)
@@ -49,18 +62,31 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         new SemanticException(node.errorOutput(), "<y_izraz>.tip ~ int")
                 );
 
+
                 if(node.getChildren().size()==3) {
-                    cNameSecond = CodeGenerator.getNodeIDN();
-                    CodeGenerator.setNodeIDN(null);
-                    CodeGenerator.setIsNodeIDN(false);
+                    if(CodeGenerator.isNodeIDN()==true) {
+                        cNameSecond = CodeGenerator.getNodeIDN();
+                        CodeGenerator.setNodeIDN(null);
+                        CodeGenerator.setIsNodeIDN(false);
+                    }
+                    else if(CodeGenerator.isNodeBROJ()==true) {
+                        cNameSecond = CodeGenerator.getNodeBROJ();
+                        CodeGenerator.setNodeBROJ(null);
+                        CodeGenerator.setIsNodeBROJ(false);
+                    }
+                    else if(CodeGenerator.isNodeZNAK()==true) {
+                        cNameSecond = CodeGenerator.getNodeZNAK();
+                        CodeGenerator.setNodeZNAK(null);
+                        CodeGenerator.setIsNodeZNAK(false);
+                    }
                 }
                 if(node.getChildren().size()==3) {
                     if(node.getChildAt(1).getSymbol().equals("PLUS")){
-                        InstructionGenerator.addition(scope, cNameFirst, cNameSecond);
+                        InstructionGenerator.addition(scope,  cNameSecond);
                         CodeGenerator.setIsNodeIzraz(true);
                     }
                     else if(node.getChildAt(1).getSymbol().equals("MINUS")){
-                        InstructionGenerator.subtraction(scope, cNameFirst, cNameSecond);
+                        InstructionGenerator.subtraction(scope, cNameSecond);
                         CodeGenerator.setIsNodeIzraz(true);
                     }
 

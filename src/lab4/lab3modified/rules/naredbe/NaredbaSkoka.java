@@ -98,9 +98,9 @@ public class NaredbaSkoka extends Rule {
 
         //genrator koda za return 42;
         if(CodeGenerator.isNodeBROJ()==true){
-            InstructionGenerator.returnConst(scope, CodeGenerator.getNodeBROJ());
+            InstructionGenerator.returnConst(scope, Integer.parseInt(CodeGenerator.getNodeBROJ()));
             CodeGenerator.setIsNodeBROJ(false);
-            CodeGenerator.setNodeBROJ(0);
+            CodeGenerator.setNodeBROJ(null);
 
         }
 

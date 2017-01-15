@@ -20,12 +20,14 @@ public class CodeGenerator {
     private static boolean isNodeBROJ =false;
     private static boolean isNodeUnarniMinus=false;
     private static boolean isNodeIDN =false;
+    private static boolean isNodeZNAK=false;
     private static boolean isNodeIzraz=false;
     private static boolean isNodeKR_INT=false;
     private static boolean isNodeListaInitDeklaratora=false;
     private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
-    private static int nodeBROJ= 0;
+    private static String nodeBROJ= null;
     private static String nodeIDN = null;
+    private static String nodeZNAK=null;
 
 
 
@@ -99,11 +101,11 @@ public class CodeGenerator {
         CodeGenerator.isNodeIDN = isNodeIDN;
     }
 
-    public static int getNodeBROJ() {
+    public static String getNodeBROJ() {
         return nodeBROJ;
     }
 
-    public static void setNodeBROJ(int nodeBROJ) {
+    public static void setNodeBROJ(String nodeBROJ) {
         CodeGenerator.nodeBROJ = nodeBROJ;
     }
 
@@ -157,5 +159,21 @@ public class CodeGenerator {
 
     public static void setIsNodeIzraz(boolean isNodeIzraz) {
         CodeGenerator.isNodeIzraz = isNodeIzraz;
+    }
+
+    public static boolean isNodeZNAK() {
+        return isNodeZNAK;
+    }
+
+    public static void setIsNodeZNAK(boolean isNodeZNAK) {
+        CodeGenerator.isNodeZNAK = isNodeZNAK;
+    }
+
+    public static String getNodeZNAK() {
+        return nodeZNAK;
+    }
+
+    public static void setNodeZNAK(String nodeZNAK) {
+        CodeGenerator.nodeZNAK = nodeZNAK;
     }
 }

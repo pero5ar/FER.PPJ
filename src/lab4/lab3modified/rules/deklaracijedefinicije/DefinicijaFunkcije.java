@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.deklaracijedefinicije;
 
+import lab4.frisc.CodeGenerator;
 import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.ScopeElement;
@@ -47,6 +48,12 @@ public class DefinicijaFunkcije extends Rule {
         //genrator koda za int main(void){
         if(node.getChildAt(1).getValue().equals("main")){
             InstructionGenerator.definicijaIntFunkcije("main", new ArrayList<String>(), scope);
+        }
+        else if(node.getChildren().size()==6){
+            if(node.getChildAt(3).getSymbol().equals("KR_VOID")){
+                InstructionGenerator.definicijaIntFunkcije(node.getChildAt(1).getValue(), new ArrayList<String>(), scope);
+
+            }
         }
 
         subcheckRule1to3(scope, node);

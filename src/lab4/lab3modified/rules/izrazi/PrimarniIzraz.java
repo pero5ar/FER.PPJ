@@ -1,6 +1,7 @@
 package lab4.lab3modified.rules.izrazi;
 
 import lab4.frisc.CodeGenerator;
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.ScopeElement;
 import lab4.lab3modified.models.SemanticNode;
@@ -22,12 +23,13 @@ public class PrimarniIzraz extends Rule {
         if(child.getSymbol().equals("BROJ")){
             CodeGenerator.setIsNodeBROJ(true);
             if(CodeGenerator.isIsNodeUnarniMinus()){
-                CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue())*(-1));
+                CodeGenerator.setNodeBROJ("-"+child.getValue());
                 CodeGenerator.setIsNodeUnarniMinus(false);
+                InstructionGenerator.deklaracijaIDefinicijaVarijable(node.getValue(), scope, node.getValue());
             }
             else
             {
-                CodeGenerator.setNodeBROJ(Integer.parseInt(child.getValue()));
+                CodeGenerator.setNodeBROJ(child.getValue());
             }
         }
 

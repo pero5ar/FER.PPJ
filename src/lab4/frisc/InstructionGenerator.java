@@ -138,10 +138,9 @@ public class InstructionGenerator {
 
     }
 
-    // x+y;
-    public static void addition(Scope scope, String cNameFirst, String cNameSecond){
 
-        Variable varFirst = new Variable(scope, cNameFirst);
+    public static void initalizeAdditive (Scope scope, String cnameFirst){
+        Variable varFirst = new Variable(scope, cnameFirst);
         String labelFirst=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
             labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
@@ -151,7 +150,7 @@ public class InstructionGenerator {
             while (t){
                 t=false;
                 scope=scope.getParent();
-                varFirst=new Variable(scope, cNameFirst);
+                varFirst=new Variable(scope, cnameFirst);
                 if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
                     labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
                 }
@@ -160,6 +159,15 @@ public class InstructionGenerator {
                 }
             }
         }
+
+        String instuction = "LOAD R0, ("+labelFirst+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+    }
+
+    // x+y;
+    public static void addition(Scope scope,  String cNameSecond){
+
+
         Variable varSecond = new Variable(scope, cNameSecond);
         String labelSecond=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
@@ -180,9 +188,7 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R0, ("+labelFirst+")";
-        CodeGenerator.getInstance().getLines().add(new Line( instuction));
-        instuction = "LOAD R1, ("+labelSecond+")";
+        String instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="ADD R0, R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
@@ -197,27 +203,9 @@ public class InstructionGenerator {
     }
 
     // x+y;
-    public static void subtraction(Scope scope, String cNameFirst, String cNameSecond){
+    public static void subtraction(Scope scope,  String cNameSecond){
 
-        Variable varFirst = new Variable(scope, cNameFirst);
-        String labelFirst=null;
-        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-        }
-        else{
-            boolean t =true;
-            while (t){
-                t=false;
-                scope=scope.getParent();
-                varFirst=new Variable(scope, cNameFirst);
-                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-                }
-                else{
-                    t=true;
-                }
-            }
-        }
+
         Variable varSecond = new Variable(scope, cNameSecond);
         String labelSecond=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
@@ -238,9 +226,8 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R0, ("+labelFirst+")";
-        CodeGenerator.getInstance().getLines().add(new Line( instuction));
-        instuction = "LOAD R1, ("+labelSecond+")";
+
+        String instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="SUB R0, R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
@@ -251,27 +238,9 @@ public class InstructionGenerator {
     }
 
     // x|y;
-    public static void bitor(Scope scope, String cNameFirst, String cNameSecond){
+    public static void bitor(Scope scope,  String cNameSecond){
 
-        Variable varFirst = new Variable(scope, cNameFirst);
-        String labelFirst=null;
-        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-        }
-        else{
-            boolean t =true;
-            while (t){
-                t=false;
-                scope=scope.getParent();
-                varFirst=new Variable(scope, cNameFirst);
-                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-                }
-                else{
-                    t=true;
-                }
-            }
-        }
+
         Variable varSecond = new Variable(scope, cNameSecond);
         String labelSecond=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
@@ -292,9 +261,8 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R0, ("+labelFirst+")";
-        CodeGenerator.getInstance().getLines().add(new Line( instuction));
-        instuction = "LOAD R1, ("+labelSecond+")";
+
+        String instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="OR R0, R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
@@ -304,27 +272,9 @@ public class InstructionGenerator {
 
     }
 
-    public static void bitand(Scope scope, String cNameFirst, String cNameSecond){
+    public static void bitand(Scope scope, String cNameSecond){
 
-        Variable varFirst = new Variable(scope, cNameFirst);
-        String labelFirst=null;
-        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-        }
-        else{
-            boolean t =true;
-            while (t){
-                t=false;
-                scope=scope.getParent();
-                varFirst=new Variable(scope, cNameFirst);
-                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-                }
-                else{
-                    t=true;
-                }
-            }
-        }
+
         Variable varSecond = new Variable(scope, cNameSecond);
         String labelSecond=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
@@ -345,9 +295,8 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R0, ("+labelFirst+")";
-        CodeGenerator.getInstance().getLines().add(new Line( instuction));
-        instuction = "LOAD R1, ("+labelSecond+")";
+
+        String instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="AND R0, R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
@@ -357,27 +306,9 @@ public class InstructionGenerator {
 
     }
 
-    public static void bitxor(Scope scope, String cNameFirst, String cNameSecond){
+    public static void bitxor(Scope scope, String cNameSecond){
 
-        Variable varFirst = new Variable(scope, cNameFirst);
-        String labelFirst=null;
-        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-        }
-        else{
-            boolean t =true;
-            while (t){
-                t=false;
-                scope=scope.getParent();
-                varFirst=new Variable(scope, cNameFirst);
-                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
-                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
-                }
-                else{
-                    t=true;
-                }
-            }
-        }
+
         Variable varSecond = new Variable(scope, cNameSecond);
         String labelSecond=null;
         if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
@@ -398,9 +329,8 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R0, ("+labelFirst+")";
-        CodeGenerator.getInstance().getLines().add(new Line( instuction));
-        instuction = "LOAD R1, ("+labelSecond+")";
+
+        String instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="XOR R0, R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
