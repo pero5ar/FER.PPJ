@@ -50,7 +50,10 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         CodeGenerator.setNodeZNAK(null);
                         CodeGenerator.setIsNodeZNAK(false);
                     }
-                    InstructionGenerator.initalizeAdditive(scope, cNameFirst);
+                    if(CodeGenerator.isAdditiveInitialized()==false){
+                        InstructionGenerator.initalizeAdditive(scope, cNameFirst);
+                        CodeGenerator.setIsAdditiveInitialized(true);
+                    }
                 }
 
                 // 3. provjeri(<y_izraz>)
@@ -91,6 +94,10 @@ public class AditivniIzraz extends BoilerplateIzraz {
                     }
 
 
+                }
+
+                if((node.getParent().getLine().equals("<odnosni_izraz>"))){
+                    CodeGenerator.setIsAdditiveInitialized(false);
                 }
             }
     }

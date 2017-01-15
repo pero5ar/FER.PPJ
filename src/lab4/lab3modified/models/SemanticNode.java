@@ -243,4 +243,12 @@ public class SemanticNode {
     public void setLabel(Label label) {
         this.label = label;
     }
+
+    public String getLine() {
+        return line;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
+    }
 }
