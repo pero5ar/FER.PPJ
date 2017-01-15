@@ -31,8 +31,14 @@ public class PrimarniIzraz extends Rule {
             }
         }
 
+
+
         //helper za generator koda
         else if(child.getSymbol().equals("IDN")){
+            CodeGenerator.setIsNodeIDN(true);
+            CodeGenerator.setNodeIDN(child.getValue());
+        }
+        else if(child.getSymbol().equals("ZNAK")){
             CodeGenerator.setIsNodeIDN(true);
             CodeGenerator.setNodeIDN(child.getValue());
         }
