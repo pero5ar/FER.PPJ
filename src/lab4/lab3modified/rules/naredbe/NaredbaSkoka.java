@@ -1,6 +1,5 @@
 package lab4.lab3modified.rules.naredbe;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import lab4.frisc.CodeGenerator;
 import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
