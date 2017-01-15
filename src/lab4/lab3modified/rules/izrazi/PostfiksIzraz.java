@@ -139,6 +139,7 @@ public class PostfiksIzraz extends Rule {
         InstructionGenerator.functionCallWithNoArgs(scope, CodeGenerator.getNodeIDN());
         CodeGenerator.setNodeIDN(null);
         CodeGenerator.setIsNodeIDN(false);
+        CodeGenerator.setIsNodeIzraz(true);
     }
 
     /**
