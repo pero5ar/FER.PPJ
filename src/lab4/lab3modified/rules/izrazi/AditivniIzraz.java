@@ -1,6 +1,7 @@
 package lab4.lab3modified.rules.izrazi;
 
 import lab4.frisc.CodeGenerator;
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rules;
@@ -33,9 +34,11 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         xIzraz.getType().canImplicitCast(IntType.INSTANCE),
                         new SemanticException(node.errorOutput(), "<x_izraz>.tip ~ int")
                 );
-                cNameFirst= CodeGenerator.getNodeIDN();
-                CodeGenerator.setNodeIDN(null);
-                CodeGenerator.setIsNodeIDN(false);
+                if(node.getChildren().size()==3) {
+                    cNameFirst = CodeGenerator.getNodeIDN();
+                    CodeGenerator.setNodeIDN(null);
+                    CodeGenerator.setIsNodeIDN(false);
+                }
 
                 // 3. provjeri(<y_izraz>)
                 yIzraz.check(scope);
@@ -46,10 +49,22 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         new SemanticException(node.errorOutput(), "<y_izraz>.tip ~ int")
                 );
 
-                cNameSecond= CodeGenerator.getNodeIDN();
-                CodeGenerator.setNodeIDN(null);
-                CodeGenerator.setIsNodeIDN(false);
-                //poziv generatora frisc koda
+                if(node.getChildren().size()==3) {
+                    cNameSecond = CodeGenerator.getNodeIDN();
+                    CodeGenerator.setNodeIDN(null);
+                    CodeGenerator.setIsNodeIDN(false);
+                }
+                if(node.getChildren().size()==3) {
+                    if(node.getChildAt(1).getSymbol().equals("PLUS")){
+                        InstructionGenerator.addition(scope, cNameFirst, cNameSecond);
+                        CodeGenerator.setIsNodeIzraz(true);
+                    }
+                    else if(node.getChildAt(1).getSymbol().equals("PLUS")){
+                        //poziv 2;
+                    }
+
+
+                }
             }
     }
 
