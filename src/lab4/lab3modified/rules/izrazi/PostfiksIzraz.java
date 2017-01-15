@@ -1,5 +1,7 @@
 package lab4.lab3modified.rules.izrazi;
 
+import lab4.frisc.CodeGenerator;
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rule;
@@ -134,6 +136,9 @@ public class PostfiksIzraz extends Rule {
 
         node.setType(f.returnType);
         node.setLValue(false);
+        InstructionGenerator.functionCallWithNoArgs(scope, CodeGenerator.getNodeIDN());
+        CodeGenerator.setNodeIDN(null);
+        CodeGenerator.setIsNodeIDN(false);
     }
 
     /**
