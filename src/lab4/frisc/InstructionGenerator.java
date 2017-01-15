@@ -180,7 +180,7 @@ public class InstructionGenerator {
             }
         }
 
-        String instuction = "LOAD R6, ("+labelFirst+")";
+        String instuction = "LOAD R0, ("+labelFirst+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction = "LOAD R1, ("+labelSecond+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
