@@ -25,7 +25,7 @@ public class PrimarniIzraz extends Rule {
             if(CodeGenerator.isIsNodeUnarniMinus()){
                 CodeGenerator.setNodeBROJ("-"+child.getValue());
                 CodeGenerator.setIsNodeUnarniMinus(false);
-                InstructionGenerator.deklaracijaIDefinicijaVarijable(node.getValue(), scope, node.getValue());
+                InstructionGenerator.deklaracijaIDefinicijaVarijable(child.getValue(), scope, child.getValue());
             }
             else
             {

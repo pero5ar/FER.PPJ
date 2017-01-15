@@ -27,6 +27,7 @@ public class CodeGenerator {
     private static boolean isInkrementPrije=false;
     private static boolean isInkrementIzrazPoslije=false;
     private static boolean isNodeListaInitDeklaratora=false;
+    private static boolean isAdditiveInitialized=false;
     private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
     private static String nodeBROJ= null;
     private static String nodeIDN = null;
@@ -182,6 +183,14 @@ public class CodeGenerator {
 
     public static void setNodeZNAK(String nodeZNAK) {
         CodeGenerator.nodeZNAK = nodeZNAK;
+    }
+
+    public static boolean isAdditiveInitialized() {
+        return isAdditiveInitialized;
+    }
+
+    public static void setIsAdditiveInitialized(boolean isAdditiveInitialized) {
+        CodeGenerator.isAdditiveInitialized = isAdditiveInitialized;
     }
 
     public static boolean isIsNodeIDNSecond() {

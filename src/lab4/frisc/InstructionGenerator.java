@@ -429,4 +429,13 @@ public class InstructionGenerator {
 
 
     }
+
+    // f();
+    public static void functionCallWithNoArgs(Scope scope, String cName){
+
+        String subroutineLabel = CodeGenerator.getInstance().getSubroutineManager().getSubrutineLabel(cName);
+        String instuction = "CALL "+subroutineLabel;
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+
+    }
 }
