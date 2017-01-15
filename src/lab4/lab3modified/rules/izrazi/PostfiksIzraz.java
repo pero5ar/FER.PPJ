@@ -211,6 +211,10 @@ public class PostfiksIzraz extends Rule {
         // set type && l-izraz
         node.setType(IntType.INSTANCE);
         node.setLValue(false);
+
+        if(node.getChildAt(1).getSymbol().equals("OP_INC")){
+            CodeGenerator.setIsInkrementIzrazPoslije(true);
+        }
     }
 
 }

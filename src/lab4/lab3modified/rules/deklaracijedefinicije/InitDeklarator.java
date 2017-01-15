@@ -135,13 +135,17 @@ public class InitDeklarator extends Rule {
             CodeGenerator.setIsNodeIDN(false);
             CodeGenerator.setNodeIDN(null);
             CodeGenerator.setNodeBROJ(null);
-        }if(node.getChildren().size()==3&& CodeGenerator.isNodeIDN()==true && CodeGenerator.isIsNodeIDNSecond()==true){
+        }
+        if(node.getChildren().size()==3&& CodeGenerator.isNodeIDN()==true && CodeGenerator.isIsNodeIDNSecond()==true && CodeGenerator.getIsInkrementIzrazPoslije()){
             //kod za dohvacanje vrijednosti x-a
-            InstructionGenerator.deklaracijaIDefinicijaVarijable(CodeGenerator.getNodeIDN(), scope, CodeGenerator.getNodeIDN());
-            CodeGenerator.setIsNodeBROJ(false);
-            CodeGenerator.setIsNodeIDN(false);
+            InstructionGenerator.deklaracijaaVarijable(CodeGenerator.getNodeIDN(), scope);
+            InstructionGenerator.pridruziVrijednostVarijeble(scope, CodeGenerator.getNodeIDN(),CodeGenerator.getNodeIDNSecond());
+            InstructionGenerator.inkrement(scope, CodeGenerator.getNodeIDNSecond());
             CodeGenerator.setNodeIDN(null);
-            CodeGenerator.setNodeBROJ(null);
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDNSecond(null);
+            CodeGenerator.setIsNodeIDNSecond(false);
+            CodeGenerator.setIsInkrementIzrazPoslije(false);
         }
     }
 }

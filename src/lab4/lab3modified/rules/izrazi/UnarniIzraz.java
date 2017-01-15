@@ -50,6 +50,10 @@ public class UnarniIzraz extends BoilerplateIzraz {
                 unarniIzraz.isLValue() && unarniIzraz.getType().canImplicitCast(IntType.INSTANCE),
                 new SemanticException(node.errorOutput(), "Rule broken: 2. <unarni_izraz>.l-izraz = 1 i <unarni_izraz>.tip ~ int")
         );
+
+        if(node.getChildAt(0).getSymbol().equals("OP_INC")){
+            CodeGenerator.setIsInkrementPrije(true);
+        }
     }
 
     /**

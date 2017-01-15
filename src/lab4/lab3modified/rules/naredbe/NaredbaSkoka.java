@@ -96,6 +96,8 @@ public class NaredbaSkoka extends Rule {
                 new SemanticException(node.errorOutput(), "Return type mismatch")
         );
 
+
+
         //genrator koda za return 42;
         if(CodeGenerator.isNodeBROJ()==true){
             InstructionGenerator.returnConst(scope, Integer.parseInt(CodeGenerator.getNodeBROJ()));

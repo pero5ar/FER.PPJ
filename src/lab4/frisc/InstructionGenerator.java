@@ -395,6 +395,10 @@ public class InstructionGenerator {
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="MOVE R1, R0";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="STORE R0, ("+labelFirst+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="STORE R1, ("+labelSecond+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
 
 
     }
@@ -425,6 +429,8 @@ public class InstructionGenerator {
         String instuction = "LOAD R0, ("+labelFirst+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="ADD R0, 1, R0";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="STORE R0, ("+labelFirst+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
 
 
