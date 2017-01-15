@@ -35,9 +35,22 @@ public class BinXiliIzraz extends BoilerplateIzraz {
         );
 
         if(node.getChildren().size()==3) {
-            cNameFirst = CodeGenerator.getNodeIDN();
-            CodeGenerator.setNodeIDN(null);
-            CodeGenerator.setIsNodeIDN(false);
+            if(CodeGenerator.isNodeIDN()==true) {
+                cNameFirst = CodeGenerator.getNodeIDN();
+                CodeGenerator.setNodeIDN(null);
+                CodeGenerator.setIsNodeIDN(false);
+            }
+            else if(CodeGenerator.isNodeBROJ()==true) {
+                cNameFirst = CodeGenerator.getNodeBROJ();
+                CodeGenerator.setNodeBROJ(null);
+                CodeGenerator.setIsNodeBROJ(false);
+            }
+            else if(CodeGenerator.isNodeZNAK()==true) {
+                cNameFirst = CodeGenerator.getNodeZNAK();
+                CodeGenerator.setNodeZNAK(null);
+                CodeGenerator.setIsNodeZNAK(false);
+            }
+            InstructionGenerator.initalizeAdditive(scope, cNameFirst);
         }
 
         // 3. provjeri(<y_izraz>)
@@ -50,13 +63,26 @@ public class BinXiliIzraz extends BoilerplateIzraz {
         );
 
         if(node.getChildren().size()==3) {
-            cNameSecond = CodeGenerator.getNodeIDN();
-            CodeGenerator.setNodeIDN(null);
-            CodeGenerator.setIsNodeIDN(false);
+            if(CodeGenerator.isNodeIDN()==true) {
+                cNameSecond = CodeGenerator.getNodeIDN();
+                CodeGenerator.setNodeIDN(null);
+                CodeGenerator.setIsNodeIDN(false);
+            }
+            else if(CodeGenerator.isNodeBROJ()==true) {
+                cNameSecond = CodeGenerator.getNodeBROJ();
+                CodeGenerator.setNodeBROJ(null);
+                CodeGenerator.setIsNodeBROJ(false);
+            }
+            else if(CodeGenerator.isNodeZNAK()==true) {
+                cNameSecond = CodeGenerator.getNodeZNAK();
+                CodeGenerator.setNodeZNAK(null);
+                CodeGenerator.setIsNodeZNAK(false);
+            }
         }
         if(node.getChildren().size()==3) {
-            InstructionGenerator.bitxor(scope, cNameFirst, cNameSecond);
+            InstructionGenerator.bitxor(scope,  cNameSecond);
             CodeGenerator.setIsNodeIzraz(true);
+
         }
     }
 }
