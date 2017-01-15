@@ -129,5 +129,19 @@ public class InitDeklarator extends Rule {
             CodeGenerator.setNodeIDN(null);
             CodeGenerator.setNodeBROJ(null);
         }
+        if(node.getChildren().size()==3&& CodeGenerator.isNodeIDN()==true && CodeGenerator.isNodeZNAK()==true){
+            InstructionGenerator.deklaracijaIDefinicijaVarijable(CodeGenerator.getNodeIDN(), scope, CodeGenerator.getNodeZNAK());
+            CodeGenerator.setIsNodeBROJ(false);
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDN(null);
+            CodeGenerator.setNodeBROJ(null);
+        }if(node.getChildren().size()==3&& CodeGenerator.isNodeIDN()==true && CodeGenerator.isIsNodeIDNSecond()==true){
+            //kod za dohvacanje vrijednosti x-a
+            InstructionGenerator.deklaracijaIDefinicijaVarijable(CodeGenerator.getNodeIDN(), scope, CodeGenerator.getNodeIDN());
+            CodeGenerator.setIsNodeBROJ(false);
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDN(null);
+            CodeGenerator.setNodeBROJ(null);
+        }
     }
 }

@@ -20,14 +20,21 @@ public class CodeGenerator {
     private static boolean isNodeBROJ =false;
     private static boolean isNodeUnarniMinus=false;
     private static boolean isNodeIDN =false;
+    private static boolean isNodeIDNSecond =false;
     private static boolean isNodeZNAK=false;
     private static boolean isNodeIzraz=false;
     private static boolean isNodeKR_INT=false;
+    private static boolean isInkrementPrije=false;
+    private static boolean isInkrementIzrazPoslije=false;
     private static boolean isNodeListaInitDeklaratora=false;
     private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
     private static String nodeBROJ= null;
     private static String nodeIDN = null;
     private static String nodeZNAK=null;
+
+
+
+    private static String nodeIDNSecond = null;
 
 
 
@@ -175,5 +182,37 @@ public class CodeGenerator {
 
     public static void setNodeZNAK(String nodeZNAK) {
         CodeGenerator.nodeZNAK = nodeZNAK;
+    }
+
+    public static boolean isIsNodeIDNSecond() {
+        return isNodeIDNSecond;
+    }
+
+    public static void setIsNodeIDNSecond(boolean isNodeIDNSecond) {
+        CodeGenerator.isNodeIDNSecond = isNodeIDNSecond;
+    }
+
+    public static String getNodeIDNSecond() {
+        return nodeIDNSecond;
+    }
+
+    public static void setNodeIDNSecond(String nodeIDNSecond) {
+        CodeGenerator.nodeIDNSecond = nodeIDNSecond;
+    }
+
+    public static boolean getIsInkrementPrije() {
+        return isInkrementPrije;
+    }
+
+    public static void setIsInkrementPrije(boolean isPostfixIzrazPrije) {
+        CodeGenerator.isInkrementPrije = isPostfixIzrazPrije;
+    }
+
+    public static boolean getIsInkrementIzrazPoslije() {
+        return isInkrementIzrazPoslije;
+    }
+
+    public static void setIsInkrementIzrazPoslije(boolean isPostfixIzrazPoslije) {
+        CodeGenerator.isInkrementIzrazPoslije = isPostfixIzrazPoslije;
     }
 }

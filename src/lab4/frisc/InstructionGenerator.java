@@ -344,4 +344,89 @@ public class InstructionGenerator {
 
 
     }
+
+    public static void pridruziVrijednostVarijeble(Scope scope, String cNameFirst, String cNameSecond){
+
+
+        Variable varSecond = new Variable(scope, cNameSecond);
+        String labelSecond=null;
+        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
+            labelSecond = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond);
+        }
+        else{
+            boolean t =true;
+            while (t){
+                t=false;
+                scope=scope.getParent();
+                varSecond=new Variable(scope, cNameSecond);
+                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond)!=null) {
+                    labelSecond = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varSecond);
+                }
+                else{
+                    t=true;
+                }
+            }
+        }
+
+        Variable varFirst = new Variable(scope, cNameFirst);
+        String labelFirst=null;
+        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
+            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
+        }
+        else{
+            boolean t =true;
+            while (t){
+                t=false;
+                scope=scope.getParent();
+                varFirst=new Variable(scope, cNameFirst);
+                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
+                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
+                }
+                else{
+                    t=true;
+                }
+            }
+        }
+
+
+        String instuction = "LOAD R0, ("+labelFirst+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction = "LOAD R1, ("+labelSecond+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="MOVE R1, R0";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+
+
+    }
+
+    public static void inkrement(Scope scope, String cNameFirst){
+
+        Variable varFirst = new Variable(scope, cNameFirst);
+        String labelFirst=null;
+        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
+            labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
+        }
+        else{
+            boolean t =true;
+            while (t){
+                t=false;
+                scope=scope.getParent();
+                varFirst=new Variable(scope, cNameFirst);
+                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst)!=null) {
+                    labelFirst = CodeGenerator.getInstance().getVariableManager().getVariableLabel(varFirst);
+                }
+                else{
+                    t=true;
+                }
+            }
+        }
+
+
+        String instuction = "LOAD R0, ("+labelFirst+")";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+        instuction="ADD R0, 1, R0";
+        CodeGenerator.getInstance().getLines().add(new Line( instuction));
+
+
+    }
 }
