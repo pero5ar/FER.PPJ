@@ -115,6 +115,7 @@ public class PostfiksIzraz extends Rule {
      * 2. <postfiks_izraz>.tip = funkcija(void -> pov)
      */
     private void check3(Scope scope, SemanticNode node) {
+
         SemanticNode postfiksIzraz = node.getChildAt(0);
         postfiksIzraz.check(scope);
 
