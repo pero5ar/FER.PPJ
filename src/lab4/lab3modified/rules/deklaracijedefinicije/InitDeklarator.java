@@ -1,5 +1,7 @@
 package lab4.lab3modified.rules.deklaracijedefinicije;
 
+import lab4.frisc.CodeGenerator;
+import lab4.frisc.InstructionGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rule;
@@ -112,6 +114,13 @@ public class InitDeklarator extends Rule {
             ));
         } else {
             throw new SemanticException(node.errorOutput(), "Invalid type");
+        }
+        if(node.getChildren().size()==3&& CodeGenerator.isNodeIDN()==true && CodeGenerator.isNodeBROJ()==true){
+            InstructionGenerator.deklaracijaIDefinicijaVarijable(CodeGenerator.getNodeIDN(), scope, Integer.toString(CodeGenerator.getNodeBROJ()));
+            CodeGenerator.setIsNodeBROJ(false);
+            CodeGenerator.setIsNodeIDN(false);
+            CodeGenerator.setNodeIDN(null);
+            CodeGenerator.setNodeBROJ(0);
         }
     }
 }

@@ -19,6 +19,9 @@ public class CodeGenerator {
     private VariableManager variableManager;
     private static boolean isNodeBROJ =false;
     private static boolean isNodeIDN =false;
+    private static boolean isNodeKR_INT=false;
+    private static boolean isNodeListaInitDeklaratora=false;
+    private static ArrayList<String> nodeListaInitDeklaratora=new ArrayList<String>();
     private static int nodeBROJ= 0;
     private static String nodeIDN = null;
 
@@ -113,4 +116,34 @@ public class CodeGenerator {
     public void addLabel(Label label) {
         this.labels.add(label);
     }
+
+    public static boolean isNodeKR_INT() {
+        return isNodeKR_INT;
+    }
+
+    public static void setIsNodeKR_INT(boolean isNodeKR_INT) {
+        CodeGenerator.isNodeKR_INT = isNodeKR_INT;
+    }
+
+    public static boolean isNodeListaInitDeklaratora() {
+        return isNodeListaInitDeklaratora;
+    }
+
+    public static void setIsNodeListaInitDeklaratora(boolean isNodeListaInitDeklaratora) {
+        CodeGenerator.isNodeListaInitDeklaratora = isNodeListaInitDeklaratora;
+    }
+
+    public static ArrayList<String> getNodeListaInitDeklaratora() {
+        return nodeListaInitDeklaratora;
+    }
+
+    public static void setNodeListaInitDeklaratora(ArrayList<String> nodeListaInitDeklaratora) {
+        CodeGenerator.nodeListaInitDeklaratora = nodeListaInitDeklaratora;
+    }
+
+
+
+
+
+
 }

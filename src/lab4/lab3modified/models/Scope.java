@@ -113,4 +113,8 @@ public class Scope {
     public void forEachChild(Consumer<? super Scope> consumer) {
         children.forEach(consumer);
     }
+
+    public Scope getParent() {
+        return parent;
+    }
 }

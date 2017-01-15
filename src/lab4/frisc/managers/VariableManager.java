@@ -28,7 +28,10 @@ public class VariableManager {
     }
 
     public String getVariableLabel(Variable variable) {
-        return variables.get(variable).getLabel();
+        if(variables.get(variable)!=null) {
+            return variables.get(variable).getLabel();
+        }
+        return null;
     }
 
     public Collection<Line> getAllVariableLines() {

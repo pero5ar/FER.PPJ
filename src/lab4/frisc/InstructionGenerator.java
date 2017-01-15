@@ -96,10 +96,28 @@ public class InstructionGenerator {
     public static void returnVar(Scope scope, String cName){
 
         Variable var = new Variable(scope, cName);
-        String label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+        String label=null;
+        if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(var)!=null) {
+             label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+        }
+        else{
+            boolean t =true;
+            while (t){
+                t=false;
+                scope=scope.getParent();
+                var=new Variable(scope, cName);
+                if(CodeGenerator.getInstance().getVariableManager().getVariableLabel(var)!=null) {
+                    label = CodeGenerator.getInstance().getVariableManager().getVariableLabel(var);
+                }
+                else{
+                    t=true;
+                }
+            }
+        }
         String instuction = "LOAD R6, ("+label+")";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
         instuction="RET";
         CodeGenerator.getInstance().getLines().add(new Line( instuction));
+
     }
 }

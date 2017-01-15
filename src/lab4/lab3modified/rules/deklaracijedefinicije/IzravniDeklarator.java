@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.deklaracijedefinicije;
 
+import lab4.frisc.CodeGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.ScopeElement;
 import lab4.lab3modified.models.SemanticNode;
@@ -47,6 +48,9 @@ public class IzravniDeklarator extends Rule {
      * 3. zabiljezi deklaraciju IDN.ime s odgovarajucim tipom
      */
     private void check1(Scope scope, SemanticNode node) {
+        CodeGenerator.setIsNodeIDN(true);
+        CodeGenerator.setNodeIDN(node.getChildAt(0).getValue());
+
         String name = node.getChildAt(0).getValue();
 
         Type nTip = node.getNType();

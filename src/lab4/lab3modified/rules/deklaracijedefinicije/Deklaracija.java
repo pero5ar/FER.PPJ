@@ -1,5 +1,6 @@
 package lab4.lab3modified.rules.deklaracijedefinicije;
 
+import lab4.frisc.CodeGenerator;
 import lab4.lab3modified.models.Scope;
 import lab4.lab3modified.models.SemanticNode;
 import lab4.lab3modified.rules.Rule;
@@ -25,6 +26,8 @@ public class Deklaracija extends Rule {
         SemanticNode listaInitDeklaratora = node.getChildAt(1);
         listaInitDeklaratora.setNType(imeTipa.getType());
         listaInitDeklaratora.check(scope);
+
+
     }
 
 }
