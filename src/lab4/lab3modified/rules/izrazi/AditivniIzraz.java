@@ -59,8 +59,9 @@ public class AditivniIzraz extends BoilerplateIzraz {
                         InstructionGenerator.addition(scope, cNameFirst, cNameSecond);
                         CodeGenerator.setIsNodeIzraz(true);
                     }
-                    else if(node.getChildAt(1).getSymbol().equals("PLUS")){
-                        //poziv 2;
+                    else if(node.getChildAt(1).getSymbol().equals("MINUS")){
+                        InstructionGenerator.subtraction(scope, cNameFirst, cNameSecond);
+                        CodeGenerator.setIsNodeIzraz(true);
                     }
 
 
