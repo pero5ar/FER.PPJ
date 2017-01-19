@@ -10,7 +10,7 @@ import lab3.types.IntType;
 /**
  * Naredba grananja i naredba petlje
  *
- * @author JJ
+ * @author pero
  */
 public abstract class SubscopeNaredba extends Rule {
     protected SubscopeNaredba(String symbol) {

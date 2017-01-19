@@ -9,7 +9,7 @@ import lab3.types.IntType;
 /**
  * vidi: 4.4.5 (str. 62)
  *
- * @author JJ
+ * @author Ivan
  */
 public class NaredbaGrananja extends SubscopeNaredba {
     public NaredbaGrananja() {

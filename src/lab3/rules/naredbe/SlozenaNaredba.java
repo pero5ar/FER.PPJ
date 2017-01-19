@@ -8,7 +8,7 @@ import lab3.rules.Rules;
 /**
  * vidi: 4.4.5 (str. 62)
  *
- * @author JJ
+ * @author Ivan
  */
 public class SlozenaNaredba extends Rule {
     public SlozenaNaredba() {

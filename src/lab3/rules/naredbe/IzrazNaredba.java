@@ -5,6 +5,9 @@ import lab3.models.SemanticNode;
 import lab3.rules.Rule;
 import lab3.types.IntType;
 
+/**
+ * @author Ivan
+ */
 public class IzrazNaredba extends Rule {
     public IzrazNaredba() {
         super("<izraz_naredba>");
